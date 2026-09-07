@@ -1,0 +1,34 @@
+<svg width="800" height="640" viewBox="0 0 800 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+  <defs>
+  <linearGradient id="condition-knee-placeholder-bg" x1="82.13938048432698%" y1="11.697777844051096%" x2="17.86061951567303%" y2="88.3022221559489%">
+    <stop offset="0" stop-color="#171240" />
+    <stop offset="0.55" stop-color="#150f3f" />
+    <stop offset="1" stop-color="#0e0b28" />
+  </linearGradient>
+  <linearGradient id="condition-knee-placeholder-brand" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0" stop-color="#b9a9ff" />
+    <stop offset="1" stop-color="#5cc4ee" />
+  </linearGradient>
+  <radialGradient id="condition-knee-placeholder-glow" cx="50%" cy="30%" r="70%">
+    <stop offset="0" stop-color="#009EE3" stop-opacity="0.22" />
+    <stop offset="1" stop-color="#009EE3" stop-opacity="0" />
+  </radialGradient>
+  <radialGradient id="condition-knee-placeholder-glow2" cx="15%" cy="100%" r="65%">
+    <stop offset="0" stop-color="#2F2483" stop-opacity="0.35" />
+    <stop offset="1" stop-color="#2F2483" stop-opacity="0" />
+  </radialGradient></defs>
+  <rect width="800" height="640" fill="url(#condition-knee-placeholder-bg)" />
+  
+  <pattern id="condition-knee-placeholder-dots" width="26" height="26" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1.4" fill="#ffffff" opacity="0.08" />
+  </pattern>
+  <rect width="800" height="640" fill="url(#condition-knee-placeholder-dots)" />
+  <rect width="800" height="640" fill="url(#condition-knee-placeholder-glow)" />
+  <rect width="800" height="640" fill="url(#condition-knee-placeholder-glow2)" />
+  <circle cx="400" cy="300.8" r="192" fill="#ffffff" opacity="0.05" />
+  <circle cx="400" cy="300.8" r="192" fill="none" stroke="url(#condition-knee-placeholder-brand)" stroke-width="1.5" opacity="0.55" />
+  <circle cx="400" cy="300.8" r="138.24" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.08" />
+  <g transform="translate(299.2 200) scale(8.4)" fill="url(#condition-knee-placeholder-brand)" stroke="url(#condition-knee-placeholder-brand)" stroke-linecap="round" stroke-linejoin="round" opacity="1"><path d="M8 4v6l-3.5 5a3 3 0 0 0 4.9 3.4L11 15l4 3a3 3 0 0 0 4-4.4L15.5 10V4" fill="none" stroke-width="1.4"/><circle cx="11.5" cy="13.2" r="1.1"/></g>
+  <circle cx="688" cy="102.4" r="40" fill="#5cc4ee" opacity="0.4" />
+  <circle cx="80" cy="563.2" r="28.000000000000004" fill="#b9a9ff" opacity="0.3" />
+</svg>

@@ -1,0 +1,34 @@
+<svg width="900" height="1600" viewBox="0 0 900 1600" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="video-placeholder-01-l-bg" x1="82.13938048432698%" y1="11.697777844051096%" x2="17.86061951567303%" y2="88.3022221559489%">
+      
+      <stop offset="0" stop-color="#EEECFB" />
+      <stop offset="0.55" stop-color="#E5F6FD" />
+      <stop offset="1" stop-color="#ffffff" />
+    </linearGradient>
+    <linearGradient id="video-placeholder-01-l-brand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0" stop-color="#2F2483" />
+      <stop offset="1" stop-color="#009EE3" />
+    </linearGradient>
+    <radialGradient id="video-placeholder-01-l-glow" cx="50%" cy="18%" r="45%">
+      <stop offset="0" stop-color="#009EE3" stop-opacity="0.22" />
+      <stop offset="1" stop-color="#009EE3" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="video-placeholder-01-l-dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#2F2483" opacity="0.1" />
+    </pattern>
+  </defs>
+  <rect width="900" height="1600" fill="url(#video-placeholder-01-l-bg)" />
+  <rect width="900" height="1600" fill="url(#video-placeholder-01-l-dots)" />
+  <rect width="900" height="1600" fill="url(#video-placeholder-01-l-glow)" />
+
+  <!-- soft ambient accents, kept away from dead-center -->
+  <circle cx="126.00000000000001" cy="192" r="198" fill="#009EE3" opacity="0.10" />
+  <circle cx="792" cy="1504" r="270" fill="#2F2483" opacity="0.14" />
+
+  <!-- decorative badge, lower third only -->
+  <circle cx="450" cy="1184" r="216" fill="#ffffff" opacity="0.6" />
+  <circle cx="450" cy="1184" r="216" fill="none" stroke="url(#video-placeholder-01-l-brand)" stroke-width="2" opacity="0.5" />
+  <circle cx="450" cy="1184" r="159.84" fill="none" stroke="#009EE3" stroke-width="1" opacity="0.18" />
+  <g transform="translate(347.4 1081.4) scale(8.549999999999999)" fill="url(#video-placeholder-01-l-brand)" stroke="url(#video-placeholder-01-l-brand)" stroke-linecap="round" stroke-linejoin="round" opacity="1"><circle cx="9.5" cy="9.5" r="5" fill="none" stroke-width="1.5"/><circle cx="14.5" cy="14.5" r="5" fill="none" stroke-width="1.5"/></g>
+</svg>
