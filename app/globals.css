@@ -4,20 +4,19 @@
 /* Design tokens — everything downstream is built from these two      */
 /* brand colors. Do not introduce unrelated colors outside this file. */
 /*                                                                     */
-/* Palette intent (luxury dark-glass pass):                           */
-/*  - brand-purple / brand-blue stay the exact two source hexes.      */
-/*  - every other token is a shade, tint or mix DERIVED from them.    */
-/*  - "ink"/"ink-soft"/"muted" are foreground TEXT tokens (light, for */
-/*    the dark canvas) — kept separate from "scrim" (always-black     */
-/*    overlay dimming, used by modals regardless of theme).           */
-/*  - "purple-glow" is a lightened lilac used where the deep, near-   */
-/*    black brand-purple itself would vanish as foreground text.      */
+/* Light is the site's only theme (dark mode was removed). Every      */
+/* other token here is a shade, tint or mix DERIVED from the two      */
+/* source hexes — do not replace them with unrelated colors.          */
 /* ------------------------------------------------------------------ */
 @theme {
   --color-brand-purple: #2f2483;
-  --color-brand-purple-dark: #1a1550;
-  --color-brand-purple-soft: #7a6cd6;
-  --color-brand-purple-glow: #b9a9ff;
+  --color-brand-purple-dark: #201a5c;
+  --color-brand-purple-soft: #6a5fc4;
+  /* Alias kept so components that reference this token (originally added
+     for a since-removed dark theme, where the deep brand purple would
+     have vanished as foreground text) still resolve to the correct,
+     always-legible color here: literal brand purple. */
+  --color-brand-purple-glow: var(--color-brand-purple);
   --color-brand-blue: #009ee3;
   --color-brand-blue-dark: #0077ad;
   --color-brand-blue-soft: #5cc4ee;
@@ -27,35 +26,25 @@
   --color-brand-sky: #e5f6fd;
   --color-brand-sky-strong: #cdeefb;
 
-  --color-brand-ink: #f1eefb;
-  --color-brand-ink-soft: #c7c2e6;
-  --color-brand-muted: #a9a4cc;
-  --color-brand-line: #372f6e;
+  --color-brand-ink: #191338;
+  --color-brand-ink-soft: #4a4570;
+  --color-brand-muted: #6b6791;
+  --color-brand-line: #d9d5f2;
 
-  --color-surface: #14103a;
-  --color-surface-strong: #1b1648;
+  --color-surface: #f6f6fd;
+  --color-surface-strong: #ffffff;
 
   --font-heading: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
-  /* Grounding contact-shadow + faint top highlight. Kept restrained; the
-     colored ambient glow lives in --shadow-glass-lg (hover / emphasis). */
-  --shadow-glass:
-    0 1px 0 0 rgba(255, 255, 255, 0.07) inset,
-    0 18px 40px -18px rgba(2, 1, 12, 0.75),
-    0 0 0 1px rgba(255, 255, 255, 0.03);
-  --shadow-glass-lg:
-    0 1px 0 0 rgba(255, 255, 255, 0.1) inset,
-    0 30px 64px -20px rgba(2, 1, 12, 0.82),
-    0 0 46px -10px color-mix(in srgb, var(--color-brand-blue) 30%, transparent),
-    0 0 70px -16px color-mix(in srgb, var(--color-brand-purple) 45%, transparent);
+  --shadow-glass: 0 1px 1px rgba(47, 36, 131, 0.04), 0 12px 32px -12px rgba(47, 36, 131, 0.22);
+  --shadow-glass-lg: 0 2px 2px rgba(47, 36, 131, 0.05), 0 32px 64px -20px rgba(47, 36, 131, 0.32);
 
   --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Legibility scrim behind the Hero headline — matches whichever page
-     background is active so the photo blends into one continuous surface
-     instead of showing a mismatched tint. See the light override below. */
-  --color-hero-scrim: #0e0b28;
+  /* Legibility scrim behind the Hero headline, tinted to match the page
+     background so the photo blends into one continuous surface. */
+  --color-hero-scrim: #f7f7fd;
 }
 
 /* Arabic locale: swap both heading and body to Cairo, a font built for
@@ -66,75 +55,24 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* LIGHT THEME — restores the original light design exactly as it was  */
-/* before the dark liquid-glass pass. Dark (above) is the default; this */
-/* block only takes effect once <html data-theme="light"> is set by    */
-/* the theme toggle. Every token here is a straight value swap, so     */
-/* every component that already consumes these tokens (which is all    */
-/* of them) repaints correctly with zero component changes.            */
-/* ------------------------------------------------------------------ */
-[data-theme="light"] {
-  color-scheme: light;
-
-  --color-brand-purple-dark: #201a5c;
-  --color-brand-purple-soft: #6a5fc4;
-  /* The dark theme's lilac accent (for text that must stay legible on a
-     dark surface) collapses back to literal brand purple — exactly what
-     those spots rendered before the dark pass introduced this token. */
-  --color-brand-purple-glow: var(--color-brand-purple);
-
-  --color-brand-ink: #191338;
-  --color-brand-ink-soft: #4a4570;
-  --color-brand-muted: #6b6791;
-  --color-brand-line: #d9d5f2;
-
-  --color-surface: #f6f6fd;
-  --color-surface-strong: #ffffff;
-
-  --shadow-glass: 0 1px 1px rgba(47, 36, 131, 0.04), 0 12px 32px -12px rgba(47, 36, 131, 0.22);
-  --shadow-glass-lg: 0 2px 2px rgba(47, 36, 131, 0.05), 0 32px 64px -20px rgba(47, 36, 131, 0.32);
-
-  --color-hero-scrim: #f7f7fd;
-}
-
-/* ------------------------------------------------------------------ */
 /* Base                                                                */
 /* ------------------------------------------------------------------ */
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
-/* A deep, soft purple-navy atmosphere — never pure black, never flat.
-   Radial "light sources" of the two brand colors drift across a dark
-   vertical base so the page reads as one continuous environment rather
-   than stacked colored boxes. */
 body {
   min-height: 100vh;
   color: var(--color-brand-ink);
   font-family: var(--font-body);
   background-color: var(--color-surface);
-  transition:
-    background-color 450ms var(--ease-premium),
-    background-image 450ms var(--ease-premium),
-    color 450ms var(--ease-premium);
-  background-image:
-    radial-gradient(58rem 42rem at 96% -8%, color-mix(in srgb, var(--color-brand-blue) 20%, transparent), transparent 62%),
-    radial-gradient(52rem 42rem at -8% 12%, color-mix(in srgb, var(--color-brand-purple) 34%, transparent), transparent 60%),
-    radial-gradient(58rem 40rem at 100% 62%, color-mix(in srgb, var(--color-brand-blue) 12%, transparent), transparent 58%),
-    radial-gradient(60rem 44rem at 50% 118%, color-mix(in srgb, var(--color-brand-purple-soft) 20%, transparent), transparent 65%),
-    linear-gradient(175deg, #100c30 0%, #14103a 38%, #191446 72%, #120e38 100%);
-  background-attachment: fixed;
-}
-
-/* Original light atmosphere — soft lavender/sky tints on a bright base,
-   nothing dark, nothing flat. */
-[data-theme="light"] body {
   background-image:
     radial-gradient(60rem 34rem at 92% -8%, color-mix(in srgb, var(--color-brand-blue) 16%, transparent), transparent 62%),
     radial-gradient(50rem 30rem at -8% 8%, color-mix(in srgb, var(--color-brand-purple) 14%, transparent), transparent 60%),
     radial-gradient(46rem 30rem at 50% 115%, color-mix(in srgb, var(--color-brand-purple-soft) 12%, transparent), transparent 65%),
     linear-gradient(180deg, #f8f8fe 0%, #f3f3fc 45%, #eef2fb 100%);
+  background-attachment: fixed;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -143,28 +81,8 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.01em;
 }
 
-/* ------------------------------------------------------------------ */
-/* Theme transition — the whole visual system fades between the two    */
-/* environments together (background above; everything else here),    */
-/* instead of any single color snapping ahead of the rest.             */
-/* ------------------------------------------------------------------ */
-/* Scoped to headings/paragraphs only: every interactive element (links,
-   buttons, chips, cards) already carries its own `transition-colors` /
-   `transition-all` Tailwind utility, which — being a CSS transition —
-   already animates smoothly on a theme-driven color change for free.
-   Adding a second, unlayered rule on top of THOSE would replace their
-   transition list wholesale (unlayered always wins over Tailwind's
-   layered utilities) and could drop their transform/shadow transitions.
-   Headings and paragraphs carry no transition class anywhere in this
-   codebase, so extending them here is purely additive. */
-h1, h2, h3, h4, h5, h6, p {
-  transition:
-    color 400ms var(--ease-premium),
-    background-color 400ms var(--ease-premium);
-}
-
 ::selection {
-  background: color-mix(in srgb, var(--color-brand-blue) 40%, transparent);
+  background: color-mix(in srgb, var(--color-brand-blue) 30%, transparent);
   color: var(--color-brand-ink);
 }
 
@@ -182,184 +100,86 @@ h1, h2, h3, h4, h5, h6, p {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--color-brand-purple-soft) 55%, transparent);
+  background: color-mix(in srgb, var(--color-brand-purple) 35%, transparent);
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
-[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--color-brand-purple) 35%, transparent);
-}
 
 /* ------------------------------------------------------------------ */
 /* Liquid glass / 3D surface system                                    */
-/*                                                                      */
-/* Every glass surface uses the CSS gradient-border technique: one     */
-/* background layer painted into the padding-box (the tinted fill) and */
-/* a second, brighter gradient painted into the border-box (the edge — */
-/* a soft white-to-brand-color hairline rather than a flat stroke).    */
-/* `--glass-tint` is empty by default; `.glass-tint-purple` /          */
-/* `.glass-tint-blue` set it to nudge a card's fill warmer or cooler   */
-/* without duplicating the whole utility, so sections can vary while   */
-/* staying in one system.                                              */
 /* ------------------------------------------------------------------ */
 @utility glass-panel {
-  --glass-tint: transparent;
-  position: relative;
-  background:
-    linear-gradient(155deg, color-mix(in srgb, white 9%, transparent) 0%, color-mix(in srgb, white 3%, transparent) 100%) padding-box,
-    linear-gradient(150deg, color-mix(in srgb, white 40%, transparent) 0%, color-mix(in srgb, var(--color-brand-blue) 30%, transparent) 55%, color-mix(in srgb, var(--color-brand-purple-soft) 35%, transparent) 100%) border-box;
-  background-color: var(--glass-tint);
-  background-blend-mode: normal, screen;
-  border: 1px solid transparent;
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
-  box-shadow: var(--shadow-glass);
-}
-/* Original light glass-panel: a bright frosted surface, not a tinted one. */
-[data-theme="light"] .glass-panel {
   background: color-mix(in srgb, white 62%, transparent);
-  border-color: color-mix(in srgb, white 60%, var(--color-brand-line) 40%);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid color-mix(in srgb, white 60%, var(--color-brand-line) 40%);
+  box-shadow: var(--shadow-glass);
 }
 
 @utility glass-card {
-  --glass-tint: transparent;
   position: relative;
-  background:
-    linear-gradient(155deg, color-mix(in srgb, white 10%, transparent) 0%, color-mix(in srgb, white 2%, transparent) 65%, color-mix(in srgb, var(--color-brand-purple) 10%, transparent) 100%) padding-box,
-    linear-gradient(160deg, color-mix(in srgb, white 45%, transparent) 0%, color-mix(in srgb, var(--color-brand-blue) 28%, transparent) 50%, color-mix(in srgb, var(--color-brand-purple-soft) 40%, transparent) 100%) border-box;
-  background-color: var(--glass-tint);
-  background-blend-mode: normal, screen;
-  border: 1px solid transparent;
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  background: linear-gradient(155deg, color-mix(in srgb, white 78%, transparent) 0%, color-mix(in srgb, white 46%, var(--color-brand-sky) 30%) 100%);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid color-mix(in srgb, white 70%, var(--color-brand-line) 55%);
   box-shadow: var(--shadow-glass);
   border-radius: var(--radius-3xl, 1.75rem);
   transition:
     transform 0.5s var(--ease-premium),
     box-shadow 0.5s var(--ease-premium),
-    background-color 0.5s var(--ease-premium),
     border-color 0.5s var(--ease-premium);
-}
-/* Original light glass-card: a bright translucent tile with a soft sky
-   tint, no gradient border — the border is a plain, very light hairline. */
-[data-theme="light"] .glass-card {
-  background: linear-gradient(155deg, color-mix(in srgb, white 78%, transparent) 0%, color-mix(in srgb, white 46%, var(--color-brand-sky) 30%) 100%);
-  border-color: color-mix(in srgb, white 70%, var(--color-brand-line) 55%);
-  backdrop-filter: blur(14px) saturate(150%);
-  -webkit-backdrop-filter: blur(14px) saturate(150%);
 }
 
 @utility glass-card-hover {
   &:hover {
     transform: translateY(-6px);
     box-shadow: var(--shadow-glass-lg);
+    border-color: color-mix(in srgb, white 60%, var(--color-brand-blue) 30%);
   }
-}
-[data-theme="light"] .glass-card-hover:hover {
-  border-color: color-mix(in srgb, white 60%, var(--color-brand-blue) 30%);
-}
-
-/* Nudge a card's fill warmer (purple) or cooler (blue) — extremely
-   subtle, just enough for adjacent cards to feel like distinct pieces
-   of glass rather than identical stamped tiles. */
-@utility glass-tint-purple {
-  --glass-tint: color-mix(in srgb, var(--color-brand-purple) 13%, transparent);
-}
-@utility glass-tint-blue {
-  --glass-tint: color-mix(in srgb, var(--color-brand-blue) 11%, transparent);
 }
 
 @utility glass-card-strong {
-  --glass-tint: transparent;
   position: relative;
-  background:
-    linear-gradient(160deg, color-mix(in srgb, white 14%, transparent) 0%, color-mix(in srgb, white 4%, transparent) 60%, color-mix(in srgb, var(--color-brand-purple) 14%, transparent) 100%) padding-box,
-    linear-gradient(160deg, color-mix(in srgb, white 55%, transparent) 0%, color-mix(in srgb, var(--color-brand-blue) 35%, transparent) 50%, color-mix(in srgb, var(--color-brand-purple-soft) 45%, transparent) 100%) border-box;
-  background-color: var(--glass-tint);
-  background-blend-mode: normal, screen;
-  border: 1px solid transparent;
-  backdrop-filter: blur(26px) saturate(160%);
-  -webkit-backdrop-filter: blur(26px) saturate(160%);
-  box-shadow: var(--shadow-glass-lg);
-}
-/* Original light glass-card-strong: a brighter, near-opaque frosted panel
-   with a soft lavender wash — used for the hero panel, mobile menu, CTA. */
-[data-theme="light"] .glass-card-strong {
   background: linear-gradient(160deg, color-mix(in srgb, white 88%, transparent) 0%, color-mix(in srgb, white 58%, var(--color-brand-lavender) 55%) 100%);
-  border-color: color-mix(in srgb, white 75%, var(--color-brand-blue) 20%);
   backdrop-filter: blur(22px) saturate(170%);
   -webkit-backdrop-filter: blur(22px) saturate(170%);
+  border: 1px solid color-mix(in srgb, white 75%, var(--color-brand-blue) 20%);
+  box-shadow: var(--shadow-glass-lg);
 }
 
-/* Small brand-tinted chips (eyebrow labels, badges) — translucent glass
-   rather than a flat solid fill, so they read as part of the same
-   material as the cards. */
+/* Small brand-tinted chips (eyebrow labels, badges) — a flat solid
+   lavender pill, part of the same light-glass material as the cards. */
 @utility chip-purple {
-  background: color-mix(in srgb, var(--color-brand-purple) 24%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-brand-purple-soft) 45%, transparent);
-  color: var(--color-brand-purple-glow);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--color-brand-lavender);
+  border: 1px solid transparent;
+  color: var(--color-brand-purple);
 }
 @utility chip-blue {
-  background: color-mix(in srgb, var(--color-brand-blue) 20%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-brand-blue) 45%, transparent);
-  color: var(--color-brand-blue-soft);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-/* Original light chip: a flat solid lavender pill — there was only ever
-   one chip style before the dark pass, so both variants match it. */
-[data-theme="light"] .chip-purple,
-[data-theme="light"] .chip-blue {
   background: var(--color-brand-lavender);
-  border-color: transparent;
+  border: 1px solid transparent;
   color: var(--color-brand-purple);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
 }
 
-/* Inner highlight — the "reflection" that sells the glass illusion.
-   Two extremely soft layers (a corner bloom + a top-edge fade), blended
-   with `screen` so they lift whatever tint is beneath rather than
-   sitting on top as a flat, obviously-fake gradient. */
+/* Inner top highlight — the "reflection" that sells the glass illusion. */
 @utility glass-sheen {
   &::before {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: 1px 1px auto 1px;
+    height: 40%;
     border-radius: inherit;
-    background:
-      radial-gradient(120% 65% at 12% -12%, rgba(255, 255, 255, 0.16), transparent 60%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, transparent 42%);
-    mix-blend-mode: screen;
-    opacity: 0.9;
+    background: linear-gradient(180deg, color-mix(in srgb, white 55%, transparent), transparent);
+    opacity: 0.8;
     pointer-events: none;
   }
 }
-/* Original light sheen: a single soft top-edge highlight, no corner bloom
-   (the dark theme's corner bloom is tuned for a much darker backdrop). */
-[data-theme="light"] .glass-sheen::before {
-  inset: 1px 1px auto 1px;
-  height: 40%;
-  background: linear-gradient(180deg, color-mix(in srgb, white 55%, transparent), transparent);
-  mix-blend-mode: normal;
-  opacity: 0.8;
-}
 
 @utility text-gradient-brand {
-  background: linear-gradient(100deg, var(--color-brand-purple-glow) 10%, var(--color-brand-blue-soft) 90%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-[data-theme="light"] .text-gradient-brand {
   background: linear-gradient(100deg, var(--color-brand-purple) 10%, var(--color-brand-blue-dark) 90%);
   -webkit-background-clip: text;
   background-clip: text;
+  color: transparent;
 }
 
 /*
@@ -370,17 +190,12 @@ h1, h2, h3, h4, h5, h6, p {
  * (fails WCAG AA for normal text); blue-dark reaches ~5:1.
  */
 @utility bg-gradient-brand {
-  background: linear-gradient(120deg, var(--color-brand-purple-dark) 0%, var(--color-brand-purple) 45%, var(--color-brand-blue-dark) 100%);
-}
-/* Original light gradient — a touch brighter through the middle, since it
-   sits on a light page rather than an already-dark one. */
-[data-theme="light"] .bg-gradient-brand {
   background: linear-gradient(120deg, var(--color-brand-purple) 0%, var(--color-brand-purple-soft) 45%, var(--color-brand-blue-dark) 100%);
 }
 
 @utility surface-dots {
-  background-image: radial-gradient(color-mix(in srgb, white 14%, transparent) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-image: radial-gradient(color-mix(in srgb, var(--color-brand-purple) 22%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
 }
 
 /* ------------------------------------------------------------------ */

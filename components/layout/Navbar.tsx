@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/icons/Icon";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { MobileMenu } from "./MobileMenu";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import type { Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
 
@@ -64,7 +63,6 @@ export function Navbar({ locale }: { locale: Locale }) {
         </ul>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <ThemeToggle locale={locale} />
           <LanguageSwitcher locale={locale} />
           <Button href={`${localeRoot}/contact`} size="md">
             {siteContent.actions.bookAppointment[locale]}

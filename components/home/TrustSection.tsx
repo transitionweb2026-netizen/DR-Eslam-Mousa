@@ -1,8 +1,8 @@
+import Image from "next/image";
 import { trustContent, trustPoints } from "@/data/trustPoints";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Reveal } from "@/components/motion/Reveal";
-import { ThemedImage } from "@/components/theme/ThemedImage";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import type { Locale } from "@/lib/i18n/config";
 import { TrustPointItem } from "./TrustPointItem";
@@ -32,7 +32,7 @@ export function TrustSection({ locale }: { locale: Locale }) {
         <Reveal delay={0.15} scale>
           <GlassCard strong className="glass-tint-purple relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden p-3 sm:p-4">
             <div className="relative h-full w-full overflow-hidden rounded-[1.5rem]">
-              <ThemedImage
+              <Image
                 src={trustContent.portrait.src}
                 alt={trustContent.portrait.alt[locale]}
                 fill

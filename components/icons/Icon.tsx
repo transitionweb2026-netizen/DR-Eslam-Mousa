@@ -16,8 +16,6 @@ export type IconName =
   | "mail"
   | "map-pin"
   | "clock"
-  | "sun"
-  | "moon"
   // Medical / specialties / conditions
   | "knee"
   | "hip"
@@ -146,15 +144,6 @@ function renderIcon(name: IconName): ReactNode {
           <path d="M12 7.5V12l3 2" />
         </>
       );
-    case "sun":
-      return (
-        <>
-          <circle cx="12" cy="12" r="4.2" />
-          <path d="M12 2.5v2.4M12 19.1v2.4M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7" />
-        </>
-      );
-    case "moon":
-      return <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5z" />;
     case "knee":
       return (
         <>

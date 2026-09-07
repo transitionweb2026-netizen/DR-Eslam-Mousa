@@ -1,9 +1,9 @@
+import Image from "next/image";
 import { heroContent } from "@/data/hero";
 import { siteContent } from "@/data/site";
 import { localeDirection, type Locale } from "@/lib/i18n/config";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
-import { ThemedImage } from "@/components/theme/ThemedImage";
 import { cn } from "@/lib/utils";
 import { HeroContactPanel } from "./HeroContactPanel";
 
@@ -14,7 +14,7 @@ export function Hero({ locale }: { locale: Locale }) {
   return (
     <section className="mx-3 mt-3 sm:mx-6 sm:mt-5 lg:mx-8" aria-label="Hero">
       <div className="relative isolate min-h-[640px] overflow-hidden rounded-[2rem] sm:min-h-[700px] lg:min-h-[800px] lg:rounded-[2.5rem]">
-        <ThemedImage
+        <Image
           src={heroContent.image.src}
           alt={heroContent.image.alt[locale]}
           fill

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ThemedImage } from "@/components/theme/ThemedImage";
+import Image from "next/image";
 import { Icon } from "@/components/icons/Icon";
 import { IconBadge } from "@/components/ui/IconBadge";
 import { siteContent } from "@/data/site";
@@ -13,7 +13,7 @@ export function ServiceCard({ specialty, locale }: { specialty: SpecialtyItem; l
       className="glass-card glass-card-hover glass-sheen glass-tint-blue group flex h-full flex-col overflow-hidden rounded-3xl"
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden">
-        <ThemedImage
+        <Image
           src={specialty.image.src}
           alt={specialty.image.alt[locale]}
           fill

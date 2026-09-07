@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Script from "next/script";
 import "../globals.css";
 import { fontVariables } from "@/lib/fonts";
 import { isLocale, locales, localeDirection, localeTag, type Locale } from "@/lib/i18n/config";
-import { getThemeInitScript } from "@/lib/theme";
 import { siteContent } from "@/data/site";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { PageTransition } from "@/components/motion/PageTransition";
-import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -47,36 +44,21 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const locale = rawLocale;
 
   return (
-    <html
-      lang={localeTag[locale]}
-      dir={localeDirection[locale]}
-      className={fontVariables}
-      suppressHydrationWarning
-    >
-      <head>
-        {/* Stamps data-theme on <html> before first paint, from the stored
-            preference, so the page never flashes the wrong theme on load.
-            suppressHydrationWarning above covers the attribute this adds. */}
-        <Script id="theme-init" strategy="beforeInteractive">
-          {getThemeInitScript()}
-        </Script>
-      </head>
+    <html lang={localeTag[locale]} dir={localeDirection[locale]} className={fontVariables}>
       <body className="antialiased">
-        <ThemeProvider>
-          <MotionProvider>
-            <a
-              href="#main-content"
-              className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:font-semibold focus:text-brand-purple focus:shadow-glass"
-            >
-              {siteContent.actions.skipToContent[locale]}
-            </a>
-            <Navbar locale={locale} />
-            <PageTransition>
-              <main id="main-content">{children}</main>
-            </PageTransition>
-            <Footer locale={locale} />
-          </MotionProvider>
-        </ThemeProvider>
+        <MotionProvider>
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:font-semibold focus:text-brand-purple focus:shadow-glass"
+          >
+            {siteContent.actions.skipToContent[locale]}
+          </a>
+          <Navbar locale={locale} />
+          <PageTransition>
+            <main id="main-content">{children}</main>
+          </PageTransition>
+          <Footer locale={locale} />
+        </MotionProvider>
       </body>
     </html>
   );

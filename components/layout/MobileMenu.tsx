@@ -7,7 +7,6 @@ import { navigationItems } from "@/data/navigation";
 import { siteContent } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/icons/Icon";
-import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import type { Locale } from "@/lib/i18n/config";
 import { EASE_PREMIUM } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -73,10 +72,6 @@ export function MobileMenu({ open, onClose, locale, isActive }: MobileMenuProps)
               >
                 <Icon name="close" className="h-5 w-5" />
               </button>
-            </div>
-
-            <div className="mt-4">
-              <ThemeToggle locale={locale} className="w-full justify-center" />
             </div>
 
             <ul className="mt-6 flex flex-col gap-1">

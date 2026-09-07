@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Icon } from "@/components/icons/Icon";
-import { ThemedImage } from "@/components/theme/ThemedImage";
 import { VideoModal } from "@/components/ui/VideoModal";
 import { siteContent } from "@/data/site";
 import type { Locale } from "@/lib/i18n/config";
@@ -50,7 +50,7 @@ export function VideoThumbnail({
           className
         )}
       >
-        <ThemedImage
+        <Image
           src={video.poster.src}
           alt={video.poster.alt[locale]}
           fill

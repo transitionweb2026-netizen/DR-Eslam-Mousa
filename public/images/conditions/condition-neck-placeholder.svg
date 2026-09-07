@@ -1,34 +1,28 @@
 <svg width="800" height="640" viewBox="0 0 800 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
   <defs>
-  <linearGradient id="condition-neck-placeholder-bg" x1="95.3153893518325%" y1="28.869086912965024%" x2="4.6846106481675065%" y2="71.13091308703497%">
-    <stop offset="0" stop-color="#171240" />
-    <stop offset="0.55" stop-color="#150f3f" />
-    <stop offset="1" stop-color="#0e0b28" />
+  <linearGradient id="condition-neck-placeholder-l-bg" x1="95.3153893518325%" y1="28.869086912965024%" x2="4.6846106481675065%" y2="71.13091308703497%">
+    <stop offset="0" stop-color="#EEECFB" />
+    <stop offset="0.55" stop-color="#E5F6FD" />
+    <stop offset="1" stop-color="#ffffff" />
   </linearGradient>
-  <linearGradient id="condition-neck-placeholder-brand" x1="0%" y1="0%" x2="100%" y2="100%">
-    <stop offset="0" stop-color="#b9a9ff" />
-    <stop offset="1" stop-color="#5cc4ee" />
+  <linearGradient id="condition-neck-placeholder-l-brand" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0" stop-color="#2F2483" />
+    <stop offset="1" stop-color="#009EE3" />
   </linearGradient>
-  <radialGradient id="condition-neck-placeholder-glow" cx="50%" cy="30%" r="70%">
-    <stop offset="0" stop-color="#009EE3" stop-opacity="0.22" />
+  <radialGradient id="condition-neck-placeholder-l-glow" cx="50%" cy="35%" r="65%">
+    <stop offset="0" stop-color="#009EE3" stop-opacity="0.28" />
     <stop offset="1" stop-color="#009EE3" stop-opacity="0" />
-  </radialGradient>
-  <radialGradient id="condition-neck-placeholder-glow2" cx="15%" cy="100%" r="65%">
-    <stop offset="0" stop-color="#2F2483" stop-opacity="0.35" />
-    <stop offset="1" stop-color="#2F2483" stop-opacity="0" />
   </radialGradient></defs>
-  <rect width="800" height="640" fill="url(#condition-neck-placeholder-bg)" />
+  <rect width="800" height="640" fill="url(#condition-neck-placeholder-l-bg)" />
   
-  <pattern id="condition-neck-placeholder-dots" width="26" height="26" patternUnits="userSpaceOnUse">
-    <circle cx="2" cy="2" r="1.4" fill="#ffffff" opacity="0.08" />
+  <pattern id="condition-neck-placeholder-l-dots" width="26" height="26" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1.6" fill="#2F2483" opacity="0.1" />
   </pattern>
-  <rect width="800" height="640" fill="url(#condition-neck-placeholder-dots)" />
-  <rect width="800" height="640" fill="url(#condition-neck-placeholder-glow)" />
-  <rect width="800" height="640" fill="url(#condition-neck-placeholder-glow2)" />
-  <circle cx="400" cy="300.8" r="192" fill="#ffffff" opacity="0.05" />
-  <circle cx="400" cy="300.8" r="192" fill="none" stroke="url(#condition-neck-placeholder-brand)" stroke-width="1.5" opacity="0.55" />
-  <circle cx="400" cy="300.8" r="138.24" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.08" />
-  <g transform="translate(299.2 200) scale(8.4)" fill="url(#condition-neck-placeholder-brand)" stroke="url(#condition-neck-placeholder-brand)" stroke-linecap="round" stroke-linejoin="round" opacity="1"><circle cx="12" cy="5.5" r="2.5" fill="none" stroke-width="1.4"/><path d="M12 8v9" stroke-width="1.4"/><rect x="9.6" y="9.2" width="4.8" height="2.2" rx="1"/><rect x="9.6" y="13" width="4.8" height="2.2" rx="1"/></g>
-  <circle cx="688" cy="102.4" r="40" fill="#5cc4ee" opacity="0.4" />
-  <circle cx="80" cy="563.2" r="28.000000000000004" fill="#b9a9ff" opacity="0.3" />
+  <rect width="800" height="640" fill="url(#condition-neck-placeholder-l-dots)" />
+  <rect width="800" height="640" fill="url(#condition-neck-placeholder-l-glow)" />
+  <circle cx="400" cy="300.8" r="192" fill="#ffffff" opacity="0.55" />
+  <circle cx="400" cy="300.8" r="192" fill="none" stroke="url(#condition-neck-placeholder-l-brand)" stroke-width="2" opacity="0.5" />
+  <g transform="translate(299.2 200) scale(8.4)" fill="url(#condition-neck-placeholder-l-brand)" stroke="url(#condition-neck-placeholder-l-brand)" stroke-linecap="round" stroke-linejoin="round" opacity="1"><circle cx="12" cy="5.5" r="2.5" fill="none" stroke-width="1.5"/><path d="M12 8v9" stroke-width="1.5"/><rect x="9.6" y="9.2" width="4.8" height="2.2" rx="1"/><rect x="9.6" y="13" width="4.8" height="2.2" rx="1"/></g>
+  <circle cx="688" cy="102.4" r="40" fill="#5cc4ee" opacity="0.35" />
+  <circle cx="80" cy="563.2" r="28.000000000000004" fill="#2F2483" opacity="0.18" />
 </svg>

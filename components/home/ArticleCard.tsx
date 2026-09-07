@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Icon } from "@/components/icons/Icon";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { ThemedImage } from "@/components/theme/ThemedImage";
 import { siteContent } from "@/data/site";
 import { localeTag, type Locale } from "@/lib/i18n/config";
 import type { ArticleItem } from "@/data/articles";
@@ -27,7 +27,7 @@ export function ArticleCard({ article, locale }: { article: ArticleItem; locale:
           aria-haspopup="dialog"
         >
           <div className="relative aspect-[4/3] w-full overflow-hidden">
-            <ThemedImage
+            <Image
               src={article.image.src}
               alt={article.image.alt[locale]}
               fill

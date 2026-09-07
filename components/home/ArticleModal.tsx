@@ -1,7 +1,7 @@
 "use client";
 
+import Image from "next/image";
 import { Modal } from "@/components/ui/Modal";
-import { ThemedImage } from "@/components/theme/ThemedImage";
 import { siteContent } from "@/data/site";
 import { localeTag, type Locale } from "@/lib/i18n/config";
 import type { ArticleItem } from "@/data/articles";
@@ -23,7 +23,7 @@ export function ArticleModal({ article, open, onClose, locale }: ArticleModalPro
   return (
     <Modal open={open} onClose={onClose} closeLabel={siteContent.actions.close[locale]} className="max-w-2xl">
       <div className="relative aspect-video w-full overflow-hidden rounded-t-3xl">
-        <ThemedImage
+        <Image
           src={article.image.src}
           alt={article.image.alt[locale]}
           fill

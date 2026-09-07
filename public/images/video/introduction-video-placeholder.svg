@@ -1,34 +1,29 @@
 <svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
   <defs>
-  <linearGradient id="intro-video-bg" x1="85.35533905932738%" y1="14.644660940672622%" x2="14.64466094067263%" y2="85.35533905932738%">
-    <stop offset="0" stop-color="#171240" />
-    <stop offset="0.55" stop-color="#150f3f" />
-    <stop offset="1" stop-color="#0e0b28" />
+  <linearGradient id="intro-video-l-bg" x1="85.35533905932738%" y1="14.644660940672622%" x2="14.64466094067263%" y2="85.35533905932738%">
+    <stop offset="0" stop-color="#EEECFB" />
+    <stop offset="0.55" stop-color="#E5F6FD" />
+    <stop offset="1" stop-color="#ffffff" />
   </linearGradient>
-  <linearGradient id="intro-video-brand" x1="0%" y1="0%" x2="100%" y2="100%">
-    <stop offset="0" stop-color="#b9a9ff" />
-    <stop offset="1" stop-color="#5cc4ee" />
+  <linearGradient id="intro-video-l-brand" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0" stop-color="#2F2483" />
+    <stop offset="1" stop-color="#009EE3" />
   </linearGradient>
-  <radialGradient id="intro-video-glow" cx="50%" cy="30%" r="70%">
-    <stop offset="0" stop-color="#009EE3" stop-opacity="0.22" />
+  <radialGradient id="intro-video-l-glow" cx="50%" cy="35%" r="65%">
+    <stop offset="0" stop-color="#009EE3" stop-opacity="0.28" />
     <stop offset="1" stop-color="#009EE3" stop-opacity="0" />
-  </radialGradient>
-  <radialGradient id="intro-video-glow2" cx="15%" cy="100%" r="65%">
-    <stop offset="0" stop-color="#2F2483" stop-opacity="0.35" />
-    <stop offset="1" stop-color="#2F2483" stop-opacity="0" />
   </radialGradient></defs>
-  <rect width="1600" height="900" fill="url(#intro-video-bg)" />
+  <rect width="1600" height="900" fill="url(#intro-video-l-bg)" />
   
-  <pattern id="intro-video-dots" width="26" height="26" patternUnits="userSpaceOnUse">
-    <circle cx="2" cy="2" r="1.4" fill="#ffffff" opacity="0.07" />
+  <pattern id="intro-video-l-dots" width="26" height="26" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1.6" fill="#2F2483" opacity="0.09" />
   </pattern>
-  <rect width="1600" height="900" fill="url(#intro-video-dots)" />
-  <rect width="1600" height="900" fill="url(#intro-video-glow)" />
-  <rect width="1600" height="900" fill="url(#intro-video-glow2)" />
-  <ellipse cx="320" cy="738" rx="480" ry="216" fill="#2F2483" opacity="0.16" />
-  <ellipse cx="1376" cy="90" rx="384" ry="198" fill="#009EE3" opacity="0.14" />
-  <rect x="690" y="372" width="220" height="156" rx="26" fill="#ffffff" opacity="0.04" />
-  <rect x="690" y="372" width="220" height="156" rx="26" fill="none" stroke="url(#intro-video-brand)" stroke-width="1.4" opacity="0.5" />
-  <g transform="translate(754 394) scale(3.8333333333333335)" fill="url(#intro-video-brand)" stroke="url(#intro-video-brand)" stroke-linecap="round" stroke-linejoin="round" opacity="1"><path d="M3 12h4l2-6 4 12 2-6h6" fill="none" stroke-width="1.4"/></g>
-  <g transform="translate(783 479) scale(1.4166666666666667)" fill="#5cc4ee" stroke="#5cc4ee" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"><rect x="3" y="6.5" width="14" height="11" rx="2.5" fill="none" stroke-width="1.4"/><path d="M17 10l4-2.3v8.6L17 14" fill="none" stroke-width="1.4"/></g>
+  <rect width="1600" height="900" fill="url(#intro-video-l-dots)" />
+  <rect width="1600" height="900" fill="url(#intro-video-l-glow)" />
+  <ellipse cx="352" cy="720" rx="448.00000000000006" ry="198" fill="#009EE3" opacity="0.08" />
+  <ellipse cx="1360" cy="108" rx="352" ry="180" fill="#2F2483" opacity="0.08" />
+  <rect x="690" y="372" width="220" height="156" rx="26" fill="#ffffff" opacity="0.6" />
+  <rect x="690" y="372" width="220" height="156" rx="26" fill="none" stroke="url(#intro-video-l-brand)" stroke-width="2" opacity="0.45" />
+  <g transform="translate(754 394) scale(3.8333333333333335)" fill="url(#intro-video-l-brand)" stroke="url(#intro-video-l-brand)" stroke-linecap="round" stroke-linejoin="round" opacity="1"><path d="M3 12h4l2-6 4 12 2-6h6" fill="none" stroke-width="1.5"/></g>
+  <g transform="translate(783 479) scale(1.4166666666666667)" fill="#2F2483" stroke="#2F2483" stroke-linecap="round" stroke-linejoin="round" opacity="0.55"><rect x="3" y="6.5" width="14" height="11" rx="2.5" fill="none" stroke-width="1.5"/><path d="M17 10l4-2.3v8.6L17 14" fill="none" stroke-width="1.5"/></g>
 </svg>
