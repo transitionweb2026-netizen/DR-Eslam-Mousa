@@ -198,6 +198,17 @@ h1, h2, h3, h4, h5, h6 {
   background-size: 18px 18px;
 }
 
+/* Native scroll (touch swipe, trackpad, keyboard) stays fully functional —
+   this only hides the visible scrollbar track for horizontal galleries
+   (e.g. the Certificates carousel) that already provide their own arrows. */
+@utility scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /* Ambient motion (looping) — reveal/enter motion lives in Framer.     */
 /* ------------------------------------------------------------------ */

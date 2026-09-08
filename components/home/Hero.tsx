@@ -1,26 +1,48 @@
 import Image from "next/image";
-import { heroContent } from "@/data/hero";
+import { heroContent, type HeroContent } from "@/data/hero";
 import { siteContent } from "@/data/site";
 import { localeDirection, type Locale } from "@/lib/i18n/config";
+import type { Localized } from "@/lib/types";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/utils";
 import { HeroContactPanel } from "./HeroContactPanel";
 
-export function Hero({ locale }: { locale: Locale }) {
+interface HeroCta {
+  label: Localized;
+  href: string;
+}
+
+interface HeroProps {
+  locale: Locale;
+  /** Defaults to the Home page's hero content — every other page supplies its own. */
+  content?: HeroContent;
+  primaryCta?: HeroCta;
+  secondaryCta?: HeroCta;
+}
+
+/**
+ * The site's one Hero design — full-bleed image, legibility scrim, floating
+ * contact panel. Every page uses this exact component; only the text and
+ * (optionally) the two CTAs change per page.
+ */
+export function Hero({ locale, content = heroContent, primaryCta, secondaryCta }: HeroProps) {
   const isRtl = localeDirection[locale] === "rtl";
   const localeRoot = `/${locale}`;
+
+  const primary = primaryCta ?? { label: siteContent.actions.bookAppointment, href: `${localeRoot}/contact` };
+  const secondary = secondaryCta ?? { label: siteContent.actions.exploreServices, href: `${localeRoot}/services` };
 
   return (
     <section className="mx-3 mt-3 sm:mx-6 sm:mt-5 lg:mx-8" aria-label="Hero">
       <div className="relative isolate min-h-[640px] overflow-hidden rounded-[2rem] sm:min-h-[700px] lg:min-h-[800px] lg:rounded-[2.5rem]">
         <Image
-          src={heroContent.image.src}
-          alt={heroContent.image.alt[locale]}
+          src={content.image.src}
+          alt={content.image.alt[locale]}
           fill
           priority
           sizes="100vw"
-          style={{ objectPosition: heroContent.image.position }}
+          style={{ objectPosition: content.image.position }}
           className="object-cover"
         />
 
@@ -56,30 +78,30 @@ export function Hero({ locale }: { locale: Locale }) {
         <div className="relative z-10 flex h-full flex-col justify-center px-6 py-16 sm:px-10 lg:max-w-2xl lg:px-16 lg:py-24">
           <Reveal>
             <span className="chip-purple inline-flex w-fit items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider shadow-glass">
-              {heroContent.eyebrow[locale]}
+              {content.eyebrow[locale]}
             </span>
           </Reveal>
 
           <Reveal delay={0.1}>
             <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.12] text-brand-ink sm:text-5xl lg:text-6xl">
-              {heroContent.headline[locale]}{" "}
-              <span className="text-gradient-brand">{heroContent.headlineAccent[locale]}</span>
+              {content.headline[locale]}{" "}
+              <span className="text-gradient-brand">{content.headlineAccent[locale]}</span>
             </h1>
           </Reveal>
 
           <Reveal delay={0.2}>
             <p className="mt-6 max-w-lg text-pretty text-base leading-relaxed text-brand-ink-soft sm:text-lg">
-              {heroContent.description[locale]}
+              {content.description[locale]}
             </p>
           </Reveal>
 
           <Reveal delay={0.3}>
             <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
-              <Button href={`${localeRoot}/contact`} size="lg" withArrow>
-                {siteContent.actions.bookAppointment[locale]}
+              <Button href={primary.href} size="lg" withArrow>
+                {primary.label[locale]}
               </Button>
-              <Button href={`${localeRoot}/services`} size="lg" variant="secondary">
-                {siteContent.actions.exploreServices[locale]}
+              <Button href={secondary.href} size="lg" variant="secondary">
+                {secondary.label[locale]}
               </Button>
             </div>
           </Reveal>

@@ -1,22 +1,26 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
-import type { Localized } from "@/lib/types";
+import type { HeroContent } from "@/data/hero";
+import { heroContent } from "@/data/hero";
 import { buildAlternates } from "@/lib/seo";
 import { videos } from "@/data/videos";
-import { SectionHeader } from "@/components/ui/SectionHeader";
+
+import { Hero } from "@/components/home/Hero";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { VideoCard } from "@/components/home/VideoCard";
 import { CTASection } from "@/components/home/CTASection";
 
-const pageCopy = {
+const videosHero: HeroContent = {
+  ...heroContent,
   eyebrow: { en: "Video Library", ar: "مكتبة الفيديو" },
-  title: { en: "All Videos", ar: "كل الفيديوهات" },
+  headline: { en: "Watch & Learn,", ar: "شاهد وتعلّم" },
+  headlineAccent: { en: "Straight from Dr. Islam Moussa", ar: "مباشرة من د. إسلام موسى" },
   description: {
-    en: "Every educational video from Dr. Islam Moussa, in one library.",
-    ar: "كل فيديو تعليمي من د. إسلام موسى، في مكتبة واحدة.",
+    en: "Short, practical explanations of common orthopedic conditions, treatments and recovery — filmed to be easy to understand and easy to trust.",
+    ar: "شروحات قصيرة وعملية لأشهر حالات العظام وعلاجاتها ومراحل التعافي منها، بأسلوب سهل الفهم وموثوق.",
   },
-} satisfies Record<"eyebrow" | "title" | "description", Localized>;
+};
 
 export async function generateMetadata({
   params,
@@ -26,8 +30,8 @@ export async function generateMetadata({
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
   return {
-    title: pageCopy.title[locale],
-    description: pageCopy.description[locale],
+    title: videosHero.headline[locale] + " " + videosHero.headlineAccent[locale],
+    description: videosHero.description[locale],
     alternates: buildAlternates(locale, "videos"),
   };
 }
@@ -39,18 +43,9 @@ export default async function VideosPage({ params }: PageProps<"/[locale]/videos
 
   return (
     <>
-      <section className="px-4 pb-4 pt-16 sm:px-6 sm:pt-24 lg:px-8">
-        <SectionHeader
-          locale={locale}
-          eyebrow={pageCopy.eyebrow}
-          title={pageCopy.title}
-          description={pageCopy.description}
-          titleAs="h1"
-          className="mx-auto max-w-3xl"
-        />
-      </section>
+      <Hero locale={locale} content={videosHero} />
 
-      <section className="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-label="Video library">
         <div className="mx-auto max-w-7xl">
           <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {videos.map((video) => (

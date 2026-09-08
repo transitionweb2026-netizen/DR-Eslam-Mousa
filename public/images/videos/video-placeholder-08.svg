@@ -1,0 +1,30 @@
+<svg width="900" height="1600" viewBox="0 0 900 1600" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+  <defs>
+  <linearGradient id="video-placeholder-08-l-bg" x1="93.30127018922194%" y1="25.000000000000004%" x2="6.698729810778062%" y2="75%">
+    <stop offset="0" stop-color="#EEECFB" />
+    <stop offset="0.55" stop-color="#E5F6FD" />
+    <stop offset="1" stop-color="#ffffff" />
+  </linearGradient>
+  <linearGradient id="video-placeholder-08-l-brand" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0" stop-color="#2F2483" />
+    <stop offset="1" stop-color="#009EE3" />
+  </linearGradient>
+    <radialGradient id="video-placeholder-08-l-glow" cx="50%" cy="18%" r="45%">
+      <stop offset="0" stop-color="#009EE3" stop-opacity="0.22" />
+      <stop offset="1" stop-color="#009EE3" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="900" height="1600" fill="url(#video-placeholder-08-l-bg)" />
+  
+  <pattern id="video-placeholder-08-l-dots" width="26" height="26" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1.5" fill="#2F2483" opacity="0.1" />
+  </pattern>
+  <rect width="900" height="1600" fill="url(#video-placeholder-08-l-dots)" />
+  <rect width="900" height="1600" fill="url(#video-placeholder-08-l-glow)" />
+  <circle cx="126.00000000000001" cy="192" r="198" fill="#009EE3" opacity="0.10" />
+  <circle cx="792" cy="1504" r="270" fill="#2F2483" opacity="0.14" />
+  <circle cx="450" cy="1184" r="216" fill="#ffffff" opacity="0.6" />
+  <circle cx="450" cy="1184" r="216" fill="none" stroke="url(#video-placeholder-08-l-brand)" stroke-width="2" opacity="0.5" />
+  <circle cx="450" cy="1184" r="159.84" fill="none" stroke="#009EE3" stroke-width="1" opacity="0.18" />
+  <g transform="translate(347.4 1081.4) scale(8.55)" fill="url(#video-placeholder-08-l-brand)" stroke="url(#video-placeholder-08-l-brand)" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18" stroke-width="1.5"/><rect x="9.3" y="4.5" width="5.4" height="2.6" rx="1"/><rect x="9.3" y="9" width="5.4" height="2.6" rx="1"/><rect x="9.3" y="13.5" width="5.4" height="2.6" rx="1"/><rect x="9.3" y="18" width="5.4" height="2.2" rx="1"/></g>
+</svg>

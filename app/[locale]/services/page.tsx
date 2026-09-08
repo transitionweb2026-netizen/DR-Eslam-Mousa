@@ -1,24 +1,28 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
-import type { Localized } from "@/lib/types";
+import type { HeroContent } from "@/data/hero";
+import { heroContent } from "@/data/hero";
+import { specialtiesIntro } from "@/data/specialties";
+import { conditionsIntro } from "@/data/conditions";
 import { buildAlternates } from "@/lib/seo";
-import { specialties, specialtiesIntro } from "@/data/specialties";
-import { conditions, conditionsIntro } from "@/data/conditions";
+
+import { Hero } from "@/components/home/Hero";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
-import { ServiceCard } from "@/components/home/ServiceCard";
-import { ConditionCard } from "@/components/home/ConditionCard";
+import { AllServicesGrid } from "@/components/services/AllServicesGrid";
+import { WhatWeTreatGrid } from "@/components/services/WhatWeTreatGrid";
 import { CTASection } from "@/components/home/CTASection";
 
-const pageCopy = {
-  eyebrow: { en: "What We Treat", ar: "ما الذي نعالجه" },
-  title: { en: "Services & Conditions", ar: "الخدمات والحالات" },
+const servicesHero: HeroContent = {
+  ...heroContent,
+  eyebrow: { en: "Services & Conditions", ar: "الخدمات والحالات" },
+  headline: { en: "Orthopedic Surgery,", ar: "جراحة عظام" },
+  headlineAccent: { en: "Tailored to Every Diagnosis", ar: "مصممة خصيصًا لكل تشخيص" },
   description: {
-    en: "Every specialty and condition Dr. Islam Moussa treats, in one place. Full individual service pages are coming soon.",
-    ar: "كل تخصص وحالة يعالجها د. إسلام موسى في مكان واحد. صفحات تفصيلية لكل خدمة قادمة قريبًا.",
+    en: "From full surgical specialties to the everyday conditions that bring patients in, explore every treatment Dr. Islam Moussa provides.",
+    ar: "من التخصصات الجراحية الكاملة إلى الحالات اليومية التي تدفع المرضى لزيارته، تعرف على كل علاج يقدمه د. إسلام موسى.",
   },
-} satisfies Record<"eyebrow" | "title" | "description", Localized>;
+};
 
 export async function generateMetadata({
   params,
@@ -28,8 +32,8 @@ export async function generateMetadata({
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
   return {
-    title: pageCopy.title[locale],
-    description: pageCopy.description[locale],
+    title: servicesHero.headline[locale] + " " + servicesHero.headlineAccent[locale],
+    description: servicesHero.description[locale],
     alternates: buildAlternates(locale, "services"),
   };
 }
@@ -41,52 +45,31 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
 
   return (
     <>
-      <section className="px-4 pb-4 pt-16 sm:px-6 sm:pt-24 lg:px-8">
-        <SectionHeader
-          locale={locale}
-          eyebrow={pageCopy.eyebrow}
-          title={pageCopy.title}
-          description={pageCopy.description}
-          titleAs="h1"
-          className="mx-auto max-w-3xl"
-        />
-      </section>
+      <Hero locale={locale} content={servicesHero} />
 
-      <section className="px-4 py-12 sm:px-6 sm:py-16 lg:px-8" aria-labelledby="all-specialties-heading">
+      <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="all-services-heading">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             locale={locale}
-            headingId="all-specialties-heading"
+            headingId="all-services-heading"
             eyebrow={specialtiesIntro.eyebrow}
             title={specialtiesIntro.title}
             description={specialtiesIntro.description}
           />
-          <Stagger className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {specialties.map((specialty) => (
-              <StaggerItem key={specialty.id} id={`service-${specialty.slug}`} className="h-full scroll-mt-28">
-                <ServiceCard specialty={specialty} locale={locale} />
-              </StaggerItem>
-            ))}
-          </Stagger>
+          <AllServicesGrid locale={locale} />
         </div>
       </section>
 
-      <section className="px-4 py-12 sm:px-6 sm:py-16 lg:px-8" aria-labelledby="all-conditions-heading">
+      <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="what-we-treat-heading">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
             locale={locale}
-            headingId="all-conditions-heading"
+            headingId="what-we-treat-heading"
             eyebrow={conditionsIntro.eyebrow}
             title={conditionsIntro.title}
             description={conditionsIntro.description}
           />
-          <Stagger className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {conditions.map((condition) => (
-              <StaggerItem key={condition.id} id={`condition-${condition.slug}`} className="h-full scroll-mt-28">
-                <ConditionCard condition={condition} locale={locale} />
-              </StaggerItem>
-            ))}
-          </Stagger>
+          <WhatWeTreatGrid locale={locale} />
         </div>
       </section>
 

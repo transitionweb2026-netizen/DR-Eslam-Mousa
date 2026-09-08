@@ -161,6 +161,69 @@ export const videos: VideoItem[] = [
     featured: false,
     publishedAt: "2025-09-29",
   },
+  {
+    id: "video-07",
+    slug: "neck-pain-when-to-worry",
+    title: {
+      en: "Neck Pain: When Should You Worry?",
+      ar: "ألم الرقبة: متى يجب أن تقلق؟",
+    },
+    description: {
+      en: "Telling ordinary stiffness apart from nerve-related neck pain that needs evaluation.",
+      ar: "التمييز بين التيبس العادي وألم الرقبة المرتبط بالأعصاب الذي يحتاج تقييمًا طبيًا.",
+    },
+    thumbnail: {
+      src: "/images/videos/video-placeholder-07.svg",
+      alt: { en: "Neck pain video thumbnail", ar: "صورة مصغرة لفيديو ألم الرقبة" },
+    },
+    src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    duration: "04:02",
+    category: { en: "Neck Pain", ar: "ألم الرقبة" },
+    featured: false,
+    publishedAt: "2025-08-14",
+  },
+  {
+    id: "video-08",
+    slug: "understanding-back-pain",
+    title: {
+      en: "Understanding Chronic Back Pain",
+      ar: "فهم ألم الظهر المزمن",
+    },
+    description: {
+      en: "Common causes of persistent back pain and a realistic path toward relief.",
+      ar: "الأسباب الشائعة لألم الظهر المستمر ومسار واقعي نحو التخفيف منه.",
+    },
+    thumbnail: {
+      src: "/images/videos/video-placeholder-08.svg",
+      alt: { en: "Chronic back pain video thumbnail", ar: "صورة مصغرة لفيديو ألم الظهر المزمن" },
+    },
+    src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/friday.mp4",
+    duration: "05:15",
+    category: { en: "Back Pain", ar: "ألم الظهر" },
+    featured: false,
+    publishedAt: "2025-07-22",
+  },
+  {
+    id: "video-09",
+    slug: "what-to-expect-before-surgery",
+    title: {
+      en: "What to Expect Before Any Orthopedic Surgery",
+      ar: "ما الذي يجب توقعه قبل أي جراحة عظام",
+    },
+    description: {
+      en: "A walkthrough of the consultation, imaging and preparation steps before an operation.",
+      ar: "جولة توضيحية حول الاستشارة والأشعة وخطوات التحضير قبل العملية.",
+    },
+    thumbnail: {
+      src: "/images/videos/video-placeholder-09.svg",
+      alt: { en: "Pre-surgery preparation video thumbnail", ar: "صورة مصغرة لفيديو التحضير قبل الجراحة" },
+    },
+    src: "https://test-videos.co.uk/vids/jellyfish/mp4/h264/360/Jellyfish_360_10s_1MB.mp4",
+    duration: "06:48",
+    category: { en: "Patient Guide", ar: "دليل المريض" },
+    featured: false,
+    publishedAt: "2025-06-30",
+  },
 ];
 
 export const featuredVideos = videos.filter((video) => video.featured);

@@ -1,0 +1,47 @@
+<svg width="900" height="1100" viewBox="0 0 900 1100" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+  <defs>
+  <linearGradient id="about-doctor-l-bg" x1="85.35533905932738%" y1="14.644660940672622%" x2="14.64466094067263%" y2="85.35533905932738%">
+    <stop offset="0" stop-color="#EEECFB" />
+    <stop offset="0.55" stop-color="#E5F6FD" />
+    <stop offset="1" stop-color="#ffffff" />
+  </linearGradient>
+  <linearGradient id="about-doctor-l-brand" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0" stop-color="#2F2483" />
+    <stop offset="1" stop-color="#009EE3" />
+  </linearGradient>
+    <radialGradient id="about-doctor-l-glow" cx="50%" cy="35%" r="65%">
+      <stop offset="0" stop-color="#009EE3" stop-opacity="0.26" />
+      <stop offset="1" stop-color="#009EE3" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="about-doctor-l-figure" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0" stop-color="#1c1657" />
+      <stop offset="1" stop-color="#009EE3" />
+    </linearGradient>
+    <clipPath id="about-doctor-l-clip"><rect width="900" height="1100" /></clipPath>
+  </defs>
+  <rect width="900" height="1100" fill="url(#about-doctor-l-bg)" />
+  <g clip-path="url(#about-doctor-l-clip)">
+    
+  <pattern id="about-doctor-l-dots" width="26" height="26" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1.5" fill="#2F2483" opacity="0.08" />
+  </pattern>
+  <rect width="900" height="1100" fill="url(#about-doctor-l-dots)" />
+    <rect width="900" height="1100" fill="url(#about-doctor-l-glow)" />
+    <circle cx="756" cy="143" r="234" fill="#009EE3" opacity="0.1" />
+    <circle cx="90" cy="1012" r="198" fill="#2F2483" opacity="0.12" />
+
+    <path d="M180 1100
+             C 180 814, 226.79999999999998 913, 450 968
+             C 673.2 913, 720 814, 720 1100 Z"
+          fill="url(#about-doctor-l-figure)" opacity="0.92" />
+    <path d="M450 946 L450 1100" stroke="#ffffff" stroke-width="7.2" opacity="0.3" />
+
+    <path d="M331.425 937.2 L450 1028.5 L568.575 937.2"
+          fill="none" stroke="#ffffff" stroke-width="9" opacity="0.5" stroke-linecap="round" />
+    <path d="M380.25 990 q0 99 69.75 99 q69.75 0 69.75 -99"
+          fill="none" stroke="#ffffff" stroke-width="10.8" opacity="0.5" stroke-linecap="round" />
+
+    <circle cx="450" cy="675.05" r="139.5" fill="url(#about-doctor-l-figure)" opacity="0.92" />
+    <circle cx="450" cy="675.05" r="139.5" fill="none" stroke="#ffffff" stroke-width="5.4" opacity="0.25" />
+  </g>
+</svg>

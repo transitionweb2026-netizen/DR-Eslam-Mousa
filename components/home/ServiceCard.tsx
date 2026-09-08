@@ -6,12 +6,24 @@ import { siteContent } from "@/data/site";
 import type { SpecialtyItem } from "@/data/specialties";
 import type { Locale } from "@/lib/i18n/config";
 
-export function ServiceCard({ specialty, locale }: { specialty: SpecialtyItem; locale: Locale }) {
-  return (
-    <Link
-      href={`/${locale}/services#service-${specialty.slug}`}
-      className="glass-card glass-card-hover glass-sheen glass-tint-blue group flex h-full flex-col overflow-hidden rounded-3xl"
-    >
+interface ServiceCardProps {
+  specialty: SpecialtyItem;
+  locale: Locale;
+  /**
+   * When provided, the card becomes a button that opens this handler (used
+   * by the Services page to open the detail modal) instead of navigating.
+   * Every other usage (Home page) is unaffected and keeps linking to
+   * /services#service-{slug}.
+   */
+  onSelect?: () => void;
+}
+
+export function ServiceCard({ specialty, locale, onSelect }: ServiceCardProps) {
+  const className =
+    "glass-card glass-card-hover glass-sheen glass-tint-blue group flex h-full w-full flex-col overflow-hidden rounded-3xl text-start";
+
+  const body = (
+    <>
       <div className="relative aspect-[4/3] w-full overflow-hidden">
         <Image
           src={specialty.image.src}
@@ -35,6 +47,20 @@ export function ServiceCard({ specialty, locale }: { specialty: SpecialtyItem; l
           />
         </span>
       </div>
+    </>
+  );
+
+  if (onSelect) {
+    return (
+      <button type="button" onClick={onSelect} aria-haspopup="dialog" className={className}>
+        {body}
+      </button>
+    );
+  }
+
+  return (
+    <Link href={`/${locale}/services#service-${specialty.slug}`} className={className}>
+      {body}
     </Link>
   );
 }

@@ -198,6 +198,74 @@ export const articles: ArticleItem[] = [
     readTimeMinutes: 3,
     featured: false,
   },
+  {
+    id: "article-06",
+    slug: "when-to-consider-shoulder-replacement",
+    title: {
+      en: "When Should You Consider Shoulder Replacement?",
+      ar: "متى يجب التفكير في استبدال مفصل الكتف؟",
+    },
+    excerpt: {
+      en: "Signs that conservative treatment has run its course and surgery may help.",
+      ar: "علامات تشير إلى أن العلاج التحفظي وصل لحدوده وأن الجراحة قد تكون الخطوة التالية.",
+    },
+    content: {
+      en: [
+        "Most shoulder pain responds well to physiotherapy and conservative care, but severe arthritis or a badly damaged joint can eventually stop responding to non-surgical treatment.",
+        "Key signs worth discussing with a surgeon include pain that disrupts sleep most nights, a noticeable loss of the ability to lift the arm, and little improvement after several months of dedicated physiotherapy.",
+        "Modern shoulder replacement is a well-established procedure with a strong track record for restoring comfortable, functional movement.",
+        "The decision is never made from an X-ray alone — it always follows a detailed conversation about symptoms, goals and daily activity level.",
+      ],
+      ar: [
+        "يستجيب معظم ألم الكتف جيدًا للعلاج الطبيعي والرعاية التحفظية، لكن الالتهاب الشديد أو التلف الكبير بالمفصل قد يتوقف في النهاية عن الاستجابة للعلاج غير الجراحي.",
+        "من العلامات المهمة التي تستحق مناقشتها مع الجراح: الألم الذي يعطل النوم في معظم الليالي، وفقدان ملحوظ للقدرة على رفع الذراع، وقلة التحسن بعد أشهر من العلاج الطبيعي الملتزم.",
+        "يُعد استبدال مفصل الكتف الحديث إجراءً راسخًا بسجل قوي في استعادة حركة مريحة وفعالة.",
+        "لا يُتخذ القرار أبدًا بناءً على الأشعة وحدها، بل يأتي دائمًا بعد نقاش تفصيلي حول الأعراض والأهداف ومستوى النشاط اليومي.",
+      ],
+    },
+    image: {
+      src: "/images/articles/article-placeholder-03.svg",
+      alt: { en: "Shoulder replacement article cover", ar: "غلاف مقال استبدال مفصل الكتف" },
+    },
+    category: { en: "Shoulder Surgery", ar: "جراحة الكتف" },
+    date: "2025-09-05",
+    readTimeMinutes: 4,
+    featured: false,
+  },
+  {
+    id: "article-07",
+    slug: "acl-tears-in-young-athletes",
+    title: {
+      en: "Understanding ACL Tears in Young Athletes",
+      ar: "فهم إصابات الرباط الصليبي لدى الرياضيين الصغار",
+    },
+    excerpt: {
+      en: "Why early diagnosis and a careful return-to-sport plan matter most for growing athletes.",
+      ar: "لماذا يُعد التشخيص المبكر وخطة العودة الدقيقة للرياضة الأهم بالنسبة للرياضيين الصغار في مرحلة النمو.",
+    },
+    content: {
+      en: [
+        "A sudden pop, immediate swelling and a feeling of the knee 'giving way' during a pivot or jump are the classic signs of an ACL tear in young athletes.",
+        "Because the injury affects a still-developing joint, treatment planning has to balance the demands of the sport with protecting long-term knee health.",
+        "For many young athletes, reconstructive surgery followed by a structured, sport-specific rehabilitation program offers the most reliable path back to competition.",
+        "Just as important as the surgery itself is a disciplined, gradual return-to-play protocol that reduces the risk of a second injury.",
+      ],
+      ar: [
+        "سماع صوت 'فرقعة' مفاجئ، وتورم فوري، والشعور بـ'خيانة' الركبة أثناء الالتفاف أو القفز، من العلامات الكلاسيكية لتمزق الرباط الصليبي لدى الرياضيين الصغار.",
+        "ولأن الإصابة تؤثر على مفصل لا يزال في طور النمو، يجب أن يوازن التخطيط العلاجي بين متطلبات الرياضة والحفاظ على صحة الركبة على المدى الطويل.",
+        "بالنسبة لكثير من الرياضيين الصغار، توفر جراحة إعادة البناء متبوعة ببرنامج تأهيل منظم ومخصص للرياضة المسار الأكثر موثوقية للعودة للمنافسة.",
+        "لا يقل الالتزام ببروتوكول تدريجي ومنضبط للعودة للنشاط أهمية عن الجراحة نفسها، إذ يقلل من خطر تكرار الإصابة.",
+      ],
+    },
+    image: {
+      src: "/images/articles/article-placeholder-01.svg",
+      alt: { en: "ACL tears in young athletes article cover", ar: "غلاف مقال إصابات الرباط الصليبي لدى الرياضيين الصغار" },
+    },
+    category: { en: "Sports Medicine", ar: "الطب الرياضي" },
+    date: "2025-08-12",
+    readTimeMinutes: 5,
+    featured: false,
+  },
 ];
 
 export const featuredArticles = articles.filter((article) => article.featured);

@@ -1,10 +1,16 @@
-import { finalCtaContent } from "@/data/cta";
+import { finalCtaContent, type CtaContent } from "@/data/cta";
 import { siteContent } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import type { Locale } from "@/lib/i18n/config";
 
-export function CTASection({ locale }: { locale: Locale }) {
+/**
+ * The site's one Final CTA design, used verbatim on every page. Defaults to
+ * the Home page's copy — pass `content` only where a page's closing message
+ * should read a little differently (the layout, glass, gradient, buttons
+ * and animation never change).
+ */
+export function CTASection({ locale, content = finalCtaContent }: { locale: Locale; content?: CtaContent }) {
   const localeRoot = `/${locale}`;
 
   return (
@@ -24,13 +30,13 @@ export function CTASection({ locale }: { locale: Locale }) {
 
           <div className="relative z-10 mx-auto max-w-2xl">
             <span className="inline-flex items-center gap-2 rounded-full bg-black/25 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur">
-              {finalCtaContent.eyebrow[locale]}
+              {content.eyebrow[locale]}
             </span>
             <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
-              {finalCtaContent.title[locale]}
+              {content.title[locale]}
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-white sm:text-lg">
-              {finalCtaContent.description[locale]}
+              {content.description[locale]}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Button href={`${localeRoot}/contact`} size="lg" variant="light" withArrow>

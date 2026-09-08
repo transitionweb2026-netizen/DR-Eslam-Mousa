@@ -1,35 +1,41 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
-import type { IconName } from "@/components/icons/Icon";
-import type { Localized } from "@/lib/types";
+import type { HeroContent } from "@/data/hero";
+import { heroContent } from "@/data/hero";
+import { siteContent } from "@/data/site";
 import { buildAlternates } from "@/lib/seo";
 import { contactInfo, socialLinks } from "@/data/contact";
+
+import { Hero } from "@/components/home/Hero";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { GlassCard } from "@/components/ui/GlassCard";
+import { LocationCard } from "@/components/contact/LocationCard";
+import { ContactForm } from "@/components/contact/ContactForm";
 import { Icon } from "@/components/icons/Icon";
 import { Reveal } from "@/components/motion/Reveal";
+import type { Localized } from "@/lib/types";
 
-const pageCopy = {
+const contactHero: HeroContent = {
+  ...heroContent,
   eyebrow: { en: "Get in Touch", ar: "تواصل معنا" },
-  title: { en: "Contact Us", ar: "تواصل معنا" },
+  headline: { en: "Let's Talk About", ar: "لنتحدث عن" },
+  headlineAccent: { en: "Your Recovery", ar: "رحلة تعافيك" },
   description: {
-    en: "Reach out directly — a dedicated online booking experience is coming soon.",
-    ar: "تواصل معنا مباشرة، وقريبًا ستتوفر تجربة حجز إلكترونية مخصصة بالكامل.",
+    en: "Call, message on WhatsApp, or send a quick note below — Dr. Islam Moussa's clinic is ready to help you take the next step.",
+    ar: "اتصل بنا، أو راسلنا عبر واتساب، أو أرسل رسالة سريعة أدناه، فعيادة د. إسلام موسى جاهزة لمساعدتك على اتخاذ خطوتك التالية.",
+  },
+};
+
+const sectionCopy = {
+  eyebrow: { en: "Visit or Reach Out", ar: "زُرنا أو تواصل معنا" },
+  title: { en: "Find Us & Send a Message", ar: "موقعنا وإرسال رسالة" },
+  description: {
+    en: "The clinic is easy to reach, and the fastest way to book is a quick WhatsApp message.",
+    ar: "يسهل الوصول إلى العيادة، وأسرع طريقة للحجز هي رسالة سريعة عبر واتساب.",
   },
 } satisfies Record<"eyebrow" | "title" | "description", Localized>;
 
-const details: Array<{ icon: IconName; label: Localized; value: string; href: string; external?: boolean }> = [
-  { icon: "phone", label: { en: "Phone", ar: "الهاتف" }, value: contactInfo.phoneDisplay, href: contactInfo.phoneHref },
-  {
-    icon: "whatsapp",
-    label: { en: "WhatsApp", ar: "واتساب" },
-    value: contactInfo.phoneDisplay,
-    href: contactInfo.whatsappHref,
-    external: true,
-  },
-  { icon: "mail", label: { en: "Email", ar: "البريد الإلكتروني" }, value: contactInfo.email, href: contactInfo.emailHref },
-];
+const quickActionsLabel = { en: "Or reach us directly", ar: "أو تواصل معنا مباشرة" } as const satisfies Localized;
 
 export async function generateMetadata({
   params,
@@ -39,8 +45,8 @@ export async function generateMetadata({
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
   return {
-    title: pageCopy.title[locale],
-    description: pageCopy.description[locale],
+    title: contactHero.headline[locale] + " " + contactHero.headlineAccent[locale],
+    description: contactHero.description[locale],
     alternates: buildAlternates(locale, "contact"),
   };
 }
@@ -51,69 +57,73 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
   const locale = rawLocale;
 
   return (
-    <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-      <SectionHeader
+    <>
+      <Hero
         locale={locale}
-        eyebrow={pageCopy.eyebrow}
-        title={pageCopy.title}
-        description={pageCopy.description}
-        titleAs="h1"
-        className="mx-auto max-w-3xl"
+        content={contactHero}
+        secondaryCta={{ label: siteContent.actions.exploreServices, href: `/${locale}/services` }}
       />
 
-      <Reveal className="mx-auto mt-12 max-w-3xl">
-        <GlassCard strong className="p-6 sm:p-10">
-          <div className="grid gap-4 sm:grid-cols-3">
-            {details.map((detail) => (
-              <a
-                key={detail.icon}
-                href={detail.href}
-                target={detail.external ? "_blank" : undefined}
-                rel={detail.external ? "noreferrer noopener" : undefined}
-                className="flex flex-col items-center gap-3 rounded-2xl bg-white/[0.05] p-5 text-center transition-colors duration-300 hover:bg-white/[0.1]"
-              >
-                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-brand text-white">
-                  <Icon name={detail.icon} className="h-5 w-5" />
-                </span>
-                <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted">
-                  {detail.label[locale]}
-                </span>
-                <span dir="ltr" className="text-sm font-bold text-brand-ink">
-                  {detail.value}
-                </span>
-              </a>
-            ))}
-          </div>
+      <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="contact-heading">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeader
+            locale={locale}
+            headingId="contact-heading"
+            eyebrow={sectionCopy.eyebrow}
+            title={sectionCopy.title}
+            description={sectionCopy.description}
+          />
 
-          <div className="mt-8 grid gap-4 border-t border-brand-line/70 pt-8 sm:grid-cols-2">
-            <div className="flex items-start gap-3">
-              <Icon name="map-pin" className="mt-0.5 h-5 w-5 shrink-0 text-brand-blue" />
-              <p className="text-sm text-brand-muted">{contactInfo.address[locale]}</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <Icon name="clock" className="mt-0.5 h-5 w-5 shrink-0 text-brand-blue" />
-              <p className="text-sm text-brand-muted">{contactInfo.workingHours[locale]}</p>
-            </div>
-          </div>
+          <div className="mx-auto mt-12 grid max-w-6xl items-start gap-8 lg:grid-cols-2 lg:gap-10">
+            <Reveal scale delay={0.05}>
+              <LocationCard locale={locale} />
+            </Reveal>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-3 border-t border-brand-line/70 pt-8">
-            {socialLinks
-              .filter((social) => social.key !== "phone")
-              .map((social) => (
-                <a
-                  key={social.key}
-                  href={social.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  aria-label={social.label[locale]}
-                  className="glass-panel flex h-11 w-11 items-center justify-center rounded-xl text-brand-purple-glow transition-all duration-300 hover:-translate-y-0.5 hover:text-brand-blue"
-                >
-                  <Icon name={social.key} className="h-4 w-4" />
-                </a>
-              ))}
+            <Reveal delay={0.1}>
+              <div>
+                <ContactForm locale={locale} />
+
+                <div className="mt-6 flex flex-col items-center gap-4 text-center sm:flex-row sm:justify-between sm:text-start">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-brand-muted">
+                    {quickActionsLabel[locale]}
+                  </span>
+                  <div className="flex items-center gap-3">
+                    <a
+                      href={contactInfo.phoneHref}
+                      aria-label={socialLinks[0].label[locale]}
+                      className="glass-panel flex h-11 w-11 items-center justify-center rounded-xl text-brand-purple-glow transition-all duration-300 hover:-translate-y-0.5 hover:text-brand-blue"
+                    >
+                      <Icon name="phone" className="h-4 w-4" />
+                    </a>
+                    <a
+                      href={contactInfo.whatsappHref}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label={socialLinks[1].label[locale]}
+                      className="glass-panel flex h-11 w-11 items-center justify-center rounded-xl text-brand-purple-glow transition-all duration-300 hover:-translate-y-0.5 hover:text-brand-blue"
+                    >
+                      <Icon name="whatsapp" className="h-4 w-4" />
+                    </a>
+                  </div>
+                </div>
+
+                <div className="mt-6 grid gap-4 border-t border-brand-line/70 pt-6 sm:grid-cols-2">
+                  <div className="flex items-start gap-3">
+                    <Icon name="clock" className="mt-0.5 h-5 w-5 shrink-0 text-brand-blue" />
+                    <p className="text-sm text-brand-muted">{contactInfo.workingHours[locale]}</p>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Icon name="mail" className="mt-0.5 h-5 w-5 shrink-0 text-brand-blue" />
+                    <a href={contactInfo.emailHref} dir="ltr" className="text-sm text-brand-muted hover:text-brand-blue">
+                      {contactInfo.email}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
           </div>
-        </GlassCard>
-      </Reveal>
-    </section>
+        </div>
+      </section>
+    </>
   );
 }

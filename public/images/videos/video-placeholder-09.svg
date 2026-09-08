@@ -1,0 +1,30 @@
+<svg width="900" height="1600" viewBox="0 0 900 1600" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+  <defs>
+  <linearGradient id="video-placeholder-09-l-bg" x1="74.99999999999999%" y1="6.698729810778062%" x2="25.00000000000001%" y2="93.30127018922194%">
+    <stop offset="0" stop-color="#EEECFB" />
+    <stop offset="0.55" stop-color="#E5F6FD" />
+    <stop offset="1" stop-color="#ffffff" />
+  </linearGradient>
+  <linearGradient id="video-placeholder-09-l-brand" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0" stop-color="#2F2483" />
+    <stop offset="1" stop-color="#009EE3" />
+  </linearGradient>
+    <radialGradient id="video-placeholder-09-l-glow" cx="50%" cy="18%" r="45%">
+      <stop offset="0" stop-color="#009EE3" stop-opacity="0.22" />
+      <stop offset="1" stop-color="#009EE3" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="900" height="1600" fill="url(#video-placeholder-09-l-bg)" />
+  
+  <pattern id="video-placeholder-09-l-dots" width="26" height="26" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1.5" fill="#2F2483" opacity="0.1" />
+  </pattern>
+  <rect width="900" height="1600" fill="url(#video-placeholder-09-l-dots)" />
+  <rect width="900" height="1600" fill="url(#video-placeholder-09-l-glow)" />
+  <circle cx="126.00000000000001" cy="192" r="198" fill="#009EE3" opacity="0.10" />
+  <circle cx="792" cy="1504" r="270" fill="#2F2483" opacity="0.14" />
+  <circle cx="450" cy="1184" r="216" fill="#ffffff" opacity="0.6" />
+  <circle cx="450" cy="1184" r="216" fill="none" stroke="url(#video-placeholder-09-l-brand)" stroke-width="2" opacity="0.5" />
+  <circle cx="450" cy="1184" r="159.84" fill="none" stroke="#009EE3" stroke-width="1" opacity="0.18" />
+  <g transform="translate(347.4 1081.4) scale(8.55)" fill="url(#video-placeholder-09-l-brand)" stroke="url(#video-placeholder-09-l-brand)" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z" fill="none" stroke-width="1.5"/><path d="M9.5 12l2 2 3.5-4" fill="none" stroke-width="1.5"/></g>
+</svg>

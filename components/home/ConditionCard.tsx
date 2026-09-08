@@ -6,12 +6,19 @@ import { siteContent } from "@/data/site";
 import type { ConditionItem } from "@/data/conditions";
 import type { Locale } from "@/lib/i18n/config";
 
-export function ConditionCard({ condition, locale }: { condition: ConditionItem; locale: Locale }) {
-  return (
-    <Link
-      href={`/${locale}/services#condition-${condition.slug}`}
-      className="glass-card glass-card-hover glass-sheen glass-tint-purple group flex h-full flex-col overflow-hidden rounded-3xl"
-    >
+interface ConditionCardProps {
+  condition: ConditionItem;
+  locale: Locale;
+  /** See ServiceCard — opens a detail modal instead of navigating when set. */
+  onSelect?: () => void;
+}
+
+export function ConditionCard({ condition, locale, onSelect }: ConditionCardProps) {
+  const className =
+    "glass-card glass-card-hover glass-sheen glass-tint-purple group flex h-full w-full flex-col overflow-hidden rounded-3xl text-start";
+
+  const body = (
+    <>
       <div className="relative aspect-[4/3] w-full overflow-hidden">
         <Image
           src={condition.image.src}
@@ -35,6 +42,20 @@ export function ConditionCard({ condition, locale }: { condition: ConditionItem;
           />
         </span>
       </div>
+    </>
+  );
+
+  if (onSelect) {
+    return (
+      <button type="button" onClick={onSelect} aria-haspopup="dialog" className={className}>
+        {body}
+      </button>
+    );
+  }
+
+  return (
+    <Link href={`/${locale}/services#condition-${condition.slug}`} className={className}>
+      {body}
     </Link>
   );
 }

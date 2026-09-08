@@ -20,6 +20,8 @@ export const contactInfo = {
     en: "Sat – Thu · 10:00 AM – 8:00 PM",
     ar: "السبت - الخميس · 10 صباحًا - 8 مساءً",
   } satisfies Localized,
+  /** Opens the clinic's location in the visitor's map app of choice. */
+  mapUrl: "https://maps.google.com/?q=123+Corniche+El+Nile,+Cairo,+Egypt",
 };
 
 export interface SocialLink {
