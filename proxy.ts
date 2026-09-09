@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { defaultLocale, locales, type Locale } from "@/lib/i18n/config";
+import { updateAdminSession } from "@/lib/supabase/proxy";
 
 const LOCALE_COOKIE = "NEXT_LOCALE";
 
@@ -22,8 +23,16 @@ function getPreferredLocale(request: NextRequest): Locale {
 // Runs before rendering: bare paths (e.g. "/", "/services") are redirected to
 // their localized equivalent (e.g. "/en/services"). Paths that already carry
 // a locale segment pass through untouched.
-export function proxy(request: NextRequest) {
+//
+// /admin/* is a separate, unlocalized zone (the CMS itself is English-only
+// chrome around bilingual content) — it never gets a locale prefix and
+// instead goes through Supabase session refresh + the signed-in check.
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+    return updateAdminSession(request);
+  }
 
   const pathnameHasLocale = locales.some(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)

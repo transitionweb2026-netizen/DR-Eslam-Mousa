@@ -3,16 +3,24 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { navigationItems } from "@/data/navigation";
 import { siteContent } from "@/data/site";
+import type { NavItem } from "@/data/navigation";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/icons/Icon";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { MobileMenu } from "./MobileMenu";
 import type { Locale } from "@/lib/i18n/config";
+import type { Localized } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
-export function Navbar({ locale }: { locale: Locale }) {
+interface NavbarProps {
+  locale: Locale;
+  navigationItems: NavItem[];
+  brandName: Localized;
+  brandCredentials: Localized;
+}
+
+export function Navbar({ locale, navigationItems, brandName, brandCredentials }: NavbarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const localeRoot = `/${locale}`;
@@ -31,10 +39,10 @@ export function Navbar({ locale }: { locale: Locale }) {
       >
         <Link href={localeRoot} className="flex flex-col leading-tight">
           <span className="font-heading text-base font-extrabold text-brand-ink sm:text-lg">
-            {siteContent.brand.nameLocalized[locale]}
+            {brandName[locale]}
           </span>
           <span className="hidden text-[0.68rem] font-medium text-brand-muted sm:block">
-            {siteContent.brand.credentials[locale]}
+            {brandCredentials[locale]}
           </span>
         </Link>
 
@@ -83,7 +91,14 @@ export function Navbar({ locale }: { locale: Locale }) {
         </div>
       </nav>
 
-      <MobileMenu open={open} onClose={() => setOpen(false)} locale={locale} isActive={isActive} />
+      <MobileMenu
+        open={open}
+        onClose={() => setOpen(false)}
+        locale={locale}
+        isActive={isActive}
+        navigationItems={navigationItems}
+        brandName={brandName}
+      />
     </header>
   );
 }

@@ -201,6 +201,25 @@ h1, h2, h3, h4, h5, h6 {
 /* Native scroll (touch swipe, trackpad, keyboard) stays fully functional —
    this only hides the visible scrollbar track for horizontal galleries
    (e.g. the Certificates carousel) that already provide their own arrows. */
+/* Minimal article-body typography for the CMS's Tiptap editor (admin-only,
+   not used on the public frontend, which renders content_en/content_ar
+   itself). Deliberately lightweight rather than pulling in a Tailwind
+   typography plugin for this one editor surface. */
+@utility prose-admin {
+  & h2 { font-family: var(--font-heading); font-weight: 700; font-size: 1.15rem; margin: 0.9em 0 0.4em; }
+  & p { margin: 0.6em 0; line-height: 1.7; }
+  & ul { list-style: disc; padding-inline-start: 1.4em; margin: 0.6em 0; }
+  & blockquote { border-inline-start: 3px solid var(--color-brand-blue); padding-inline-start: 0.9em; color: var(--color-brand-muted); margin: 0.6em 0; }
+  & a { color: var(--color-brand-blue); text-decoration: underline; }
+  & p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    color: var(--color-brand-muted);
+    float: inline-start;
+    height: 0;
+    pointer-events: none;
+  }
+}
+
 @utility scrollbar-hide {
   scrollbar-width: none;
   -ms-overflow-style: none;

@@ -1,16 +1,15 @@
-import { finalCtaContent, type CtaContent } from "@/data/cta";
-import { siteContent } from "@/data/site";
+import type { FinalCtaSettings } from "@/lib/cms/publicSettings";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import type { Locale } from "@/lib/i18n/config";
 
 /**
- * The site's one Final CTA design, used verbatim on every page. Defaults to
- * the Home page's copy — pass `content` only where a page's closing message
- * should read a little differently (the layout, glass, gradient, buttons
- * and animation never change).
+ * The site's one Final CTA design, shown verbatim on every page — a single
+ * global config (Global Settings → Final CTA in the CMS), not per-page
+ * content. `isVisible` lets an admin hide it site-wide.
  */
-export function CTASection({ locale, content = finalCtaContent }: { locale: Locale; content?: CtaContent }) {
+export function CTASection({ locale, content }: { locale: Locale; content: FinalCtaSettings }) {
+  if (!content.isVisible) return null;
   const localeRoot = `/${locale}`;
 
   return (
@@ -39,11 +38,11 @@ export function CTASection({ locale, content = finalCtaContent }: { locale: Loca
               {content.description[locale]}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Button href={`${localeRoot}/contact`} size="lg" variant="light" withArrow>
-                {siteContent.actions.bookAppointment[locale]}
+              <Button href={`${localeRoot}${content.primaryUrl}`} size="lg" variant="light" withArrow>
+                {content.primaryLabel[locale]}
               </Button>
-              <Button href={`${localeRoot}/contact`} size="lg" variant="secondary">
-                {siteContent.actions.contactUs[locale]}
+              <Button href={`${localeRoot}${content.secondaryUrl}`} size="lg" variant="secondary">
+                {content.secondaryLabel[locale]}
               </Button>
             </div>
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { conditions } from "@/data/conditions";
+import type { ConditionItem } from "@/data/conditions";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { ConditionCard } from "@/components/home/ConditionCard";
 import { ContentModal } from "@/components/services/ContentModal";
@@ -13,7 +13,7 @@ import type { Locale } from "@/lib/i18n/config";
  * (e.g. arriving from the Home page's condition cards) by opening that
  * condition's modal automatically on load.
  */
-export function WhatWeTreatGrid({ locale }: { locale: Locale }) {
+export function WhatWeTreatGrid({ locale, conditions }: { locale: Locale; conditions: ConditionItem[] }) {
   const { selected, select, close } = useHashSelection("condition", conditions);
 
   return (

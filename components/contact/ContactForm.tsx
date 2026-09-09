@@ -2,25 +2,37 @@
 
 import { useId, useState, type FormEvent } from "react";
 import { contactFormContent, type ContactFormValues, type ContactMethod } from "@/data/contactForm";
-import { contactInfo } from "@/data/contact";
+import type { ContactFormFieldLabels } from "@/lib/cms/publicSettings";
+import { buildWhatsAppMessage, buildWhatsAppUrl } from "@/lib/cms/whatsapp";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Icon } from "@/components/icons/Icon";
 import type { Locale } from "@/lib/i18n/config";
+import type { Localized } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 const CONTACT_METHODS: ContactMethod[] = ["whatsapp", "phone", "email"];
+
+// Small, stable microcopy with no dedicated `contact_form_settings` column
+// (the CMS spec's "not every word needs a controller") — kept static.
+const validation = contactFormContent.validation;
+const preferredContactOptions = contactFormContent.fields.preferredContact.options;
+const successTitle = contactFormContent.success.title;
 
 const inputClasses =
   "glass-panel w-full rounded-2xl border-transparent px-4 py-3 text-sm text-brand-ink placeholder:text-brand-muted/70 " +
   "outline-none transition-all duration-300 focus-visible:-translate-y-0.5 focus-visible:shadow-glass-lg " +
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-blue";
 
-function buildWhatsAppUrl(message: string): string {
-  const base = contactInfo.whatsappHref.split("?")[0];
-  return `${base}?text=${encodeURIComponent(message)}`;
+interface ContactFormProps {
+  locale: Locale;
+  fieldLabels: ContactFormFieldLabels;
+  successMessage: Localized;
+  errorMessage: Localized;
+  whatsappTemplate: Localized;
+  whatsappHref: string;
 }
 
-export function ContactForm({ locale }: { locale: Locale }) {
+export function ContactForm({ locale, fieldLabels, successMessage, errorMessage, whatsappTemplate, whatsappHref }: ContactFormProps) {
   const formId = useId();
   const [values, setValues] = useState<ContactFormValues>({
     fullName: "",
@@ -32,9 +44,6 @@ export function ContactForm({ locale }: { locale: Locale }) {
   const [errors, setErrors] = useState<{ fullName?: string; phone?: string }>({});
   const [showFixMessage, setShowFixMessage] = useState(false);
   const [sent, setSent] = useState(false);
-
-  const fields = contactFormContent.fields;
-  const validation = contactFormContent.validation;
 
   function update<K extends keyof ContactFormValues>(key: K, value: ContactFormValues[K]) {
     setValues((prev) => ({ ...prev, [key]: value }));
@@ -58,8 +67,14 @@ export function ContactForm({ locale }: { locale: Locale }) {
     event.preventDefault();
     if (!validate()) return;
 
-    const message = contactFormContent.buildWhatsAppMessage(values, locale);
-    window.open(buildWhatsAppUrl(message), "_blank", "noopener,noreferrer");
+    const message = buildWhatsAppMessage(whatsappTemplate[locale], {
+      name: values.fullName,
+      phone: values.phone,
+      contactMethod: preferredContactOptions[values.preferredContact][locale],
+      date: values.preferredDate,
+      message: values.message,
+    });
+    window.open(buildWhatsAppUrl(whatsappHref, message), "_blank", "noopener,noreferrer");
     setSent(true);
   }
 
@@ -68,7 +83,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
       <GlassCard hover={false} className="glass-tint-blue flex flex-col gap-5 p-6 sm:p-8">
       <div>
         <label htmlFor={`${formId}-name`} className="mb-2 block text-sm font-semibold text-brand-ink">
-          {fields.fullName.label[locale]}
+          {fieldLabels.fullName.label[locale]}
         </label>
         <input
           id={`${formId}-name`}
@@ -76,7 +91,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           autoComplete="name"
           value={values.fullName}
           onChange={(event) => update("fullName", event.target.value)}
-          placeholder={fields.fullName.placeholder[locale]}
+          placeholder={fieldLabels.fullName.placeholder[locale]}
           aria-invalid={Boolean(errors.fullName)}
           aria-describedby={errors.fullName ? `${formId}-name-error` : undefined}
           className={cn(inputClasses, errors.fullName && "outline outline-2 outline-[#e0574c]/70")}
@@ -90,7 +105,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
       <div>
         <label htmlFor={`${formId}-phone`} className="mb-2 block text-sm font-semibold text-brand-ink">
-          {fields.phone.label[locale]}
+          {fieldLabels.phone.label[locale]}
         </label>
         <input
           id={`${formId}-phone`}
@@ -99,7 +114,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           autoComplete="tel"
           value={values.phone}
           onChange={(event) => update("phone", event.target.value)}
-          placeholder={fields.phone.placeholder[locale]}
+          placeholder={fieldLabels.phone.placeholder[locale]}
           aria-invalid={Boolean(errors.phone)}
           aria-describedby={errors.phone ? `${formId}-phone-error` : undefined}
           className={cn(inputClasses, "text-start", errors.phone && "outline outline-2 outline-[#e0574c]/70")}
@@ -113,7 +128,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
       <fieldset>
         <legend className="mb-2 block text-sm font-semibold text-brand-ink">
-          {fields.preferredContact.label[locale]}
+          {fieldLabels.preferredContact.label[locale]}
         </legend>
         <div className="grid grid-cols-3 gap-2">
           {CONTACT_METHODS.map((method) => {
@@ -129,7 +144,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
                   active ? "bg-gradient-brand text-white shadow-glass" : "glass-panel text-brand-ink-soft hover:text-brand-blue"
                 )}
               >
-                {fields.preferredContact.options[method][locale]}
+                {preferredContactOptions[method][locale]}
               </button>
             );
           })}
@@ -138,7 +153,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
       <div>
         <label htmlFor={`${formId}-date`} className="mb-2 block text-sm font-semibold text-brand-ink">
-          {fields.preferredDate.label[locale]}
+          {fieldLabels.preferredDate.label[locale]}
         </label>
         <input
           id={`${formId}-date`}
@@ -151,14 +166,14 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
       <div>
         <label htmlFor={`${formId}-message`} className="mb-2 block text-sm font-semibold text-brand-ink">
-          {fields.message.label[locale]}
+          {fieldLabels.message.label[locale]}
         </label>
         <textarea
           id={`${formId}-message`}
           rows={4}
           value={values.message}
           onChange={(event) => update("message", event.target.value)}
-          placeholder={fields.message.placeholder[locale]}
+          placeholder={fieldLabels.message.placeholder[locale]}
           className={cn(inputClasses, "resize-none")}
         />
       </div>
@@ -166,7 +181,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
       {showFixMessage && (
         <p role="alert" className="flex items-start gap-2 text-sm font-medium text-[#c8452f]">
           <Icon name="close" className="mt-0.5 h-4 w-4 shrink-0" />
-          {validation.fixErrors[locale]}
+          {errorMessage[locale]}
         </p>
       )}
 
@@ -174,8 +189,8 @@ export function ContactForm({ locale }: { locale: Locale }) {
         <div role="status" className="chip-blue flex items-start gap-3 rounded-2xl p-4">
           <Icon name="check" className="mt-0.5 h-4 w-4 shrink-0" />
           <div>
-            <p className="text-sm font-bold text-brand-ink">{contactFormContent.success.title[locale]}</p>
-            <p className="mt-1 text-xs leading-relaxed text-brand-muted">{contactFormContent.success.description[locale]}</p>
+            <p className="text-sm font-bold text-brand-ink">{successTitle[locale]}</p>
+            <p className="mt-1 text-xs leading-relaxed text-brand-muted">{successMessage[locale]}</p>
           </div>
         </div>
       )}

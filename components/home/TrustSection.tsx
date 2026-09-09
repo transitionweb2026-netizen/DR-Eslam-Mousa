@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { trustContent, trustPoints } from "@/data/trustPoints";
+import type { TrustPoint } from "@/data/trustPoints";
+import type { WhyTrustContent } from "@/lib/cms/publicSections";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { Reveal } from "@/components/motion/Reveal";
@@ -7,7 +8,13 @@ import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import type { Locale } from "@/lib/i18n/config";
 import { TrustPointItem } from "./TrustPointItem";
 
-export function TrustSection({ locale }: { locale: Locale }) {
+interface TrustSectionProps {
+  locale: Locale;
+  content: WhyTrustContent;
+  trustPoints: TrustPoint[];
+}
+
+export function TrustSection({ locale, content, trustPoints }: TrustSectionProps) {
   return (
     <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="trust-heading">
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
@@ -16,9 +23,9 @@ export function TrustSection({ locale }: { locale: Locale }) {
             locale={locale}
             align="start"
             headingId="trust-heading"
-            eyebrow={trustContent.eyebrow}
-            title={trustContent.title}
-            description={trustContent.description}
+            eyebrow={content.eyebrow}
+            title={content.title}
+            description={content.description}
           />
           <Stagger className="mt-8 flex flex-col gap-1.5">
             {trustPoints.map((point, index) => (
@@ -33,8 +40,8 @@ export function TrustSection({ locale }: { locale: Locale }) {
           <GlassCard strong className="glass-tint-purple relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden p-3 sm:p-4">
             <div className="relative h-full w-full overflow-hidden rounded-[1.5rem]">
               <Image
-                src={trustContent.portrait.src}
-                alt={trustContent.portrait.alt[locale]}
+                src={content.portrait.src}
+                alt={content.portrait.alt[locale]}
                 fill
                 sizes="(min-width: 1024px) 40vw, 90vw"
                 className="object-cover"

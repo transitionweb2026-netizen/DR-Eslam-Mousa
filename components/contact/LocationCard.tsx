@@ -1,4 +1,4 @@
-import { contactInfo } from "@/data/contact";
+import type { ContactInfo } from "@/lib/cms/publicSettings";
 import { Icon } from "@/components/icons/Icon";
 import { GlassCard } from "@/components/ui/GlassCard";
 import type { Locale } from "@/lib/i18n/config";
@@ -14,7 +14,7 @@ const openInMaps = {
  * only touching `contactInfo.mapUrl` / adding an embed src — the layout
  * stays the same). Clicking it opens the clinic's real location.
  */
-export function LocationCard({ locale }: { locale: Locale }) {
+export function LocationCard({ locale, contactInfo }: { locale: Locale; contactInfo: ContactInfo }) {
   return (
     <a href={contactInfo.mapUrl} target="_blank" rel="noreferrer noopener" className="block">
     <GlassCard

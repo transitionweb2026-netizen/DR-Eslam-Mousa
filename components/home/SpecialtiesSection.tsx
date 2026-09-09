@@ -1,21 +1,28 @@
-import { specialties, specialtiesIntro } from "@/data/specialties";
+import type { SpecialtyItem } from "@/data/specialties";
 import { siteContent } from "@/data/site";
+import type { IntroContent } from "@/lib/cms/publicSections";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import type { Locale } from "@/lib/i18n/config";
 import { ServiceCard } from "./ServiceCard";
 
-export function SpecialtiesSection({ locale }: { locale: Locale }) {
+interface SpecialtiesSectionProps {
+  locale: Locale;
+  intro: IntroContent;
+  specialties: SpecialtyItem[];
+}
+
+export function SpecialtiesSection({ locale, intro, specialties }: SpecialtiesSectionProps) {
   return (
     <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="specialties-heading">
       <div className="mx-auto max-w-7xl">
         <SectionHeader
           locale={locale}
           headingId="specialties-heading"
-          eyebrow={specialtiesIntro.eyebrow}
-          title={specialtiesIntro.title}
-          description={specialtiesIntro.description}
+          eyebrow={intro.eyebrow}
+          title={intro.title}
+          description={intro.description}
         />
 
         <Stagger className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

@@ -1,13 +1,11 @@
-import { doctorIntroContent } from "@/data/doctorIntro";
+import type { DoctorIntroContent } from "@/data/doctorIntro";
 import { Button } from "@/components/ui/Button";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { VideoThumbnail } from "@/components/ui/VideoThumbnail";
 import { Reveal } from "@/components/motion/Reveal";
 import type { Locale } from "@/lib/i18n/config";
 
-export function DoctorIntroSection({ locale }: { locale: Locale }) {
-  const content = doctorIntroContent;
-
+export function DoctorIntroSection({ locale, content }: { locale: Locale; content: DoctorIntroContent }) {
   return (
     <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="doctor-intro-heading">
       <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2 lg:gap-16">

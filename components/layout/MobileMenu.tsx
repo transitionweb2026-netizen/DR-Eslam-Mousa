@@ -3,11 +3,12 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { navigationItems } from "@/data/navigation";
 import { siteContent } from "@/data/site";
+import type { NavItem } from "@/data/navigation";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/icons/Icon";
 import type { Locale } from "@/lib/i18n/config";
+import type { Localized } from "@/lib/types";
 import { EASE_PREMIUM } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -16,9 +17,11 @@ interface MobileMenuProps {
   onClose: () => void;
   locale: Locale;
   isActive: (path: string) => boolean;
+  navigationItems: NavItem[];
+  brandName: Localized;
 }
 
-export function MobileMenu({ open, onClose, locale, isActive }: MobileMenuProps) {
+export function MobileMenu({ open, onClose, locale, isActive, navigationItems, brandName }: MobileMenuProps) {
   const localeRoot = `/${locale}`;
 
   useEffect(() => {
@@ -62,7 +65,7 @@ export function MobileMenu({ open, onClose, locale, isActive }: MobileMenuProps)
           >
             <div className="flex items-center justify-between">
               <span className="font-heading text-lg font-extrabold text-brand-ink">
-                {siteContent.brand.nameLocalized[locale]}
+                {brandName[locale]}
               </span>
               <button
                 type="button"

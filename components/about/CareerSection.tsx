@@ -1,25 +1,32 @@
-import { careerIntro, careerMilestones } from "@/data/career";
+import type { CareerMilestone } from "@/data/career";
+import type { IntroContent } from "@/lib/cms/publicSections";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { IconBadge } from "@/components/ui/IconBadge";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import type { Locale } from "@/lib/i18n/config";
 
+interface CareerSectionProps {
+  locale: Locale;
+  intro: IntroContent;
+  careerMilestones: CareerMilestone[];
+}
+
 /**
  * A premium career journey: a connected horizontal line of milestones on
  * desktop (the site's own composition, not a generic vertical-list
  * template), collapsing to a clean connected vertical line on mobile.
  */
-export function CareerSection({ locale }: { locale: Locale }) {
+export function CareerSection({ locale, intro, careerMilestones }: CareerSectionProps) {
   return (
     <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="career-heading">
       <div className="mx-auto max-w-7xl">
         <SectionHeader
           locale={locale}
           headingId="career-heading"
-          eyebrow={careerIntro.eyebrow}
-          title={careerIntro.title}
-          description={careerIntro.description}
+          eyebrow={intro.eyebrow}
+          title={intro.title}
+          description={intro.description}
         />
 
         {/* Desktop: horizontal journey with a connecting brand-gradient line. */}

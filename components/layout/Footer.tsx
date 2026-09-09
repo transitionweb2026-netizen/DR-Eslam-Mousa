@@ -1,11 +1,24 @@
 import Link from "next/link";
-import { navigationItems } from "@/data/navigation";
 import { siteContent } from "@/data/site";
-import { contactInfo, socialLinks } from "@/data/contact";
+import type { NavItem } from "@/data/navigation";
+import type { ContactInfo } from "@/lib/cms/publicSettings";
+import type { SocialLink } from "@/data/contact";
 import { Icon } from "@/components/icons/Icon";
 import type { Locale } from "@/lib/i18n/config";
+import type { Localized } from "@/lib/types";
 
-export function Footer({ locale }: { locale: Locale }) {
+interface FooterProps {
+  locale: Locale;
+  navigationItems: NavItem[];
+  socialLinks: SocialLink[];
+  brandName: Localized;
+  brandCredentials: Localized;
+  tagline: Localized;
+  rights: Localized;
+  contactInfo: ContactInfo;
+}
+
+export function Footer({ locale, navigationItems, socialLinks, brandName, brandCredentials, tagline, rights, contactInfo }: FooterProps) {
   const localeRoot = `/${locale}`;
   const year = new Date().getFullYear();
 
@@ -15,13 +28,13 @@ export function Footer({ locale }: { locale: Locale }) {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <span className="font-heading text-xl font-extrabold text-brand-ink">
-              {siteContent.brand.nameLocalized[locale]}
+              {brandName[locale]}
             </span>
             <p className="mt-2 text-sm font-semibold text-brand-blue">
-              {siteContent.brand.credentials[locale]}
+              {brandCredentials[locale]}
             </p>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-brand-muted">
-              {siteContent.footer.tagline[locale]}
+              {tagline[locale]}
             </p>
           </div>
 
@@ -94,7 +107,7 @@ export function Footer({ locale }: { locale: Locale }) {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-brand-line/70 pt-6 text-center text-xs text-brand-muted sm:flex-row sm:text-start">
           <p>
-            © {year} {siteContent.brand.nameLocalized[locale]} — {siteContent.footer.rights[locale]}
+            © {year} {brandName[locale]} — {rights[locale]}
           </p>
         </div>
       </div>

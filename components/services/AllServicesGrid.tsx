@@ -1,6 +1,6 @@
 "use client";
 
-import { specialties } from "@/data/specialties";
+import type { SpecialtyItem } from "@/data/specialties";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { ServiceCard } from "@/components/home/ServiceCard";
 import { ContentModal } from "@/components/services/ContentModal";
@@ -13,7 +13,7 @@ import type { Locale } from "@/lib/i18n/config";
  * (e.g. arriving from the Home page's specialty cards) by opening that
  * specialty's modal automatically on load.
  */
-export function AllServicesGrid({ locale }: { locale: Locale }) {
+export function AllServicesGrid({ locale, specialties }: { locale: Locale; specialties: SpecialtyItem[] }) {
   const { selected, select, close } = useHashSelection("service", specialties);
 
   return (

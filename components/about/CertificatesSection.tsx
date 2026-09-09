@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import { certificates, certificatesIntro } from "@/data/certificates";
+import type { CertificateItem } from "@/data/certificates";
+import type { IntroContent } from "@/lib/cms/publicSections";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Icon } from "@/components/icons/Icon";
 import { Reveal } from "@/components/motion/Reveal";
@@ -21,7 +22,13 @@ const arrowLabels = {
  * time via `scrollIntoView`, which sidesteps the well-known cross-browser
  * inconsistency in `scrollLeft` sign conventions under RTL.
  */
-export function CertificatesSection({ locale }: { locale: Locale }) {
+interface CertificatesSectionProps {
+  locale: Locale;
+  intro: IntroContent;
+  certificates: CertificateItem[];
+}
+
+export function CertificatesSection({ locale, intro, certificates }: CertificatesSectionProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -57,9 +64,9 @@ export function CertificatesSection({ locale }: { locale: Locale }) {
             locale={locale}
             align="start"
             headingId="certificates-heading"
-            eyebrow={certificatesIntro.eyebrow}
-            title={certificatesIntro.title}
-            description={certificatesIntro.description}
+            eyebrow={intro.eyebrow}
+            title={intro.title}
+            description={intro.description}
             className="max-w-xl"
           />
           <div className="hidden shrink-0 items-center gap-2 sm:flex">

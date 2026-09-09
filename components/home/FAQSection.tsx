@@ -1,10 +1,17 @@
-import { faqIntro, faqItems } from "@/data/faq";
+import type { FaqItem } from "@/data/faq";
+import type { IntroContent } from "@/lib/cms/publicSections";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Reveal } from "@/components/motion/Reveal";
 import type { Locale } from "@/lib/i18n/config";
 import { FAQAccordion } from "./FAQAccordion";
 
-export function FAQSection({ locale }: { locale: Locale }) {
+interface FAQSectionProps {
+  locale: Locale;
+  intro: IntroContent;
+  faqItems: FaqItem[];
+}
+
+export function FAQSection({ locale, intro, faqItems }: FAQSectionProps) {
   const half = Math.ceil(faqItems.length / 2);
   const columns = [faqItems.slice(0, half), faqItems.slice(half)];
 
@@ -14,9 +21,9 @@ export function FAQSection({ locale }: { locale: Locale }) {
         <SectionHeader
           locale={locale}
           headingId="faq-heading"
-          eyebrow={faqIntro.eyebrow}
-          title={faqIntro.title}
-          description={faqIntro.description}
+          eyebrow={intro.eyebrow}
+          title={intro.title}
+          description={intro.description}
         />
 
         <div className="mt-12 grid gap-4 lg:grid-cols-2 lg:gap-6">
