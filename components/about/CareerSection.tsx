@@ -18,6 +18,11 @@ interface CareerSectionProps {
  * template), collapsing to a clean connected vertical line on mobile.
  */
 export function CareerSection({ locale, intro, careerMilestones }: CareerSectionProps) {
+  // Column count follows the actual number of milestones (not a fixed 6),
+  // so the row always fills edge-to-edge with no empty trailing columns
+  // however many career items the CMS holds.
+  const columnCount = careerMilestones.length || 1;
+
   return (
     <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="career-heading">
       <div className="mx-auto max-w-7xl">
@@ -30,11 +35,14 @@ export function CareerSection({ locale, intro, careerMilestones }: CareerSection
         />
 
         {/* Desktop: horizontal journey with a connecting brand-gradient line. */}
-        <Stagger className="relative mt-16 hidden lg:grid lg:grid-cols-6 lg:gap-4">
+        <Stagger
+          className="relative mt-16 hidden lg:grid lg:gap-4"
+          style={{ gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))` }}
+        >
           <div
             aria-hidden="true"
             className="bg-gradient-brand absolute inset-x-0 top-7 h-0.5 opacity-30"
-            style={{ marginInline: "8.33%" }}
+            style={{ marginInline: `${50 / columnCount}%` }}
           />
           {careerMilestones.map((milestone) => (
             <StaggerItem key={milestone.id} className="relative flex flex-col items-center text-center">

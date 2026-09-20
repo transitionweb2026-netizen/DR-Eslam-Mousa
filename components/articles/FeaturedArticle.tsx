@@ -5,8 +5,7 @@ import Image from "next/image";
 import { Icon } from "@/components/icons/Icon";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { ArticleModal } from "@/components/home/ArticleModal";
-import { siteContent } from "@/data/site";
-import { localeTag, type Locale } from "@/lib/i18n/config";
+import type { Locale } from "@/lib/i18n/config";
 import type { ArticleItem } from "@/data/articles";
 
 const readArticleLabel = { en: "Read Article", ar: "اقرأ المقال" } as const;
@@ -18,11 +17,6 @@ const readArticleLabel = { en: "Read Article", ar: "اقرأ المقال" } as 
  */
 export function FeaturedArticle({ article, locale }: { article: ArticleItem; locale: Locale }) {
   const [open, setOpen] = useState(false);
-  const date = new Date(article.date).toLocaleDateString(localeTag[locale], {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 
   return (
     <>
@@ -47,14 +41,7 @@ export function FeaturedArticle({ article, locale }: { article: ArticleItem; loc
             </span>
           </div>
           <div className="flex flex-col justify-center p-6 sm:p-10 lg:p-12">
-            <div className="flex items-center gap-2 text-xs font-medium text-brand-muted">
-              <time dateTime={article.date}>{date}</time>
-              <span aria-hidden="true">·</span>
-              <span>
-                {article.readTimeMinutes} {siteContent.actions.minRead[locale]}
-              </span>
-            </div>
-            <h2 className="mt-4 text-2xl font-bold leading-tight text-brand-ink sm:text-3xl lg:text-[2rem]">
+            <h2 className="text-2xl font-bold leading-tight text-brand-ink sm:text-3xl lg:text-[2rem]">
               {article.title[locale]}
             </h2>
             <p className="mt-4 text-base leading-relaxed text-brand-muted sm:text-lg">{article.excerpt[locale]}</p>

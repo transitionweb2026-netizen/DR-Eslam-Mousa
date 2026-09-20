@@ -5,17 +5,12 @@ import Image from "next/image";
 import { Icon } from "@/components/icons/Icon";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { siteContent } from "@/data/site";
-import { localeTag, type Locale } from "@/lib/i18n/config";
+import type { Locale } from "@/lib/i18n/config";
 import type { ArticleItem } from "@/data/articles";
 import { ArticleModal } from "./ArticleModal";
 
 export function ArticleCard({ article, locale }: { article: ArticleItem; locale: Locale }) {
   const [open, setOpen] = useState(false);
-  const date = new Date(article.date).toLocaleDateString(localeTag[locale], {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
 
   return (
     <>
@@ -40,14 +35,7 @@ export function ArticleCard({ article, locale }: { article: ArticleItem; locale:
             <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
           </div>
           <div className="flex flex-1 flex-col p-6">
-            <div className="flex items-center gap-2 text-xs font-medium text-brand-muted">
-              <time dateTime={article.date}>{date}</time>
-              <span aria-hidden="true">·</span>
-              <span>
-                {article.readTimeMinutes} {siteContent.actions.minRead[locale]}
-              </span>
-            </div>
-            <h3 className="mt-3 text-lg font-bold text-brand-ink">{article.title[locale]}</h3>
+            <h3 className="text-lg font-bold text-brand-ink">{article.title[locale]}</h3>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-brand-muted">{article.excerpt[locale]}</p>
             <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-blue">
               {siteContent.actions.readMore[locale]}
