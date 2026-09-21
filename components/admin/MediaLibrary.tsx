@@ -1,7 +1,9 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
-import { deleteMedia, updateMediaAltText, uploadMedia } from "@/app/admin/actions/media";
+import { deleteMedia, updateMediaAltText } from "@/app/admin/actions/media";
+import { createClient } from "@/lib/supabase/client";
+import { uploadMediaFromBrowser } from "@/lib/cms/clientMediaUpload";
 import { resolveMediaUrl, type MediaRow } from "@/lib/cms/media";
 import { cn } from "@/lib/utils";
 
@@ -25,17 +27,25 @@ export function MediaLibrary({ initialItems }: { initialItems: MediaRow[] }) {
 
   async function handleUpload(file: File) {
     setUploading(true);
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("bucket", file.type.startsWith("video/") ? "videos" : "media");
-    formData.append("category", "general");
-    const result = await uploadMedia(formData);
-    setUploading(false);
-    if (!result.ok) {
-      alert(result.error ?? "Upload failed.");
-      return;
+    try {
+      const supabase = createClient();
+      const result = await uploadMediaFromBrowser(supabase, {
+        file,
+        bucket: file.type.startsWith("video/") ? "videos" : "media",
+        category: "general",
+      });
+      if (!result.ok || !result.data) {
+        alert(result.error ?? "Upload failed.");
+        return;
+      }
+      setItems((prev) => [result.data!, ...prev]);
+    } catch (err) {
+      // Without this catch, a rejected upload would leave `uploading` stuck
+      // true forever instead of surfacing an error.
+      alert(err instanceof Error ? err.message : "Upload failed unexpectedly.");
+    } finally {
+      setUploading(false);
     }
-    window.location.reload();
   }
 
   async function handleDelete(item: MediaRow) {

@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { resolveMediaUrl, type MediaRow } from "@/lib/cms/media";
-import { uploadMedia } from "@/app/admin/actions/media";
+import { uploadMediaFromBrowser } from "@/lib/cms/clientMediaUpload";
 import { cn } from "@/lib/utils";
 
 interface MediaPickerProps {
@@ -48,21 +48,23 @@ export function MediaPicker({ label, bucket, category, value, onChange }: MediaP
   async function handleUpload(file: File) {
     setUploading(true);
     setError(null);
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("bucket", bucket);
-    formData.append("category", category);
-    const result = await uploadMedia(formData);
-    setUploading(false);
-    if (!result.ok || !result.id) {
-      setError(result.error ?? "Upload failed.");
-      return;
-    }
-    const supabase = createClient();
-    const { data } = await supabase.from("media").select("*").eq("id", result.id).single();
-    if (data) {
-      onChange(data);
+    try {
+      const supabase = createClient();
+      const result = await uploadMediaFromBrowser(supabase, { file, bucket, category });
+      if (!result.ok || !result.data) {
+        setError(result.error ?? "Upload failed.");
+        return;
+      }
+      onChange(result.data);
       setOpen(false);
+    } catch (err) {
+      // Belt-and-suspenders: uploadMediaFromBrowser already returns errors
+      // rather than throwing, but a network failure could still reject the
+      // promise — without this catch, `uploading` would stay stuck true
+      // forever (the exact bug this replaced).
+      setError(err instanceof Error ? err.message : "Upload failed unexpectedly.");
+    } finally {
+      setUploading(false);
     }
   }
 
