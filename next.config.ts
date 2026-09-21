@@ -19,6 +19,18 @@ const nextConfig: NextConfig = {
       ? [{ protocol: "https", hostname: supabaseHostname, pathname: "/storage/v1/object/public/**" }]
       : [],
   },
+  experimental: {
+    serverActions: {
+      // The CMS's media upload (app/admin/actions/media.ts) is a Server
+      // Action that receives the whole file as FormData. Next.js caps a
+      // Server Action's request body at 1MB by default — far below the
+      // "videos" storage bucket's own 500MB limit (0011_storage.sql) — so
+      // any real video upload was being rejected before it ever reached
+      // that bucket's actual limit or media.ts's own size check. Matching
+      // this to the videos bucket's cap lets that check be the real limit.
+      bodySizeLimit: "500mb",
+    },
+  },
   turbopack: {
     // Pin the workspace root to this project. Without this, Turbopack walks
     // up from this folder looking for a lockfile and can pick up an
