@@ -10,6 +10,55 @@ export interface ClientUploadResult {
 }
 
 /**
+ * Uploads a file straight to Supabase Storage's REST endpoint via
+ * XMLHttpRequest — not the Supabase SDK's own `.storage.from().upload()`,
+ * which is built on `fetch()` and (as of the installed @supabase/storage-js
+ * version) has no upload-progress event at all. `xhr.upload.onprogress`
+ * does, so a large video actually shows a percentage instead of an
+ * indefinite spinner. The request is built to match storage-js's own POST
+ * wire format exactly (form fields, headers) — see
+ * node_modules/@supabase/storage-js/src/packages/StorageFileApi.ts's
+ * `uploadOrUpdate` for the reference this mirrors.
+ */
+function uploadWithProgress(
+  url: string,
+  file: File,
+  headers: Record<string, string>,
+  onProgress?: (fraction: number) => void
+): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    for (const [key, value] of Object.entries(headers)) xhr.setRequestHeader(key, value);
+
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) onProgress?.(event.loaded / event.total);
+    };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve();
+        return;
+      }
+      let message = `Upload failed (status ${xhr.status}).`;
+      try {
+        const body = JSON.parse(xhr.responseText) as { message?: string; error?: string };
+        message = body.message ?? body.error ?? message;
+      } catch {
+        // response wasn't JSON — keep the generic message
+      }
+      reject(new Error(message));
+    };
+    xhr.onerror = () => reject(new Error("Network error during upload — check your connection and try again."));
+    xhr.onabort = () => reject(new Error("Upload cancelled."));
+
+    const body = new FormData();
+    body.append("cacheControl", "3600");
+    body.append("", file);
+    xhr.send(body);
+  });
+}
+
+/**
  * Uploads a file straight from the browser to Supabase Storage and creates
  * its `media` row — no Next.js server involved for the file bytes.
  *
@@ -33,9 +82,10 @@ export async function uploadMediaFromBrowser(
     category: MediaRow["category"];
     altEn?: string;
     altAr?: string;
+    onProgress?: (fraction: number) => void;
   }
 ): Promise<ClientUploadResult> {
-  const { file, bucket, category, altEn, altAr } = options;
+  const { file, bucket, category, altEn, altAr, onProgress } = options;
 
   if (!file || file.size === 0) return { ok: false, error: "No file selected." };
 
@@ -48,17 +98,32 @@ export async function uploadMediaFromBrowser(
   }
 
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session) return { ok: false, error: "Your session has expired — please sign in again." };
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !anonKey) return { ok: false, error: "Supabase isn't configured (missing env vars)." };
 
   const ext = file.name.split(".").pop() ?? "bin";
   const path = `${category}/${crypto.randomUUID()}.${ext}`;
+  const uploadUrl = `${supabaseUrl}/storage/v1/object/${bucket}/${path}`;
 
-  const { error: uploadError } = await supabase.storage.from(bucket).upload(path, file, {
-    contentType: file.type,
-    upsert: false,
-  });
-  if (uploadError) return { ok: false, error: uploadError.message };
+  try {
+    await uploadWithProgress(
+      uploadUrl,
+      file,
+      {
+        apikey: anonKey,
+        Authorization: `Bearer ${session.access_token}`,
+        "x-upsert": "false",
+      },
+      onProgress
+    );
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : "Upload failed." };
+  }
 
   const { data, error: insertError } = await supabase
     .from("media")
@@ -72,7 +137,7 @@ export async function uploadMediaFromBrowser(
       category,
       alt_text_en: altEn || null,
       alt_text_ar: altAr || null,
-      uploaded_by: user?.id ?? null,
+      uploaded_by: session.user.id,
     })
     .select("*")
     .single();

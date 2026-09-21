@@ -247,15 +247,26 @@ function RowEditor({
     setSaving(false);
   }
 
+  // A media field holds the freshly-uploaded file as an object (see
+  // FieldInput below) until Save converts it to an id — losing that here
+  // silently would discard an upload someone just waited on. Guard every
+  // way out of the panel (backdrop click, Close, Cancel) with the same
+  // check rather than only the ones a user is likely to hit by accident.
+  function attemptClose() {
+    const dirty = JSON.stringify(values) !== JSON.stringify(value);
+    if (dirty && !confirm("You have unsaved changes — including any file you just uploaded. Discard them?")) return;
+    onCancel();
+  }
+
   return (
-    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/60 p-4" onClick={onCancel}>
+    <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/60 p-4" onClick={attemptClose}>
       <div
         className="glass-card-strong max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl p-6 sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold text-brand-ink">{isNew ? "Add New" : "Edit"}</h2>
-          <button type="button" onClick={onCancel} className="text-sm text-brand-muted hover:text-brand-ink">
+          <button type="button" onClick={attemptClose} className="text-sm text-brand-muted hover:text-brand-ink">
             Close
           </button>
         </div>
@@ -322,7 +333,7 @@ function RowEditor({
         )}
 
         <div className="mt-8 flex justify-end gap-3">
-          <button type="button" onClick={onCancel} className="glass-panel rounded-full px-5 py-2.5 text-sm font-semibold text-brand-ink">
+          <button type="button" onClick={attemptClose} className="glass-panel rounded-full px-5 py-2.5 text-sm font-semibold text-brand-ink">
             Cancel
           </button>
           <button

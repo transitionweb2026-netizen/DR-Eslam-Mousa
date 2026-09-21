@@ -15,6 +15,7 @@ export function MediaLibrary({ initialItems }: { initialItems: MediaRow[] }) {
   const [category, setCategory] = useState<(typeof CATEGORIES)[number]>("all");
   const [selected, setSelected] = useState<MediaRow | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const filtered = useMemo(() => {
@@ -27,12 +28,14 @@ export function MediaLibrary({ initialItems }: { initialItems: MediaRow[] }) {
 
   async function handleUpload(file: File) {
     setUploading(true);
+    setProgress(0);
     try {
       const supabase = createClient();
       const result = await uploadMediaFromBrowser(supabase, {
         file,
         bucket: file.type.startsWith("video/") ? "videos" : "media",
         category: "general",
+        onProgress: setProgress,
       });
       if (!result.ok || !result.data) {
         alert(result.error ?? "Upload failed.");
@@ -93,14 +96,24 @@ export function MediaLibrary({ initialItems }: { initialItems: MediaRow[] }) {
             if (file) void handleUpload(file);
           }}
         />
-        <button
-          type="button"
-          disabled={uploading}
-          onClick={() => fileInputRef.current?.click()}
-          className="bg-gradient-brand ms-auto rounded-full px-4 py-2 text-xs font-semibold text-white shadow-glass disabled:opacity-60"
-        >
-          {uploading ? "Uploading…" : "+ Upload File"}
-        </button>
+        <div className="ms-auto flex flex-col items-end gap-1.5">
+          <button
+            type="button"
+            disabled={uploading}
+            onClick={() => fileInputRef.current?.click()}
+            className="bg-gradient-brand rounded-full px-4 py-2 text-xs font-semibold text-white shadow-glass disabled:opacity-60"
+          >
+            {uploading ? `Uploading… ${Math.round(progress * 100)}%` : "+ Upload File"}
+          </button>
+          {uploading && (
+            <div className="h-1.5 w-32 overflow-hidden rounded-full bg-white/50">
+              <div
+                className="bg-gradient-brand h-full rounded-full transition-[width] duration-200"
+                style={{ width: `${Math.round(progress * 100)}%` }}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">

@@ -26,6 +26,7 @@ export function MediaPicker({ label, bucket, category, value, onChange }: MediaP
   const [items, setItems] = useState<MediaRow[]>([]);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -47,10 +48,11 @@ export function MediaPicker({ label, bucket, category, value, onChange }: MediaP
 
   async function handleUpload(file: File) {
     setUploading(true);
+    setProgress(0);
     setError(null);
     try {
       const supabase = createClient();
-      const result = await uploadMediaFromBrowser(supabase, { file, bucket, category });
+      const result = await uploadMediaFromBrowser(supabase, { file, bucket, category, onProgress: setProgress });
       if (!result.ok || !result.data) {
         setError(result.error ?? "Upload failed.");
         return;
@@ -119,26 +121,36 @@ export function MediaPicker({ label, bucket, category, value, onChange }: MediaP
               </button>
             </div>
 
-            <div className="mt-4 flex items-center gap-3">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept={bucket === "videos" ? "video/*" : "image/*"}
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) void handleUpload(file);
-                }}
-              />
-              <button
-                type="button"
-                disabled={uploading}
-                onClick={() => fileInputRef.current?.click()}
-                className="bg-gradient-brand rounded-full px-4 py-2 text-xs font-semibold text-white shadow-glass disabled:opacity-60"
-              >
-                {uploading ? "Uploading…" : "Upload New File"}
-              </button>
-              {error && <span className="text-xs font-medium text-[#c8452f]">{error}</span>}
+            <div className="mt-4 flex flex-col gap-2">
+              <div className="flex items-center gap-3">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept={bucket === "videos" ? "video/*" : "image/*"}
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) void handleUpload(file);
+                  }}
+                />
+                <button
+                  type="button"
+                  disabled={uploading}
+                  onClick={() => fileInputRef.current?.click()}
+                  className="bg-gradient-brand rounded-full px-4 py-2 text-xs font-semibold text-white shadow-glass disabled:opacity-60"
+                >
+                  {uploading ? `Uploading… ${Math.round(progress * 100)}%` : "Upload New File"}
+                </button>
+                {error && <span className="text-xs font-medium text-[#c8452f]">{error}</span>}
+              </div>
+              {uploading && (
+                <div className="h-1.5 w-full max-w-xs overflow-hidden rounded-full bg-white/50">
+                  <div
+                    className="bg-gradient-brand h-full rounded-full transition-[width] duration-200"
+                    style={{ width: `${Math.round(progress * 100)}%` }}
+                  />
+                </div>
+              )}
             </div>
 
             <div className="mt-5 grid grid-cols-3 gap-3 sm:grid-cols-4">
