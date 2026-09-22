@@ -87,10 +87,9 @@ export function Footer({
               {locations.map((location) => (
                 <li key={location.id} className="flex items-start gap-2.5">
                   <Icon name="map-pin" className="mt-0.5 h-4 w-4 shrink-0 text-brand-blue" />
-                  <span>
+                  <span className="flex flex-col">
                     <span className="font-semibold text-brand-ink">{location.name[locale]}</span>
-                    {" — "}
-                    {location.address[locale]}
+                    <span>{location.address[locale]}</span>
                   </span>
                 </li>
               ))}
