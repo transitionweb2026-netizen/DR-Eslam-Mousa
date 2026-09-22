@@ -134,7 +134,7 @@ function SectionField({ field, value, onChange }: { field: SectionFieldDef; valu
     return (
       <MediaPicker
         label={field.label}
-        bucket="media"
+        bucket={field.mediaBucket ?? "media"}
         category={(field.mediaCategory as MediaRow["category"]) ?? "general"}
         value={(value as MediaRow) ?? null}
         onChange={(media) => onChange(media)}

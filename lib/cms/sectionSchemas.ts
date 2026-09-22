@@ -4,6 +4,15 @@ export interface SectionFieldDef {
   type: "text" | "textarea" | "media" | "url" | "stringArray";
   bilingual?: boolean; // true => actual paths are `${path}.en` / `${path}.ar`
   mediaCategory?: string;
+  /**
+   * Which Storage bucket a `type: "media"` field picks from — determines
+   * both the file picker's file-type filter and which existing files show
+   * in "choose existing" (see MediaPicker). Defaults to "media" (images)
+   * when omitted; a field for an actual video FILE (as opposed to a video's
+   * cover/thumbnail image) must set this to "videos", or its file picker
+   * only ever offers images.
+   */
+  mediaBucket?: "media" | "video-covers" | "videos";
 }
 
 const INTRO_FIELDS: SectionFieldDef[] = [
@@ -17,7 +26,7 @@ const HERO_FIELDS: SectionFieldDef[] = [
   { path: "headline", label: "Headline", type: "text", bilingual: true },
   { path: "headlineAccent", label: "Headline (accent, gradient-colored word)", type: "text", bilingual: true },
   { path: "description", label: "Description", type: "textarea", bilingual: true },
-  { path: "image_id", label: "Hero Image", type: "media", mediaCategory: "doctor" },
+  { path: "image_id", label: "Hero Image", type: "media", mediaCategory: "doctor", mediaBucket: "media" },
   { path: "image_position", label: "Image Focal Point", type: "text" },
   { path: "primaryCta.url", label: "Primary Button URL", type: "url" },
   { path: "primaryCta.label", label: "Primary Button Label", type: "text", bilingual: true },
@@ -32,8 +41,8 @@ const DOCTOR_INTRO_FIELDS: SectionFieldDef[] = [
   { path: "supporting", label: "Supporting Text", type: "textarea", bilingual: true },
   { path: "cta.url", label: "CTA URL", type: "url" },
   { path: "cta.label", label: "CTA Label", type: "text", bilingual: true },
-  { path: "video_cover_media_id", label: "Video Cover", type: "media", mediaCategory: "doctor" },
-  { path: "video_media_id", label: "Actual Video (leave empty for \"coming soon\")", type: "media", mediaCategory: "doctor" },
+  { path: "video_cover_media_id", label: "Video Cover", type: "media", mediaCategory: "doctor", mediaBucket: "video-covers" },
+  { path: "video_media_id", label: "Actual Video (leave empty for \"coming soon\")", type: "media", mediaCategory: "doctor", mediaBucket: "videos" },
   { path: "video_alt", label: "Video Cover Alt Text", type: "text", bilingual: true },
 ];
 
@@ -41,7 +50,7 @@ const WHY_TRUST_FIELDS: SectionFieldDef[] = [
   { path: "eyebrow", label: "Eyebrow", type: "text", bilingual: true },
   { path: "heading", label: "Heading", type: "text", bilingual: true },
   { path: "description", label: "Description", type: "textarea", bilingual: true },
-  { path: "portrait_media_id", label: "Doctor Portrait", type: "media", mediaCategory: "doctor" },
+  { path: "portrait_media_id", label: "Doctor Portrait", type: "media", mediaCategory: "doctor", mediaBucket: "media" },
   { path: "portrait_alt", label: "Portrait Alt Text", type: "text", bilingual: true },
 ];
 
@@ -50,7 +59,7 @@ const ABOUT_DOCTOR_FIELDS: SectionFieldDef[] = [
   { path: "heading", label: "Heading", type: "text", bilingual: true },
   { path: "paragraphs", label: "Paragraphs (one per line)", type: "stringArray", bilingual: true },
   { path: "supportingStatement", label: "Supporting Statement (quote)", type: "textarea", bilingual: true },
-  { path: "image_id", label: "Doctor Image", type: "media", mediaCategory: "doctor" },
+  { path: "image_id", label: "Doctor Image", type: "media", mediaCategory: "doctor", mediaBucket: "media" },
   { path: "image_alt", label: "Image Alt Text", type: "text", bilingual: true },
 ];
 
