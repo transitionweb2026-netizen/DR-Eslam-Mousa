@@ -9,7 +9,7 @@ import { siteContent } from "@/data/site";
 import { trustPoints } from "@/data/trustPoints";
 import { getHomeSections } from "@/lib/cms/publicSections";
 import { getServices, getConditions, getStatistics, getFeaturedVideos, getFaqs, getFeaturedArticles } from "@/lib/cms/publicContent";
-import { getFinalCtaSettings } from "@/lib/cms/publicSettings";
+import { getFinalCtaSettings, getContactInfo, getSocialLinks } from "@/lib/cms/publicSettings";
 
 import { Hero } from "@/components/home/Hero";
 import { StatsSection } from "@/components/home/StatsSection";
@@ -43,16 +43,19 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const locale = rawLocale;
   const localeRoot = `/${locale}`;
 
-  const [sections, services, conditions, statistics, featuredVideos, faqItems, featuredArticles, cta] = await Promise.all([
-    getHomeSections(),
-    getServices(),
-    getConditions(),
-    getStatistics(),
-    getFeaturedVideos(),
-    getFaqs(),
-    getFeaturedArticles(),
-    getFinalCtaSettings(),
-  ]);
+  const [sections, services, conditions, statistics, featuredVideos, faqItems, featuredArticles, cta, contactInfo, socialLinks] =
+    await Promise.all([
+      getHomeSections(),
+      getServices(),
+      getConditions(),
+      getStatistics(),
+      getFeaturedVideos(),
+      getFaqs(),
+      getFeaturedArticles(),
+      getFinalCtaSettings(),
+      getContactInfo(),
+      getSocialLinks(),
+    ]);
 
   return (
     <>
@@ -61,6 +64,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         content={sections.hero.content}
         primaryCta={{ label: sections.hero.primaryCta.label, href: `${localeRoot}${sections.hero.primaryCta.url}` }}
         secondaryCta={{ label: sections.hero.secondaryCta.label, href: `${localeRoot}${sections.hero.secondaryCta.url}` }}
+        contactInfo={contactInfo}
+        socialLinks={socialLinks}
       />
       {sections.showStatistics && <StatsSection locale={locale} statistics={statistics} />}
       {sections.doctorIntro && <DoctorIntroSection locale={locale} content={sections.doctorIntro} />}

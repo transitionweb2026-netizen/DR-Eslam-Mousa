@@ -4,7 +4,7 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { buildAlternates } from "@/lib/seo";
 import { getArticlesHero } from "@/lib/cms/publicSections";
 import { getArticles } from "@/lib/cms/publicContent";
-import { getFinalCtaSettings } from "@/lib/cms/publicSettings";
+import { getFinalCtaSettings, getContactInfo, getSocialLinks } from "@/lib/cms/publicSettings";
 
 import { Hero } from "@/components/home/Hero";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
@@ -33,7 +33,13 @@ export default async function ArticlesPage({ params }: PageProps<"/[locale]/arti
   const locale = rawLocale;
   const localeRoot = `/${locale}`;
 
-  const [hero, articles, cta] = await Promise.all([getArticlesHero(), getArticles(), getFinalCtaSettings()]);
+  const [hero, articles, cta, contactInfo, socialLinks] = await Promise.all([
+    getArticlesHero(),
+    getArticles(),
+    getFinalCtaSettings(),
+    getContactInfo(),
+    getSocialLinks(),
+  ]);
 
   // The most recently published article leads the page as the large,
   // editorial feature; everything else fills the grid beneath it.
@@ -47,6 +53,8 @@ export default async function ArticlesPage({ params }: PageProps<"/[locale]/arti
         content={hero.content}
         primaryCta={{ label: hero.primaryCta.label, href: `${localeRoot}${hero.primaryCta.url}` }}
         secondaryCta={{ label: hero.secondaryCta.label, href: `${localeRoot}${hero.secondaryCta.url}` }}
+        contactInfo={contactInfo}
+        socialLinks={socialLinks}
       />
 
       {mainArticle && (

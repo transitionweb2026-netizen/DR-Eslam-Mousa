@@ -4,7 +4,7 @@ import "../globals.css";
 import { fontVariables } from "@/lib/fonts";
 import { isLocale, locales, localeDirection, localeTag, type Locale } from "@/lib/i18n/config";
 import { siteContent } from "@/data/site";
-import { getSiteBranding, getNavigationItems, getSocialLinks, getFooterContent, getContactInfo } from "@/lib/cms/publicSettings";
+import { getSiteBranding, getNavigationItems, getSocialLinks, getFooterContent, getContactInfo, getContactLocations } from "@/lib/cms/publicSettings";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { MotionProvider } from "@/components/motion/MotionProvider";
@@ -50,12 +50,13 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   if (!isLocale(rawLocale)) notFound();
   const locale = rawLocale;
 
-  const [branding, navigationItems, socialLinks, footerContent, contactInfo] = await Promise.all([
+  const [branding, navigationItems, socialLinks, footerContent, contactInfo, locations] = await Promise.all([
     getSiteBranding(),
     getNavigationItems(),
     getSocialLinks(),
     getFooterContent(),
     getContactInfo(),
+    getContactLocations(),
   ]);
 
   return (
@@ -86,6 +87,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             tagline={footerContent.tagline}
             rights={footerContent.rights}
             contactInfo={contactInfo}
+            locations={locations}
           />
         </MotionProvider>
       </body>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { siteContent } from "@/data/site";
 import type { NavItem } from "@/data/navigation";
 import type { ContactInfo } from "@/lib/cms/publicSettings";
-import type { SocialLink } from "@/data/contact";
+import type { ContactLocation, SocialLink } from "@/data/contact";
 import { Icon } from "@/components/icons/Icon";
 import type { Locale } from "@/lib/i18n/config";
 import type { Localized } from "@/lib/types";
@@ -16,9 +16,20 @@ interface FooterProps {
   tagline: Localized;
   rights: Localized;
   contactInfo: ContactInfo;
+  locations: ContactLocation[];
 }
 
-export function Footer({ locale, navigationItems, socialLinks, brandName, brandCredentials, tagline, rights, contactInfo }: FooterProps) {
+export function Footer({
+  locale,
+  navigationItems,
+  socialLinks,
+  brandName,
+  brandCredentials,
+  tagline,
+  rights,
+  contactInfo,
+  locations,
+}: FooterProps) {
   const localeRoot = `/${locale}`;
   const year = new Date().getFullYear();
 
@@ -73,10 +84,16 @@ export function Footer({ locale, navigationItems, socialLinks, brandName, brandC
                   {contactInfo.email}
                 </a>
               </li>
-              <li className="flex items-start gap-2.5">
-                <Icon name="map-pin" className="mt-0.5 h-4 w-4 shrink-0 text-brand-blue" />
-                <span>{contactInfo.address[locale]}</span>
-              </li>
+              {locations.map((location) => (
+                <li key={location.id} className="flex items-start gap-2.5">
+                  <Icon name="map-pin" className="mt-0.5 h-4 w-4 shrink-0 text-brand-blue" />
+                  <span>
+                    <span className="font-semibold text-brand-ink">{location.name[locale]}</span>
+                    {" — "}
+                    {location.address[locale]}
+                  </span>
+                </li>
+              ))}
               <li className="flex items-start gap-2.5">
                 <Icon name="clock" className="mt-0.5 h-4 w-4 shrink-0 text-brand-blue" />
                 <span>{contactInfo.workingHours[locale]}</span>

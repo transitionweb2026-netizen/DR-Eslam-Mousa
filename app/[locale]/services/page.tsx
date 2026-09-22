@@ -4,7 +4,7 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { buildAlternates } from "@/lib/seo";
 import { getServicesSections } from "@/lib/cms/publicSections";
 import { getServices, getConditions } from "@/lib/cms/publicContent";
-import { getFinalCtaSettings } from "@/lib/cms/publicSettings";
+import { getFinalCtaSettings, getContactInfo, getSocialLinks } from "@/lib/cms/publicSettings";
 
 import { Hero } from "@/components/home/Hero";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -33,11 +33,13 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
   const locale = rawLocale;
   const localeRoot = `/${locale}`;
 
-  const [sections, services, conditions, cta] = await Promise.all([
+  const [sections, services, conditions, cta, contactInfo, socialLinks] = await Promise.all([
     getServicesSections(),
     getServices(),
     getConditions(),
     getFinalCtaSettings(),
+    getContactInfo(),
+    getSocialLinks(),
   ]);
 
   return (
@@ -47,6 +49,8 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
         content={sections.hero.content}
         primaryCta={{ label: sections.hero.primaryCta.label, href: `${localeRoot}${sections.hero.primaryCta.url}` }}
         secondaryCta={{ label: sections.hero.secondaryCta.label, href: `${localeRoot}${sections.hero.secondaryCta.url}` }}
+        contactInfo={contactInfo}
+        socialLinks={socialLinks}
       />
 
       <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="all-services-heading">

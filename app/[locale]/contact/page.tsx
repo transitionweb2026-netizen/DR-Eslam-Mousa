@@ -4,7 +4,7 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { buildAlternates } from "@/lib/seo";
 import { siteContent } from "@/data/site";
 import { getContactSections } from "@/lib/cms/publicSections";
-import { getContactInfo, getContactFormSettings } from "@/lib/cms/publicSettings";
+import { getContactInfo, getContactLocations, getContactFormSettings, getSocialLinks } from "@/lib/cms/publicSettings";
 
 import { Hero } from "@/components/home/Hero";
 import { SectionHeader } from "@/components/ui/SectionHeader";
@@ -37,9 +37,11 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
   const locale = rawLocale;
   const localeRoot = `/${locale}`;
 
-  const [sections, contactInfo, contactFormSettings] = await Promise.all([
+  const [sections, contactInfo, locations, socialLinks, contactFormSettings] = await Promise.all([
     getContactSections(),
     getContactInfo(),
+    getContactLocations(),
+    getSocialLinks(),
     getContactFormSettings(),
   ]);
 
@@ -49,6 +51,8 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
         locale={locale}
         content={sections.hero.content}
         secondaryCta={{ label: sections.hero.secondaryCta.label, href: `${localeRoot}${sections.hero.secondaryCta.url}` }}
+        contactInfo={contactInfo}
+        socialLinks={socialLinks}
       />
 
       <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="contact-heading">
@@ -63,7 +67,11 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
 
           <div className="mx-auto mt-12 grid max-w-6xl items-start gap-8 lg:grid-cols-2 lg:gap-10">
             <Reveal scale delay={0.05}>
-              <LocationCard locale={locale} contactInfo={contactInfo} />
+              <div className="flex flex-col gap-6">
+                {locations.map((location) => (
+                  <LocationCard key={location.id} locale={locale} location={location} />
+                ))}
+              </div>
             </Reveal>
 
             <Reveal delay={0.1}>

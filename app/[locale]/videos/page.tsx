@@ -4,7 +4,7 @@ import { isLocale, type Locale } from "@/lib/i18n/config";
 import { buildAlternates } from "@/lib/seo";
 import { getVideosHero } from "@/lib/cms/publicSections";
 import { getVideos } from "@/lib/cms/publicContent";
-import { getFinalCtaSettings } from "@/lib/cms/publicSettings";
+import { getFinalCtaSettings, getContactInfo, getSocialLinks } from "@/lib/cms/publicSettings";
 
 import { Hero } from "@/components/home/Hero";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
@@ -32,7 +32,13 @@ export default async function VideosPage({ params }: PageProps<"/[locale]/videos
   const locale = rawLocale;
   const localeRoot = `/${locale}`;
 
-  const [hero, videos, cta] = await Promise.all([getVideosHero(), getVideos(), getFinalCtaSettings()]);
+  const [hero, videos, cta, contactInfo, socialLinks] = await Promise.all([
+    getVideosHero(),
+    getVideos(),
+    getFinalCtaSettings(),
+    getContactInfo(),
+    getSocialLinks(),
+  ]);
 
   return (
     <>
@@ -41,6 +47,8 @@ export default async function VideosPage({ params }: PageProps<"/[locale]/videos
         content={hero.content}
         primaryCta={{ label: hero.primaryCta.label, href: `${localeRoot}${hero.primaryCta.url}` }}
         secondaryCta={{ label: hero.secondaryCta.label, href: `${localeRoot}${hero.secondaryCta.url}` }}
+        contactInfo={contactInfo}
+        socialLinks={socialLinks}
       />
 
       <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-label="Video library">

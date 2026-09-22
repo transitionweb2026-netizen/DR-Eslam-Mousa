@@ -1,11 +1,19 @@
-import { contactInfo, socialLinks } from "@/data/contact";
+import type { SocialLink } from "@/data/contact";
+import type { ContactInfo } from "@/lib/cms/publicSettings";
 import { Icon } from "@/components/icons/Icon";
 import { Reveal } from "@/components/motion/Reveal";
 import type { Locale } from "@/lib/i18n/config";
 
 const callLabel = { en: "Call us now", ar: "اتصل بنا الآن" } as const;
 
-export function HeroContactPanel({ locale, className }: { locale: Locale; className?: string }) {
+interface HeroContactPanelProps {
+  locale: Locale;
+  contactInfo: ContactInfo;
+  socialLinks: SocialLink[];
+  className?: string;
+}
+
+export function HeroContactPanel({ locale, contactInfo, socialLinks, className }: HeroContactPanelProps) {
   const socials = socialLinks.filter((social) => social.key !== "phone");
 
   return (

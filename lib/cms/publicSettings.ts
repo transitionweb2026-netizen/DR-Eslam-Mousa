@@ -2,7 +2,13 @@ import "server-only";
 import { getPublicClient } from "./publicClient";
 import { siteContent } from "@/data/site";
 import { navigationItems as fallbackNavigationItems, type NavItem } from "@/data/navigation";
-import { contactInfo as fallbackContactInfo, socialLinks as fallbackSocialLinks, type SocialLink } from "@/data/contact";
+import {
+  contactInfo as fallbackContactInfo,
+  contactLocations as fallbackContactLocations,
+  socialLinks as fallbackSocialLinks,
+  type ContactLocation,
+  type SocialLink,
+} from "@/data/contact";
 import { finalCtaContent } from "@/data/cta";
 import { contactFormContent } from "@/data/contactForm";
 import type { Localized } from "@/lib/types";
@@ -85,9 +91,8 @@ export interface ContactInfo {
   whatsappHref: string;
   email: string;
   emailHref: string;
-  address: Localized;
+  /** General reception/booking-line hours — NOT any one branch's visiting hours, see getContactLocations(). */
   workingHours: Localized;
-  mapUrl: string;
 }
 
 export async function getContactInfo(): Promise<ContactInfo> {
@@ -104,9 +109,7 @@ export async function getContactInfo(): Promise<ContactInfo> {
           whatsappHref: `https://wa.me/${data.whatsapp_number}`,
           email: data.email,
           emailHref: `mailto:${data.email}`,
-          address: { en: data.address_en, ar: data.address_ar },
           workingHours: { en: data.working_hours_en ?? "", ar: data.working_hours_ar ?? "" },
-          mapUrl: data.map_url,
         };
       }
     } catch (error) {
@@ -114,6 +117,27 @@ export async function getContactInfo(): Promise<ContactInfo> {
     }
   }
   return fallbackContactInfo;
+}
+
+export async function getContactLocations(): Promise<ContactLocation[]> {
+  const supabase = await getPublicClient();
+  if (supabase) {
+    try {
+      const { data } = await supabase.from("contact_locations").select("*").order("display_order");
+      if (data && data.length > 0) {
+        return data.map((row) => ({
+          id: row.id,
+          name: { en: row.name_en, ar: row.name_ar },
+          address: { en: row.address_en, ar: row.address_ar },
+          hours: { en: row.hours_en ?? "", ar: row.hours_ar ?? "" },
+          mapUrl: row.map_url,
+        }));
+      }
+    } catch (error) {
+      console.error("[cms] getContactLocations failed:", error);
+    }
+  }
+  return fallbackContactLocations;
 }
 
 export interface FooterContent {

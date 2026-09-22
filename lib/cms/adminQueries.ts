@@ -99,6 +99,12 @@ export async function getAdminArticles() {
   return (data ?? []).map((row) => attachMedia(row, mediaMap, "image_id"));
 }
 
+export async function getAdminContactLocations() {
+  const supabase = await createClient();
+  const { data } = await supabase.from("contact_locations").select("*").order("display_order");
+  return data ?? [];
+}
+
 export async function getAdminNavigationItems() {
   const supabase = await createClient();
   const { data } = await supabase.from("navigation_items").select("*").order("display_order");

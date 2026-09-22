@@ -32,6 +32,7 @@ const CONTENT: NavLeaf[] = [
   { label: "FAQs", href: "/admin/content/faqs" },
   { label: "Videos", href: "/admin/content/videos" },
   { label: "Articles", href: "/admin/content/articles" },
+  { label: "Clinic Locations", href: "/admin/content/locations" },
 ];
 
 const SETTINGS: NavLeaf[] = [

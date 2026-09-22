@@ -132,12 +132,6 @@ export interface Database {
       contact_settings: {
         Row: {
           id: true;
-          address_en: string;
-          address_ar: string;
-          location_image_id: string | null;
-          location_image_alt_en: string | null;
-          location_image_alt_ar: string | null;
-          map_url: string;
           phone_display: string;
           phone_href: string;
           whatsapp_number: string;
@@ -148,6 +142,30 @@ export interface Database {
         };
         Insert: Partial<Database["public"]["Tables"]["contact_settings"]["Row"]>;
         Update: Partial<Database["public"]["Tables"]["contact_settings"]["Row"]>;
+        Relationships: never[];
+      };
+      contact_locations: {
+        Row: {
+          id: string;
+          name_en: string;
+          name_ar: string;
+          address_en: string;
+          address_ar: string;
+          hours_en: string | null;
+          hours_ar: string | null;
+          map_url: string;
+          display_order: number;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["contact_locations"]["Row"]> & {
+          name_en: string;
+          name_ar: string;
+          address_en: string;
+          address_ar: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["contact_locations"]["Row"]>;
         Relationships: never[];
       };
       contact_form_settings: {

@@ -12,7 +12,7 @@ import { StatsSection } from "@/components/home/StatsSection";
 import { CareerSection } from "@/components/about/CareerSection";
 import { SpecialtiesSection } from "@/components/home/SpecialtiesSection";
 import { CTASection } from "@/components/home/CTASection";
-import { getFinalCtaSettings } from "@/lib/cms/publicSettings";
+import { getFinalCtaSettings, getContactInfo, getSocialLinks } from "@/lib/cms/publicSettings";
 
 export async function generateMetadata({
   params,
@@ -35,13 +35,15 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
   const locale = rawLocale;
   const localeRoot = `/${locale}`;
 
-  const [sections, certificates, careerMilestones, statistics, services, cta] = await Promise.all([
+  const [sections, certificates, careerMilestones, statistics, services, cta, contactInfo, socialLinks] = await Promise.all([
     getAboutSections(),
     getCertificates(),
     getCareerMilestones(),
     getStatistics(),
     getServices(),
     getFinalCtaSettings(),
+    getContactInfo(),
+    getSocialLinks(),
   ]);
 
   return (
@@ -51,6 +53,8 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
         content={sections.hero.content}
         primaryCta={{ label: sections.hero.primaryCta.label, href: `${localeRoot}${sections.hero.primaryCta.url}` }}
         secondaryCta={{ label: sections.hero.secondaryCta.label, href: `${localeRoot}${sections.hero.secondaryCta.url}` }}
+        contactInfo={contactInfo}
+        socialLinks={socialLinks}
       />
       <AboutDoctorSection locale={locale} content={sections.aboutDoctor} />
       {sections.certificatesIntro && (

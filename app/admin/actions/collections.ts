@@ -31,6 +31,7 @@ const ALLOWED_TABLES = [
   "article_seo",
   "navigation_items",
   "social_links",
+  "contact_locations",
 ] as const;
 
 export type CollectionTable = (typeof ALLOWED_TABLES)[number];
@@ -135,6 +136,7 @@ function revalidateCollection(table: CollectionTable) {
     article_seo: ["/[locale]/articles"],
     navigation_items: ["/[locale]"],
     social_links: ["/[locale]", "/[locale]/contact"],
+    contact_locations: ["/[locale]", "/[locale]/contact"],
   };
   for (const path of pathsByTable[table] ?? []) {
     revalidatePath(path, "page");

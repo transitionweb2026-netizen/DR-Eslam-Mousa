@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { heroContent, type HeroContent } from "@/data/hero";
 import { siteContent } from "@/data/site";
+import type { SocialLink } from "@/data/contact";
 import { localeDirection, type Locale } from "@/lib/i18n/config";
 import type { Localized } from "@/lib/types";
+import type { ContactInfo } from "@/lib/cms/publicSettings";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/utils";
@@ -19,6 +21,8 @@ interface HeroProps {
   content?: HeroContent;
   primaryCta?: HeroCta;
   secondaryCta?: HeroCta;
+  contactInfo: ContactInfo;
+  socialLinks: SocialLink[];
 }
 
 /**
@@ -26,7 +30,7 @@ interface HeroProps {
  * contact panel. Every page uses this exact component; only the text and
  * (optionally) the two CTAs change per page.
  */
-export function Hero({ locale, content = heroContent, primaryCta, secondaryCta }: HeroProps) {
+export function Hero({ locale, content = heroContent, primaryCta, secondaryCta, contactInfo, socialLinks }: HeroProps) {
   const isRtl = localeDirection[locale] === "rtl";
   const localeRoot = `/${locale}`;
 
@@ -109,6 +113,8 @@ export function Hero({ locale, content = heroContent, primaryCta, secondaryCta }
 
         <HeroContactPanel
           locale={locale}
+          contactInfo={contactInfo}
+          socialLinks={socialLinks}
           className="relative z-10 mx-6 mb-8 sm:mx-10 lg:absolute lg:bottom-12 lg:end-12 lg:mx-0 lg:mb-0"
         />
       </div>
