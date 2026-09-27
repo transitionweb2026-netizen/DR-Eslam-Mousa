@@ -8,6 +8,7 @@ import { getContactInfo, getContactLocations, getContactFormSettings, getSocialL
 
 import { Hero } from "@/components/home/Hero";
 import { SectionHeader } from "@/components/ui/SectionHeader";
+import { ContactCallCard } from "@/components/contact/ContactCallCard";
 import { LocationCard } from "@/components/contact/LocationCard";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { Icon } from "@/components/icons/Icon";
@@ -54,6 +55,8 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
         contactInfo={contactInfo}
         socialLinks={socialLinks}
       />
+
+      {sections.contactCta && <ContactCallCard locale={locale} content={sections.contactCta} contactInfo={contactInfo} />}
 
       <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-labelledby="contact-heading">
         <div className="mx-auto max-w-7xl">

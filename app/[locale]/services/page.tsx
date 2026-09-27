@@ -10,6 +10,7 @@ import { Hero } from "@/components/home/Hero";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { AllServicesGrid } from "@/components/services/AllServicesGrid";
 import { WhatWeTreatGrid } from "@/components/services/WhatWeTreatGrid";
+import { ServicesVideosSection } from "@/components/services/ServicesVideosSection";
 import { CTASection } from "@/components/home/CTASection";
 
 export async function generateMetadata({
@@ -78,6 +79,8 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
           <WhatWeTreatGrid locale={locale} conditions={conditions} />
         </div>
       </section>
+
+      {sections.servicesVideos && <ServicesVideosSection locale={locale} videos={sections.servicesVideos} />}
 
       <CTASection locale={locale} content={cta} />
     </>

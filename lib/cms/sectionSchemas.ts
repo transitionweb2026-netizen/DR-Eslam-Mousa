@@ -1,7 +1,14 @@
 export interface SectionFieldDef {
   path: string; // dot-path into content, e.g. "primaryCta.url" or "eyebrow" (bilingual root)
   label: string;
-  type: "text" | "textarea" | "media" | "url" | "stringArray";
+  /**
+   * "video_ref" stores a `videos.id` (not a media id) — it renders as a
+   * dropdown of existing Content → Videos rows rather than an upload
+   * control, so a section can feature an EXISTING video without ever
+   * duplicating it: uploading a new file for that video from Content →
+   * Videos updates it everywhere it's referenced, including here.
+   */
+  type: "text" | "textarea" | "media" | "url" | "stringArray" | "video_ref";
   bilingual?: boolean; // true => actual paths are `${path}.en` / `${path}.ar`
   mediaCategory?: string;
   /**
@@ -69,6 +76,23 @@ const CONTACT_INTRO_FIELDS: SectionFieldDef[] = [
   { path: "description", label: "Description", type: "textarea", bilingual: true },
 ];
 
+const SERVICES_VIDEOS_FIELDS: SectionFieldDef[] = [
+  { path: "video_1_id", label: "First Video", type: "video_ref" },
+  { path: "video_2_id", label: "Second Video", type: "video_ref" },
+  { path: "eyebrow", label: "Eyebrow", type: "text", bilingual: true },
+  { path: "title", label: "Title", type: "text", bilingual: true },
+  { path: "description", label: "Description", type: "textarea", bilingual: true },
+];
+
+const CONTACT_CTA_FIELDS: SectionFieldDef[] = [
+  { path: "image_id", label: "Photo", type: "media", mediaCategory: "doctor", mediaBucket: "media" },
+  { path: "image_alt", label: "Photo Alt Text", type: "text", bilingual: true },
+  { path: "eyebrow", label: "Eyebrow", type: "text", bilingual: true },
+  { path: "heading", label: "Heading", type: "text", bilingual: true },
+  { path: "lines", label: "Credential Lines (one per line)", type: "stringArray", bilingual: true },
+  { path: "button_label", label: "Call Button Label", type: "text", bilingual: true },
+];
+
 export const SECTION_SCHEMAS: Record<string, SectionFieldDef[]> = {
   hero: HERO_FIELDS,
   statistics_intro: [],
@@ -83,6 +107,10 @@ export const SECTION_SCHEMAS: Record<string, SectionFieldDef[]> = {
   certificates_intro: INTRO_FIELDS,
   career_intro: INTRO_FIELDS,
   contact_intro: CONTACT_INTRO_FIELDS,
+  services_videos: SERVICES_VIDEOS_FIELDS,
+  doctor_gallery_intro: INTRO_FIELDS,
+  research_intro: INTRO_FIELDS,
+  contact_cta: CONTACT_CTA_FIELDS,
 };
 
 export const SECTION_LABELS: Record<string, string> = {
@@ -99,6 +127,10 @@ export const SECTION_LABELS: Record<string, string> = {
   certificates_intro: "Certificates",
   career_intro: "Career Journey",
   contact_intro: "Contact Form Intro",
+  services_videos: "Doctor Videos (2)",
+  doctor_gallery_intro: "Doctor Photo Gallery",
+  research_intro: "Research Papers",
+  contact_cta: "Call-to-Action Card",
 };
 
 export const SECTION_NOTES: Record<string, string> = {
@@ -110,4 +142,8 @@ export const SECTION_NOTES: Record<string, string> = {
   featured_articles_intro: "The cards themselves come from Content → Articles (Home shows the ones marked Featured).",
   certificates_intro: "The certificates themselves come from Content → Certificates.",
   career_intro: "The timeline itself comes from Content → Career Journey.",
+  services_videos: "Pick any two existing videos from Content → Videos. To change the actual video FILE, upload it there — it updates everywhere that video is used (here, the Videos page, and Home if it's Featured).",
+  doctor_gallery_intro: "The photos themselves come from Content → Doctor Gallery.",
+  research_intro: "The papers themselves come from Content → Research Papers.",
+  contact_cta: "The phone number itself always comes from Global Settings → Contact Information — only the button's label text is set here.",
 };

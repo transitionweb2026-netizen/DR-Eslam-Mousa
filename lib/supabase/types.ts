@@ -462,6 +462,45 @@ export interface Database {
         Update: Partial<Database["public"]["Tables"]["career_items"]["Row"]>;
         Relationships: never[];
       };
+      doctor_gallery: {
+        Row: {
+          id: string;
+          image_id: string | null;
+          image_alt_en: string | null;
+          image_alt_ar: string | null;
+          display_order: number;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["doctor_gallery"]["Row"]>;
+        Update: Partial<Database["public"]["Tables"]["doctor_gallery"]["Row"]>;
+        Relationships: never[];
+      };
+      research_papers: {
+        Row: {
+          id: string;
+          title_en: string;
+          title_ar: string;
+          journal_name: string | null;
+          publish_year: string | null;
+          excerpt_en: string | null;
+          excerpt_ar: string | null;
+          content_en: Json | null;
+          content_ar: Json | null;
+          external_url: string | null;
+          image_id: string | null;
+          image_alt_en: string | null;
+          image_alt_ar: string | null;
+          display_order: number;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["research_papers"]["Row"]> & { title_en: string; title_ar: string };
+        Update: Partial<Database["public"]["Tables"]["research_papers"]["Row"]>;
+        Relationships: never[];
+      };
       videos: {
         Row: {
           id: string;

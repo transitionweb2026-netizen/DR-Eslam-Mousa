@@ -3,7 +3,14 @@ import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { buildAlternates } from "@/lib/seo";
 import { getAboutSections } from "@/lib/cms/publicSections";
-import { getCertificates, getCareerMilestones, getStatistics, getServices } from "@/lib/cms/publicContent";
+import {
+  getCertificates,
+  getCareerMilestones,
+  getStatistics,
+  getServices,
+  getDoctorGallery,
+  getResearchPapers,
+} from "@/lib/cms/publicContent";
 
 import { Hero } from "@/components/home/Hero";
 import { AboutDoctorSection } from "@/components/about/AboutDoctorSection";
@@ -11,6 +18,8 @@ import { CertificatesSection } from "@/components/about/CertificatesSection";
 import { StatsSection } from "@/components/home/StatsSection";
 import { CareerSection } from "@/components/about/CareerSection";
 import { SpecialtiesSection } from "@/components/home/SpecialtiesSection";
+import { DoctorGallerySection } from "@/components/about/DoctorGallerySection";
+import { ResearchSection } from "@/components/about/ResearchSection";
 import { CTASection } from "@/components/home/CTASection";
 import { getFinalCtaSettings, getContactInfo, getSocialLinks } from "@/lib/cms/publicSettings";
 
@@ -35,16 +44,19 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
   const locale = rawLocale;
   const localeRoot = `/${locale}`;
 
-  const [sections, certificates, careerMilestones, statistics, services, cta, contactInfo, socialLinks] = await Promise.all([
-    getAboutSections(),
-    getCertificates(),
-    getCareerMilestones(),
-    getStatistics(),
-    getServices(),
-    getFinalCtaSettings(),
-    getContactInfo(),
-    getSocialLinks(),
-  ]);
+  const [sections, certificates, careerMilestones, statistics, services, doctorGallery, researchPapers, cta, contactInfo, socialLinks] =
+    await Promise.all([
+      getAboutSections(),
+      getCertificates(),
+      getCareerMilestones(),
+      getStatistics(),
+      getServices(),
+      getDoctorGallery(),
+      getResearchPapers(),
+      getFinalCtaSettings(),
+      getContactInfo(),
+      getSocialLinks(),
+    ]);
 
   return (
     <>
@@ -64,6 +76,12 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
       {sections.careerIntro && <CareerSection locale={locale} intro={sections.careerIntro} careerMilestones={careerMilestones} />}
       {sections.specialtiesIntro && (
         <SpecialtiesSection locale={locale} intro={sections.specialtiesIntro} specialties={services} />
+      )}
+      {sections.doctorGalleryIntro && doctorGallery.length > 0 && (
+        <DoctorGallerySection locale={locale} intro={sections.doctorGalleryIntro} photos={doctorGallery} />
+      )}
+      {sections.researchIntro && researchPapers.length > 0 && (
+        <ResearchSection locale={locale} intro={sections.researchIntro} papers={researchPapers} />
       )}
       <CTASection locale={locale} content={cta} />
     </>

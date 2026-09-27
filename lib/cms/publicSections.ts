@@ -14,6 +14,8 @@ import { articlesIntro as fallbackFeaturedArticlesIntro } from "@/data/articles"
 import { doctorBioContent as fallbackAboutDoctor, type DoctorBioContent } from "@/data/doctor";
 import { certificatesIntro as fallbackCertificatesIntro } from "@/data/certificates";
 import { careerIntro as fallbackCareerIntro } from "@/data/career";
+import { getVideos } from "./publicContent";
+import type { VideoItem } from "@/data/videos";
 import type { Localized, MediaImage } from "@/lib/types";
 
 /**
@@ -60,6 +62,20 @@ export interface PageHero {
   content: HeroContent;
   primaryCta: CtaRef;
   secondaryCta: CtaRef;
+}
+
+export interface ContactCtaContent {
+  image: MediaImage;
+  eyebrow: Localized;
+  heading: Localized;
+  lines: Localized<string[]>;
+  buttonLabel: Localized;
+}
+
+export interface ServicesVideos {
+  intro: IntroContent;
+  video1: VideoItem | null;
+  video2: VideoItem | null;
 }
 
 const fallbackWhyTrust: WhyTrustContent = {
@@ -144,6 +160,41 @@ const fallbackContactIntro: IntroContent = {
   },
 };
 
+const fallbackContactCta: ContactCtaContent = {
+  image: fallbackHomeHero.image,
+  eyebrow: { en: "Get in Touch", ar: "تواصل معنا" },
+  heading: { en: "Speak with Dr. Islam Moussa Directly", ar: "تحدث مباشرة مع د. إسلام موسى" },
+  lines: {
+    en: ["Orthopedic & Joint Replacement Surgeon", "15+ years of surgical experience"],
+    ar: ["استشاري جراحة العظام والمفاصل", "أكثر من 15 عامًا من الخبرة الجراحية"],
+  },
+  buttonLabel: { en: "Call Now", ar: "اتصل الآن" },
+};
+
+const fallbackServicesVideosIntro: IntroContent = {
+  eyebrow: { en: "Watch & Learn", ar: "شاهد وتعرف" },
+  title: { en: "Meet Dr. Islam Moussa", ar: "تعرف على د. إسلام موسى" },
+  description: {
+    en: "A closer look at the care and expertise behind every treatment.",
+    ar: "لمحة عن الرعاية والخبرة وراء كل علاج.",
+  },
+};
+
+const fallbackDoctorGalleryIntro: IntroContent = {
+  eyebrow: { en: "In Pictures", ar: "بالصور" },
+  title: { en: "Doctor Photo Gallery", ar: "معرض صور الدكتور" },
+  description: { en: "A closer look at Dr. Islam Moussa's practice.", ar: "لمحة عن ممارسة د. إسلام موسى الطبية." },
+};
+
+const fallbackResearchIntro: IntroContent = {
+  eyebrow: { en: "Academic Contributions", ar: "الإسهامات العلمية" },
+  title: { en: "Published Research", ar: "الأبحاث المنشورة" },
+  description: {
+    en: "Peer-reviewed research contributing to the field of orthopedic surgery.",
+    ar: "أبحاث علمية محكّمة تسهم في مجال جراحة العظام.",
+  },
+};
+
 // ---------------------------------------------------------------------------
 // Section-content mappers — each turns one section_type's raw jsonb into the
 // exact shape its frontend component expects.
@@ -219,6 +270,39 @@ function toAboutDoctorContent(content: JsonRecord, fallback: DoctorBioContent, m
     paragraphs: localizedArray(content, "paragraphs", fallback.paragraphs),
     supportingStatement: localized(content, "supportingStatement", fallback.supportingStatement),
     image: toMediaImage(imageMedia, fallback.image.alt, { alt: imageAlt, position: fallback.image.position }),
+  };
+}
+
+function toContactCtaContent(content: JsonRecord, fallback: ContactCtaContent, media: Map<string, MediaRow>): ContactCtaContent {
+  const imageId = optionalStr(content, "image_id");
+  const imageMedia = imageId ? (media.get(imageId) ?? null) : null;
+  const imageAlt = localized(content, "image_alt", fallback.image.alt);
+  return {
+    image: toMediaImage(imageMedia, fallback.image.alt, { alt: imageAlt }),
+    eyebrow: localized(content, "eyebrow", fallback.eyebrow),
+    heading: localized(content, "heading", fallback.heading),
+    lines: localizedArray(content, "lines", fallback.lines),
+    buttonLabel: localized(content, "button_label", fallback.buttonLabel),
+  };
+}
+
+/**
+ * "video_1_id"/"video_2_id" are `videos.id` values, not media ids — this
+ * resolves them against the same Videos collection every other page reads
+ * (getVideos(), from publicContent.ts), so a video shown here is never a
+ * copy: uploading a new file for it from Content → Videos updates it here
+ * too, automatically.
+ */
+async function toServicesVideos(content: JsonRecord): Promise<ServicesVideos> {
+  const intro = toIntroContent(content, fallbackServicesVideosIntro);
+  const video1Id = optionalStr(content, "video_1_id");
+  const video2Id = optionalStr(content, "video_2_id");
+  if (!video1Id && !video2Id) return { intro, video1: null, video2: null };
+  const allVideos = await getVideos();
+  return {
+    intro,
+    video1: video1Id ? (allVideos.find((v) => v.id === video1Id) ?? null) : null,
+    video2: video2Id ? (allVideos.find((v) => v.id === video2Id) ?? null) : null,
   };
 }
 
@@ -328,6 +412,8 @@ export interface AboutSections {
   showStatistics: boolean;
   careerIntro: IntroContent | null;
   specialtiesIntro: IntroContent | null;
+  doctorGalleryIntro: IntroContent | null;
+  researchIntro: IntroContent | null;
 }
 
 const fallbackAboutDoctorContent: AboutDoctorContent = { ...fallbackAboutDoctor };
@@ -342,6 +428,8 @@ export async function getAboutSections(): Promise<AboutSections> {
       showStatistics: true,
       careerIntro: fallbackCareerIntro,
       specialtiesIntro: fallbackSpecialtiesIntro,
+      doctorGalleryIntro: null,
+      researchIntro: null,
     };
   }
   const { supabase, sections } = result;
@@ -356,6 +444,10 @@ export async function getAboutSections(): Promise<AboutSections> {
     showStatistics: sections.has("statistics_intro"),
     careerIntro: sections.has("career_intro") ? toIntroContent(sections.get("career_intro")!, fallbackCareerIntro) : null,
     specialtiesIntro: sections.has("specialties_intro") ? toIntroContent(sections.get("specialties_intro")!, fallbackSpecialtiesIntro) : null,
+    doctorGalleryIntro: sections.has("doctor_gallery_intro")
+      ? toIntroContent(sections.get("doctor_gallery_intro")!, fallbackDoctorGalleryIntro)
+      : null,
+    researchIntro: sections.has("research_intro") ? toIntroContent(sections.get("research_intro")!, fallbackResearchIntro) : null,
   };
 }
 
@@ -367,6 +459,7 @@ export interface ServicesSections {
   hero: PageHero;
   specialtiesIntro: IntroContent;
   conditionsIntro: IntroContent;
+  servicesVideos: ServicesVideos | null;
 }
 
 export async function getServicesSections(): Promise<ServicesSections> {
@@ -376,10 +469,12 @@ export async function getServicesSections(): Promise<ServicesSections> {
       hero: { content: fallbackServicesHero, primaryCta: BOOK_APPOINTMENT, secondaryCta: EXPLORE_SERVICES },
       specialtiesIntro: fallbackSpecialtiesIntro,
       conditionsIntro: fallbackConditionsIntro,
+      servicesVideos: null,
     };
   }
   const { supabase, sections } = result;
   const media = await loadSectionMedia(supabase, sections);
+  const videosSection = sections.get("services_videos");
 
   return {
     hero: buildHero(sections, media, fallbackServicesHero, { primary: BOOK_APPOINTMENT, secondary: EXPLORE_SERVICES }),
@@ -389,6 +484,7 @@ export async function getServicesSections(): Promise<ServicesSections> {
     conditionsIntro: sections.has("conditions_intro")
       ? toIntroContent(sections.get("conditions_intro")!, fallbackConditionsIntro)
       : fallbackConditionsIntro,
+    servicesVideos: videosSection ? await toServicesVideos(videosSection) : null,
   };
 }
 
@@ -419,6 +515,7 @@ export async function getArticlesHero(): Promise<PageHero> {
 export interface ContactSections {
   hero: PageHero;
   contactIntro: IntroContent;
+  contactCta: ContactCtaContent | null;
 }
 
 export async function getContactSections(): Promise<ContactSections> {
@@ -427,6 +524,7 @@ export async function getContactSections(): Promise<ContactSections> {
     return {
       hero: { content: fallbackContactHero, primaryCta: BOOK_APPOINTMENT, secondaryCta: EXPLORE_SERVICES },
       contactIntro: fallbackContactIntro,
+      contactCta: fallbackContactCta,
     };
   }
   const { supabase, sections } = result;
@@ -435,5 +533,6 @@ export async function getContactSections(): Promise<ContactSections> {
   return {
     hero: buildHero(sections, media, fallbackContactHero, { primary: BOOK_APPOINTMENT, secondary: EXPLORE_SERVICES }),
     contactIntro: sections.has("contact_intro") ? toIntroContent(sections.get("contact_intro")!, fallbackContactIntro) : fallbackContactIntro,
+    contactCta: sections.has("contact_cta") ? toContactCtaContent(sections.get("contact_cta")!, fallbackContactCta, media) : null,
   };
 }

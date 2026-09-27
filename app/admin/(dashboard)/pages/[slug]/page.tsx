@@ -20,11 +20,11 @@ export default async function AdminPageEditorPage({ params }: { params: Promise<
   const { data: page } = await supabase.from("pages").select("*").eq("slug", dbSlug).single();
   if (!page) notFound();
 
-  const { data: sections } = await supabase
-    .from("page_sections")
-    .select("*")
-    .eq("page_id", page.id)
-    .order("display_order");
+  const [{ data: sections }, { data: videos }] = await Promise.all([
+    supabase.from("page_sections").select("*").eq("page_id", page.id).order("display_order"),
+    supabase.from("videos").select("id, title_en").order("display_order"),
+  ]);
+  const videoOptions = (videos ?? []).map((v) => ({ id: v.id, title: v.title_en }));
 
   return (
     <div>
@@ -43,6 +43,7 @@ export default async function AdminPageEditorPage({ params }: { params: Promise<
             displayOrder={section.display_order}
             initialContent={(section.content as Record<string, unknown>) ?? {}}
             initialVisible={section.is_visible}
+            videoOptions={videoOptions}
           />
         ))}
       </div>

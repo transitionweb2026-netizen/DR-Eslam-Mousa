@@ -14,9 +14,11 @@ interface SectionEditorProps {
   displayOrder: number;
   initialContent: Record<string, unknown>;
   initialVisible: boolean;
+  /** Populates every "video_ref" field's dropdown — see sectionSchemas.ts. */
+  videoOptions?: { id: string; title: string }[];
 }
 
-export function SectionEditor({ id, sectionType, displayOrder, initialContent, initialVisible }: SectionEditorProps) {
+export function SectionEditor({ id, sectionType, displayOrder, initialContent, initialVisible, videoOptions = [] }: SectionEditorProps) {
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState(initialContent);
   const [visible, setVisible] = useState(initialVisible);
@@ -71,7 +73,13 @@ export function SectionEditor({ id, sectionType, displayOrder, initialContent, i
           {generalFields.length > 0 && (
             <div className="flex flex-col gap-4">
               {generalFields.map((f) => (
-                <SectionField key={f.path} field={f} value={getPath(content, f.path)} onChange={(v) => setField(f.path, v)} />
+                <SectionField
+                  key={f.path}
+                  field={f}
+                  value={getPath(content, f.path)}
+                  onChange={(v) => setField(f.path, v)}
+                  videoOptions={videoOptions}
+                />
               ))}
             </div>
           )}
@@ -126,7 +134,17 @@ function normalizeMediaFields(content: Record<string, unknown>, schema: SectionF
   return next;
 }
 
-function SectionField({ field, value, onChange }: { field: SectionFieldDef; value: unknown; onChange: (v: unknown) => void }) {
+function SectionField({
+  field,
+  value,
+  onChange,
+  videoOptions = [],
+}: {
+  field: SectionFieldDef;
+  value: unknown;
+  onChange: (v: unknown) => void;
+  videoOptions?: { id: string; title: string }[];
+}) {
   const baseClasses =
     "glass-panel w-full rounded-xl border-transparent px-4 py-2.5 text-sm text-brand-ink outline-none focus-visible:outline-2 focus-visible:outline-brand-blue";
 
@@ -139,6 +157,22 @@ function SectionField({ field, value, onChange }: { field: SectionFieldDef; valu
         value={(value as MediaRow) ?? null}
         onChange={(media) => onChange(media)}
       />
+    );
+  }
+
+  if (field.type === "video_ref") {
+    return (
+      <div>
+        <label className="mb-1.5 block text-sm font-semibold text-brand-ink">{field.label}</label>
+        <select value={(value as string) ?? ""} onChange={(e) => onChange(e.target.value || null)} className={baseClasses}>
+          <option value="">— None —</option>
+          {videoOptions.map((v) => (
+            <option key={v.id} value={v.id}>
+              {v.title}
+            </option>
+          ))}
+        </select>
+      </div>
     );
   }
 

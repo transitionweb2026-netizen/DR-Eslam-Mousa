@@ -99,6 +99,24 @@ export async function getAdminArticles() {
   return (data ?? []).map((row) => attachMedia(row, mediaMap, "image_id"));
 }
 
+export async function getAdminDoctorGallery() {
+  const supabase = await createClient();
+  const [{ data }, mediaMap] = await Promise.all([
+    supabase.from("doctor_gallery").select("*").order("display_order"),
+    loadMediaMap(supabase),
+  ]);
+  return (data ?? []).map((row) => attachMedia(row, mediaMap, "image_id"));
+}
+
+export async function getAdminResearchPapers() {
+  const supabase = await createClient();
+  const [{ data }, mediaMap] = await Promise.all([
+    supabase.from("research_papers").select("*").order("display_order"),
+    loadMediaMap(supabase),
+  ]);
+  return (data ?? []).map((row) => attachMedia(row, mediaMap, "image_id"));
+}
+
 export async function getAdminContactLocations() {
   const supabase = await createClient();
   const { data } = await supabase.from("contact_locations").select("*").order("display_order");

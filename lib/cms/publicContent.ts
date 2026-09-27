@@ -11,6 +11,7 @@ import { videos as fallbackVideos, type VideoItem } from "@/data/videos";
 import { articles as fallbackArticles, type ArticleItem } from "@/data/articles";
 import type { IconName } from "@/components/icons/Icon";
 import type { Tables } from "@/lib/supabase/types";
+import type { Localized, MediaImage } from "@/lib/types";
 
 /**
  * The 8 "Content" collections — every function is Supabase-first (active /
@@ -272,4 +273,84 @@ export async function getArticles(): Promise<ArticleItem[]> {
 export async function getFeaturedArticles(): Promise<ArticleItem[]> {
   const all = await getArticles();
   return all.filter((a) => a.featured);
+}
+
+// ---------------------------------------------------------------------------
+// Doctor Photo Gallery and Research Papers — two collections with no legacy
+// /data/*.ts equivalent (they didn't exist on the original static site), so
+// there is no placeholder content to fall back to. Research in particular
+// must NEVER get fabricated fallback content — inventing a "sample" paper
+// would misrepresent a real doctor's actual publication record — so both
+// simply return an empty array when Supabase is unavailable or empty; the
+// sections that render them hide themselves in that case (see
+// components/about/DoctorGallerySection.tsx and ResearchSection.tsx).
+// ---------------------------------------------------------------------------
+
+export interface DoctorGalleryPhoto {
+  id: string;
+  image: MediaImage;
+}
+
+export async function getDoctorGallery(): Promise<DoctorGalleryPhoto[]> {
+  const supabase = await getPublicClient();
+  if (supabase) {
+    try {
+      const { data } = await supabase.from("doctor_gallery").select("*").order("display_order");
+      if (data && data.length > 0) {
+        const media = await loadMediaMap(supabase, data.map((r) => r.image_id));
+        return data.map((row) => ({
+          id: row.id,
+          image: toMediaImage(row.image_id ? (media.get(row.image_id) ?? null) : null, { en: "Dr. Islam Moussa", ar: "د. إسلام موسى" }, {
+            alt: row.image_alt_en && row.image_alt_ar ? { en: row.image_alt_en, ar: row.image_alt_ar } : undefined,
+          }),
+        }));
+      }
+    } catch (error) {
+      console.error("[cms] getDoctorGallery failed:", error);
+    }
+  }
+  return [];
+}
+
+export interface ResearchPaper {
+  id: string;
+  title: Localized;
+  journalName: string;
+  publishYear: string;
+  excerpt: Localized;
+  content: Localized<string[]>;
+  externalUrl: string | null;
+  image: MediaImage | null;
+}
+
+export async function getResearchPapers(): Promise<ResearchPaper[]> {
+  const supabase = await getPublicClient();
+  if (supabase) {
+    try {
+      const { data } = await supabase.from("research_papers").select("*").order("display_order");
+      if (data && data.length > 0) {
+        const media = await loadMediaMap(supabase, data.map((r) => r.image_id));
+        return data.map((row) => {
+          const imgMedia = row.image_id ? (media.get(row.image_id) ?? null) : null;
+          return {
+            id: row.id,
+            title: { en: row.title_en, ar: row.title_ar },
+            journalName: row.journal_name ?? "",
+            publishYear: row.publish_year ?? "",
+            excerpt: { en: row.excerpt_en ?? "", ar: row.excerpt_ar ?? "" },
+            content: { en: tiptapToPlainParagraphs(row.content_en), ar: tiptapToPlainParagraphs(row.content_ar) },
+            externalUrl: row.external_url,
+            image: imgMedia
+              ? toMediaImage(imgMedia, { en: row.title_en, ar: row.title_ar }, {
+                  alt: row.image_alt_en && row.image_alt_ar ? { en: row.image_alt_en, ar: row.image_alt_ar } : undefined,
+                })
+              : null,
+          };
+        });
+      }
+    } catch (error) {
+      console.error("[cms] getResearchPapers failed:", error);
+    }
+  }
+  return [];
 }

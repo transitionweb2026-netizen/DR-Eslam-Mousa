@@ -1,6 +1,7 @@
 "use client";
 
-import type { CertificateItem } from "@/data/certificates";
+import Image from "next/image";
+import type { DoctorGalleryPhoto } from "@/lib/cms/publicContent";
 import type { IntroContent } from "@/lib/cms/publicSections";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Icon } from "@/components/icons/Icon";
@@ -8,31 +9,32 @@ import { Reveal } from "@/components/motion/Reveal";
 import type { Locale } from "@/lib/i18n/config";
 import { useHorizontalSlider } from "@/lib/useHorizontalSlider";
 import { cn } from "@/lib/utils";
-import { CertificateCard } from "./CertificateCard";
 
 const arrowLabels = {
-  prev: { en: "Previous certificate", ar: "الشهادة السابقة" },
-  next: { en: "Next certificate", ar: "الشهادة التالية" },
+  prev: { en: "Previous photo", ar: "الصورة السابقة" },
+  next: { en: "Next photo", ar: "الصورة التالية" },
 } as const;
 
-/** A premium horizontal certificate gallery — see lib/useHorizontalSlider.ts for the drag/arrow behavior. */
-interface CertificatesSectionProps {
+interface DoctorGallerySectionProps {
   locale: Locale;
   intro: IntroContent;
-  certificates: CertificateItem[];
+  photos: DoctorGalleryPhoto[];
 }
 
-export function CertificatesSection({ locale, intro, certificates }: CertificatesSectionProps) {
-  const { trackRef, setCardRef, activeIndex, goTo, onPointerDown, onPointerMove, endDrag } = useHorizontalSlider(certificates.length);
+/** A horizontal photo slider — see lib/useHorizontalSlider.ts for the drag/arrow behavior (the same one Certificates uses). */
+export function DoctorGallerySection({ locale, intro, photos }: DoctorGallerySectionProps) {
+  const { trackRef, setCardRef, activeIndex, goTo, onPointerDown, onPointerMove, endDrag } = useHorizontalSlider(photos.length);
+
+  if (photos.length === 0) return null;
 
   return (
-    <section className="py-16 sm:py-24" aria-labelledby="certificates-heading">
+    <section className="py-16 sm:py-24" aria-labelledby="doctor-gallery-heading">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <SectionHeader
             locale={locale}
             align="start"
-            headingId="certificates-heading"
+            headingId="doctor-gallery-heading"
             eyebrow={intro.eyebrow}
             title={intro.title}
             description={intro.description}
@@ -51,7 +53,7 @@ export function CertificatesSection({ locale, intro, certificates }: Certificate
             <button
               type="button"
               onClick={() => goTo(activeIndex + 1)}
-              disabled={activeIndex === certificates.length - 1}
+              disabled={activeIndex === photos.length - 1}
               aria-label={arrowLabels.next[locale]}
               className="glass-panel inline-flex h-11 w-11 items-center justify-center rounded-full text-brand-ink transition-all duration-300 hover:-translate-y-0.5 hover:text-brand-blue disabled:pointer-events-none disabled:opacity-40"
             >
@@ -73,9 +75,22 @@ export function CertificatesSection({ locale, intro, certificates }: Certificate
             "cursor-grab active:cursor-grabbing"
           )}
         >
-          {certificates.map((certificate, index) => (
-            <div key={certificate.id} ref={setCardRef(index)}>
-              <CertificateCard certificate={certificate} locale={locale} />
+          {photos.map((photo, index) => (
+            <div
+              key={photo.id}
+              ref={setCardRef(index)}
+              className="glass-card glass-sheen relative aspect-[3/4] w-[220px] shrink-0 snap-start overflow-hidden rounded-3xl p-2 select-none sm:w-[260px]"
+            >
+              <div className="relative h-full w-full overflow-hidden rounded-2xl">
+                <Image
+                  src={photo.image.src}
+                  alt={photo.image.alt[locale]}
+                  fill
+                  draggable={false}
+                  sizes="260px"
+                  className="pointer-events-none object-cover"
+                />
+              </div>
             </div>
           ))}
         </div>
