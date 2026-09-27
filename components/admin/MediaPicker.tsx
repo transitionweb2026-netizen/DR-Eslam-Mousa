@@ -8,10 +8,16 @@ import { cn } from "@/lib/utils";
 
 interface MediaPickerProps {
   label: string;
-  bucket: "media" | "video-covers" | "videos";
+  bucket: "media" | "video-covers" | "videos" | "documents";
   category: MediaRow["category"];
   value: MediaRow | null;
   onChange: (media: MediaRow | null) => void;
+}
+
+function acceptFor(bucket: MediaPickerProps["bucket"]): string {
+  if (bucket === "videos") return "video/*";
+  if (bucket === "documents") return "application/pdf";
+  return "image/*";
 }
 
 /**
@@ -80,6 +86,11 @@ export function MediaPicker({ label, bucket, category, value, onChange }: MediaP
           {previewUrl ? (
             bucket === "videos" ? (
               <video src={previewUrl} className="h-full w-full object-cover" muted />
+            ) : bucket === "documents" ? (
+              <span className="flex h-full w-full flex-col items-center justify-center gap-1 p-1 text-center text-[10px] text-brand-muted">
+                <span className="text-lg">📄</span>
+                <span className="line-clamp-2 break-all">{value?.file_name}</span>
+              </span>
             ) : (
               // eslint-disable-next-line @next/next/no-img-element -- admin preview only, arbitrary external/storage URLs
               <img src={previewUrl} alt="" className="h-full w-full object-cover" />
@@ -126,7 +137,7 @@ export function MediaPicker({ label, bucket, category, value, onChange }: MediaP
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept={bucket === "videos" ? "video/*" : "image/*"}
+                  accept={acceptFor(bucket)}
                   className="hidden"
                   onChange={(e) => {
                     const file = e.target.files?.[0];

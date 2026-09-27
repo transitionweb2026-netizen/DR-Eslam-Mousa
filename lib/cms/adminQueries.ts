@@ -114,7 +114,7 @@ export async function getAdminResearchPapers() {
     supabase.from("research_papers").select("*").order("display_order"),
     loadMediaMap(supabase),
   ]);
-  return (data ?? []).map((row) => attachMedia(row, mediaMap, "image_id"));
+  return (data ?? []).map((row) => attachMedia(row, mediaMap, "image_id", "pdf_media_id"));
 }
 
 export async function getAdminContactLocations() {

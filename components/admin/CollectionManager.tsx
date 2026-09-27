@@ -23,7 +23,7 @@ export interface FieldConfig {
   bilingual?: boolean;
   required?: boolean;
   options?: { value: string; label: string }[];
-  mediaBucket?: "media" | "video-covers" | "videos";
+  mediaBucket?: "media" | "video-covers" | "videos" | "documents";
   mediaCategory?: MediaRow["category"];
   help?: string;
 }

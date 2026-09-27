@@ -318,9 +318,10 @@ export interface ResearchPaper {
   journalName: string;
   publishYear: string;
   excerpt: Localized;
-  content: Localized<string[]>;
   externalUrl: string | null;
   image: MediaImage | null;
+  /** The paper as a downloadable PDF (documents bucket) — null while an entry is still being prepared. */
+  pdfUrl: string | null;
 }
 
 export async function getResearchPapers(): Promise<ResearchPaper[]> {
@@ -329,22 +330,23 @@ export async function getResearchPapers(): Promise<ResearchPaper[]> {
     try {
       const { data } = await supabase.from("research_papers").select("*").order("display_order");
       if (data && data.length > 0) {
-        const media = await loadMediaMap(supabase, data.map((r) => r.image_id));
+        const media = await loadMediaMap(supabase, data.flatMap((r) => [r.image_id, r.pdf_media_id]));
         return data.map((row) => {
           const imgMedia = row.image_id ? (media.get(row.image_id) ?? null) : null;
+          const pdfMedia = row.pdf_media_id ? (media.get(row.pdf_media_id) ?? null) : null;
           return {
             id: row.id,
             title: { en: row.title_en, ar: row.title_ar },
             journalName: row.journal_name ?? "",
             publishYear: row.publish_year ?? "",
             excerpt: { en: row.excerpt_en ?? "", ar: row.excerpt_ar ?? "" },
-            content: { en: tiptapToPlainParagraphs(row.content_en), ar: tiptapToPlainParagraphs(row.content_ar) },
             externalUrl: row.external_url,
             image: imgMedia
               ? toMediaImage(imgMedia, { en: row.title_en, ar: row.title_ar }, {
                   alt: row.image_alt_en && row.image_alt_ar ? { en: row.image_alt_en, ar: row.image_alt_ar } : undefined,
                 })
               : null,
+            pdfUrl: pdfMedia ? resolveMediaUrl(pdfMedia) : null,
           };
         });
       }

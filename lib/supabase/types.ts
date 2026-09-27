@@ -36,14 +36,14 @@ export interface Database {
       media: {
         Row: {
           id: string;
-          bucket_id: "media" | "video-covers" | "videos" | null;
+          bucket_id: "media" | "video-covers" | "videos" | "documents" | null;
           storage_path: string | null;
           external_url: string | null;
           file_name: string;
           mime_type: string;
           file_size: number | null;
           kind: "image" | "video" | "document";
-          category: "doctor" | "services" | "conditions" | "certificates" | "videos" | "articles" | "general" | "seo";
+          category: "doctor" | "services" | "conditions" | "certificates" | "videos" | "articles" | "general" | "seo" | "research";
           alt_text_en: string | null;
           alt_text_ar: string | null;
           width: number | null;
@@ -486,12 +486,11 @@ export interface Database {
           publish_year: string | null;
           excerpt_en: string | null;
           excerpt_ar: string | null;
-          content_en: Json | null;
-          content_ar: Json | null;
           external_url: string | null;
           image_id: string | null;
           image_alt_en: string | null;
           image_alt_ar: string | null;
+          pdf_media_id: string | null;
           display_order: number;
           is_active: boolean;
           created_at: string;

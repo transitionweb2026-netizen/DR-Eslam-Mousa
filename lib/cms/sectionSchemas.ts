@@ -19,7 +19,7 @@ export interface SectionFieldDef {
    * cover/thumbnail image) must set this to "videos", or its file picker
    * only ever offers images.
    */
-  mediaBucket?: "media" | "video-covers" | "videos";
+  mediaBucket?: "media" | "video-covers" | "videos" | "documents";
 }
 
 const INTRO_FIELDS: SectionFieldDef[] = [
