@@ -7,8 +7,8 @@ import type { Localized } from "@/lib/types";
  * CMS-editable values these mirror.
  */
 export const contactInfo = {
-  phoneDisplay: "010 38794334",
-  phoneHref: "tel:+201038794334",
+  phoneDisplay: "011 31562477",
+  phoneHref: "tel:+201131562477",
   whatsappHref: "https://wa.me/201004950774",
   email: "moussaislam059@gmail.com",
   emailHref: "mailto:moussaislam059@gmail.com",
