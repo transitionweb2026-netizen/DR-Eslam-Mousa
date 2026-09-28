@@ -53,9 +53,9 @@ export default async function VideosPage({ params }: PageProps<"/[locale]/videos
 
       <section className="px-4 py-16 sm:px-6 sm:py-24 lg:px-8" aria-label="Video library">
         <div className="mx-auto max-w-7xl">
-          <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <Stagger className="flex flex-wrap justify-center gap-6">
             {videos.map((video) => (
-              <StaggerItem key={video.id} className="h-full">
+              <StaggerItem key={video.id} className="h-full w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
                 <VideoCard video={video} locale={locale} />
               </StaggerItem>
             ))}

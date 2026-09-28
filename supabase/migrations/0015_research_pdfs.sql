@@ -12,59 +12,47 @@ insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_typ
 values ('documents', 'documents', true, 20971520, array['application/pdf'])
 on conflict (id) do nothing;
 
+drop policy if exists "Public can read documents bucket" on storage.objects;
 create policy "Public can read documents bucket"
   on storage.objects for select
   using (bucket_id = 'documents');
 
+drop policy if exists "Admins can upload to documents bucket" on storage.objects;
 create policy "Admins can upload to documents bucket"
   on storage.objects for insert
   with check (bucket_id = 'documents' and public.is_admin());
 
+drop policy if exists "Admins can update documents bucket" on storage.objects;
 create policy "Admins can update documents bucket"
   on storage.objects for update
   using (bucket_id = 'documents' and public.is_admin())
   with check (bucket_id = 'documents' and public.is_admin());
 
+drop policy if exists "Admins can delete from documents bucket" on storage.objects;
 create policy "Admins can delete from documents bucket"
   on storage.objects for delete
   using (bucket_id = 'documents' and public.is_admin());
 
 -- ----------------------------------------------------------------------------
 -- media: allow "documents" as a bucket_id and "research" as a category.
--- The two check constraints were declared inline in 0003 (no explicit
--- name), so this looks up whatever Postgres actually named them rather
--- than guessing — safer than a hardcoded `drop constraint <guessed-name>`.
+-- The two check constraints were declared inline in 0003 with no explicit
+-- name, so Postgres auto-named them the default way (<table>_<column>_check
+-- -> media_bucket_id_check / media_category_check). An earlier version of
+-- this migration tried to look that name up dynamically by pattern-matching
+-- pg_get_constraintdef()'s text for "IN" — but Postgres actually rewrites
+-- `col in (a, b, c)` as `col = ANY (ARRAY[a, b, c])` when it reconstructs
+-- the definition, so that pattern never matched, the drop was skipped, and
+-- the add below collided with the still-present original constraint (error
+-- 42710). Dropping by the known exact name instead avoids the guesswork.
 -- ----------------------------------------------------------------------------
-do $$
-declare
-  con_name text;
-begin
-  select conname into con_name
-  from pg_constraint
-  where conrelid = 'public.media'::regclass
-    and contype = 'c'
-    and pg_get_constraintdef(oid) like '%bucket_id%IN%';
-  if con_name is not null then
-    execute format('alter table public.media drop constraint %I', con_name);
-  end if;
-end $$;
+alter table public.media
+  drop constraint if exists media_bucket_id_check;
 
 alter table public.media
   add constraint media_bucket_id_check check (bucket_id in ('media', 'video-covers', 'videos', 'documents'));
 
-do $$
-declare
-  con_name text;
-begin
-  select conname into con_name
-  from pg_constraint
-  where conrelid = 'public.media'::regclass
-    and contype = 'c'
-    and pg_get_constraintdef(oid) like '%category%IN%';
-  if con_name is not null then
-    execute format('alter table public.media drop constraint %I', con_name);
-  end if;
-end $$;
+alter table public.media
+  drop constraint if exists media_category_check;
 
 alter table public.media
   add constraint media_category_check
@@ -74,7 +62,7 @@ alter table public.media
 -- research_papers: swap the on-site full text for a downloadable file.
 -- ----------------------------------------------------------------------------
 alter table public.research_papers
-  add column pdf_media_id uuid references public.media (id) on delete set null,
+  add column if not exists pdf_media_id uuid references public.media (id) on delete set null,
   drop column if exists content_en,
   drop column if exists content_ar;
 
