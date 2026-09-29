@@ -302,6 +302,7 @@ export async function getDoctorGallery(): Promise<DoctorGalleryPhoto[]> {
           id: row.id,
           image: toMediaImage(row.image_id ? (media.get(row.image_id) ?? null) : null, { en: "Dr. Islam Moussa", ar: "د. إسلام موسى" }, {
             alt: row.image_alt_en && row.image_alt_ar ? { en: row.image_alt_en, ar: row.image_alt_ar } : undefined,
+            position: row.image_position ?? undefined,
           }),
         }));
       }

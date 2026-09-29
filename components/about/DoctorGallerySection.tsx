@@ -89,6 +89,7 @@ export function DoctorGallerySection({ locale, intro, photos }: DoctorGallerySec
                   draggable={false}
                   sizes="260px"
                   className="pointer-events-none object-cover"
+                  style={{ objectPosition: photo.image.position ?? "center" }}
                 />
               </div>
             </div>

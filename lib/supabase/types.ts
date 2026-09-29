@@ -468,6 +468,7 @@ export interface Database {
           image_id: string | null;
           image_alt_en: string | null;
           image_alt_ar: string | null;
+          image_position: string | null;
           display_order: number;
           is_active: boolean;
           created_at: string;

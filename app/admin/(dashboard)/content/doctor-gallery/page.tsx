@@ -4,6 +4,12 @@ import { CollectionManager, type FieldConfig } from "@/components/admin/Collecti
 const fields: FieldConfig[] = [
   { key: "image_id", label: "Photo", type: "media", mediaCategory: "doctor", required: true },
   { key: "image_alt", label: "Alt Text", type: "text", bilingual: true },
+  {
+    key: "image_position",
+    label: "Image Focal Point",
+    type: "text",
+    help: "Optional CSS object-position, e.g. \"25% center\" — nudges the crop so the subject isn't cut off in this card's tall 3:4 frame. Leave empty for a plain center crop.",
+  },
 ];
 
 export default async function AdminDoctorGalleryPage() {
