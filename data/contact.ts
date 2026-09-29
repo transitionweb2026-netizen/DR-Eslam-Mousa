@@ -41,7 +41,7 @@ export const contactLocations: ContactLocation[] = [
       en: "Sat 7 PM · Mon 8 PM · Wed 7:30 PM",
       ar: "السبت ٧ م · الاثنين ٨ م · الأربعاء ٧:٣٠ م",
     },
-    mapUrl: "https://maps.app.goo.gl/rUdHWFqxTYnyNdDk8?g_st=iw",
+    mapUrl: "https://maps.app.goo.gl/XXgRdYwJ7sZ2xoBA9?g_st=awb",
   },
   {
     id: "fifth-settlement",
@@ -54,7 +54,7 @@ export const contactLocations: ContactLocation[] = [
       en: "Thu 6 PM",
       ar: "الخميس ٦ م",
     },
-    mapUrl: "https://maps.google.com/?q=30.021166,31.434963",
+    mapUrl: "https://maps.app.goo.gl/tZpdQ3zmfxFoYFoU7?g_st=awb",
   },
 ];
 

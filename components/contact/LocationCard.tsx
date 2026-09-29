@@ -9,6 +9,12 @@ const openInMaps = {
   ar: "افتح في الخرائط",
 } as const satisfies Localized;
 
+/** These are appointment slots, not the clinic's general opening hours — spelled out so it isn't mistaken for the latter. */
+const bookingTimesLabel = {
+  en: "Booking times",
+  ar: "مواعيد الحجز",
+} as const satisfies Localized;
+
 /**
  * A stylized, on-brand map visual (a real embed can replace this later by
  * only touching `location.mapUrl` / adding an embed src — the layout stays
@@ -52,6 +58,7 @@ export function LocationCard({ locale, location }: { locale: Locale; location: C
       {location.hours[locale] && (
         <p className="relative z-10 mt-3 flex items-center gap-1.5 text-xs text-brand-muted">
           <Icon name="clock" className="h-3.5 w-3.5 shrink-0" />
+          <span className="font-semibold text-brand-ink">{bookingTimesLabel[locale]}:</span>
           {location.hours[locale]}
         </p>
       )}
