@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { siteContent } from "@/data/site";
@@ -10,7 +11,7 @@ import { Icon } from "@/components/icons/Icon";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { MobileMenu } from "./MobileMenu";
 import type { Locale } from "@/lib/i18n/config";
-import type { Localized } from "@/lib/types";
+import type { Localized, MediaImage } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface NavbarProps {
@@ -18,9 +19,10 @@ interface NavbarProps {
   navigationItems: NavItem[];
   brandName: Localized;
   brandCredentials: Localized;
+  logo: MediaImage | null;
 }
 
-export function Navbar({ locale, navigationItems, brandName, brandCredentials }: NavbarProps) {
+export function Navbar({ locale, navigationItems, brandName, brandCredentials, logo }: NavbarProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const localeRoot = `/${locale}`;
@@ -37,12 +39,19 @@ export function Navbar({ locale, navigationItems, brandName, brandCredentials }:
         aria-label="Primary"
         className="glass-panel mx-auto flex max-w-7xl items-center justify-between gap-3 rounded-2xl px-4 py-2.5 sm:px-6 sm:py-3"
       >
-        <Link href={localeRoot} className="flex flex-col leading-tight">
-          <span className="font-heading text-base font-extrabold text-brand-ink sm:text-lg">
-            {brandName[locale]}
-          </span>
-          <span className="hidden text-[0.68rem] font-medium text-brand-muted sm:block">
-            {brandCredentials[locale]}
+        <Link href={localeRoot} className="flex items-center gap-2.5">
+          {logo && (
+            <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-xl sm:h-10 sm:w-10">
+              <Image src={logo.src} alt={logo.alt[locale]} fill sizes="40px" className="object-cover" />
+            </span>
+          )}
+          <span className="flex flex-col leading-tight">
+            <span className="font-heading text-base font-extrabold text-brand-ink sm:text-lg">
+              {brandName[locale]}
+            </span>
+            <span className="hidden text-[0.68rem] font-medium text-brand-muted sm:block">
+              {brandCredentials[locale]}
+            </span>
           </span>
         </Link>
 
@@ -98,6 +107,7 @@ export function Navbar({ locale, navigationItems, brandName, brandCredentials }:
         isActive={isActive}
         navigationItems={navigationItems}
         brandName={brandName}
+        logo={logo}
       />
     </header>
   );

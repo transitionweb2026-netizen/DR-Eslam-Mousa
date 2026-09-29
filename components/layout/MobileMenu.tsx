@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { siteContent } from "@/data/site";
@@ -8,7 +9,7 @@ import type { NavItem } from "@/data/navigation";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/icons/Icon";
 import type { Locale } from "@/lib/i18n/config";
-import type { Localized } from "@/lib/types";
+import type { Localized, MediaImage } from "@/lib/types";
 import { EASE_PREMIUM } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -19,9 +20,10 @@ interface MobileMenuProps {
   isActive: (path: string) => boolean;
   navigationItems: NavItem[];
   brandName: Localized;
+  logo: MediaImage | null;
 }
 
-export function MobileMenu({ open, onClose, locale, isActive, navigationItems, brandName }: MobileMenuProps) {
+export function MobileMenu({ open, onClose, locale, isActive, navigationItems, brandName, logo }: MobileMenuProps) {
   const localeRoot = `/${locale}`;
 
   useEffect(() => {
@@ -64,8 +66,15 @@ export function MobileMenu({ open, onClose, locale, isActive, navigationItems, b
             transition={{ duration: 0.4, ease: EASE_PREMIUM }}
           >
             <div className="flex items-center justify-between">
-              <span className="font-heading text-lg font-extrabold text-brand-ink">
-                {brandName[locale]}
+              <span className="flex items-center gap-2.5">
+                {logo && (
+                  <span className="relative h-9 w-9 shrink-0 overflow-hidden rounded-xl">
+                    <Image src={logo.src} alt={logo.alt[locale]} fill sizes="36px" className="object-cover" />
+                  </span>
+                )}
+                <span className="font-heading text-lg font-extrabold text-brand-ink">
+                  {brandName[locale]}
+                </span>
               </span>
               <button
                 type="button"

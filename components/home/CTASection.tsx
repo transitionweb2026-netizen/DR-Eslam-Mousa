@@ -28,10 +28,7 @@ export function CTASection({ locale, content }: { locale: Locale; content: Final
           <div aria-hidden="true" className="glass-sheen absolute inset-0" />
 
           <div className="relative z-10 mx-auto max-w-2xl">
-            <span className="inline-flex items-center gap-2 rounded-full bg-black/25 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur">
-              {content.eyebrow[locale]}
-            </span>
-            <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+            <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
               {content.title[locale]}
             </h2>
             <p className="mt-5 text-pretty text-base leading-relaxed text-white sm:text-lg">

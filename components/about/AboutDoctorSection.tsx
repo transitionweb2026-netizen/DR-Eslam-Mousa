@@ -13,15 +13,10 @@ export function AboutDoctorSection({ locale, content }: { locale: Locale; conten
       <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
         {/* Text first in DOM: inline-start (left in LTR, right in RTL). */}
         <div>
-          <Reveal>
-            <span className="chip-purple inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider">
-              {content.eyebrow[locale]}
-            </span>
-          </Reveal>
           <Reveal delay={0.1}>
             <h2
               id="about-doctor-heading"
-              className="mt-4 text-3xl font-bold text-brand-ink sm:text-4xl lg:text-[2.6rem] lg:leading-tight"
+              className="text-3xl font-bold text-brand-ink sm:text-4xl lg:text-[2.6rem] lg:leading-tight"
             >
               {content.title[locale]}
             </h2>

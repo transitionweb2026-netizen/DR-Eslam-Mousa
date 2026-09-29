@@ -80,14 +80,8 @@ export function Hero({ locale, content = heroContent, primaryCta, secondaryCta, 
         />
 
         <div className="relative z-10 flex h-full flex-col justify-center px-6 py-16 sm:px-10 lg:max-w-2xl lg:px-16 lg:py-24">
-          <Reveal>
-            <span className="chip-purple inline-flex w-fit items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider shadow-glass">
-              {content.eyebrow[locale]}
-            </span>
-          </Reveal>
-
           <Reveal delay={0.1}>
-            <h1 className="mt-5 text-balance text-4xl font-extrabold leading-[1.12] text-brand-ink sm:text-5xl lg:text-6xl">
+            <h1 className="text-balance text-4xl font-extrabold leading-[1.12] text-brand-ink sm:text-5xl lg:text-6xl">
               {content.headline[locale]}{" "}
               <span className="text-gradient-brand">{content.headlineAccent[locale]}</span>
             </h1>

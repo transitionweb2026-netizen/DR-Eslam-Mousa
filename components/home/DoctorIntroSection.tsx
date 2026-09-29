@@ -12,12 +12,9 @@ export function DoctorIntroSection({ locale, content }: { locale: Locale; conten
         {/* Content first in DOM: sits at the inline-start (left in LTR, right in RTL). */}
         <Reveal>
           <div>
-            <span className="chip-purple inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider">
-              {content.eyebrow[locale]}
-            </span>
             <h2
               id="doctor-intro-heading"
-              className="mt-4 text-3xl font-bold text-brand-ink sm:text-4xl lg:text-[2.6rem] lg:leading-tight"
+              className="text-3xl font-bold text-brand-ink sm:text-4xl lg:text-[2.6rem] lg:leading-tight"
             >
               {content.title[locale]}
             </h2>

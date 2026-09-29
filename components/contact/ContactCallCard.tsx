@@ -34,9 +34,6 @@ export function ContactCallCard({ locale, content, contactInfo }: { locale: Loca
           <div className="flex items-center p-6 sm:p-10 lg:p-12">
             <div className="glass-frame-3d w-full">
               <div className="glass-frame-3d-inner flex flex-col gap-5 p-6 sm:p-8">
-                <span className="chip-purple inline-flex w-fit items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider">
-                  {content.eyebrow[locale]}
-                </span>
                 <h2 className="text-2xl font-bold leading-tight text-brand-ink sm:text-3xl">{content.heading[locale]}</h2>
 
                 {content.lines[locale].length > 0 && (

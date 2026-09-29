@@ -74,6 +74,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
             navigationItems={navigationItems}
             brandName={branding.name}
             brandCredentials={branding.credentials}
+            logo={branding.logo}
           />
           <PageTransition>
             <main id="main-content">{children}</main>

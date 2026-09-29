@@ -7,30 +7,28 @@ interface SectionHeaderProps {
   title: Localized;
   description?: Localized;
   locale: Locale;
-  align?: "center" | "start";
   className?: string;
   titleAs?: "h1" | "h2";
   headingId?: string;
 }
 
-/** Consistent eyebrow + heading + description block used by every section. */
+/**
+ * Consistent heading + description block used by every section. Accepts
+ * (and ignores) an `eyebrow` prop purely so callers passing CMS-driven
+ * eyebrow text don't need touching — the small pill above the heading was
+ * removed sitewide, but the field itself stays editable in the CMS in case
+ * it's ever brought back.
+ */
 export function SectionHeader({
-  eyebrow,
   title,
   description,
   locale,
-  align = "center",
   className,
   titleAs: TitleTag = "h2",
   headingId,
 }: SectionHeaderProps) {
   return (
-    <div className={cn("max-w-2xl", align === "center" ? "mx-auto text-center" : "text-start", className)}>
-      {eyebrow && (
-        <span className="chip-purple inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold uppercase tracking-wider">
-          {eyebrow[locale]}
-        </span>
-      )}
+    <div className={cn("mx-auto max-w-2xl text-center", className)}>
       <TitleTag
         id={headingId}
         className="mt-4 text-3xl font-bold text-balance text-brand-ink sm:text-4xl lg:text-[2.75rem] lg:leading-[1.15]"

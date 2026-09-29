@@ -21,7 +21,6 @@ export function TrustSection({ locale, content, trustPoints }: TrustSectionProps
         <div>
           <SectionHeader
             locale={locale}
-            align="start"
             headingId="trust-heading"
             eyebrow={content.eyebrow}
             title={content.title}

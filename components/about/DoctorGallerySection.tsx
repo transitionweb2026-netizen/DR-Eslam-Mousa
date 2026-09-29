@@ -30,17 +30,15 @@ export function DoctorGallerySection({ locale, intro, photos }: DoctorGallerySec
   return (
     <section className="py-16 sm:py-24" aria-labelledby="doctor-gallery-heading">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-end justify-between gap-6">
+        <div className="flex flex-col items-center gap-6">
           <SectionHeader
             locale={locale}
-            align="start"
             headingId="doctor-gallery-heading"
             eyebrow={intro.eyebrow}
             title={intro.title}
             description={intro.description}
-            className="max-w-xl"
           />
-          <div className="hidden shrink-0 items-center gap-2 sm:flex">
+          <div className="hidden items-center gap-2 sm:flex">
             <button
               type="button"
               onClick={() => goTo(activeIndex - 1)}

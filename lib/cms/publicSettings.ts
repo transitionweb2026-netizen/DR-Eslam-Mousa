@@ -11,7 +11,8 @@ import {
 } from "@/data/contact";
 import { finalCtaContent } from "@/data/cta";
 import { contactFormContent } from "@/data/contactForm";
-import type { Localized } from "@/lib/types";
+import { toMediaImage } from "./media";
+import type { Localized, MediaImage } from "@/lib/types";
 
 /**
  * Global site settings, navigation, social links, footer, the one Final
@@ -24,6 +25,8 @@ import type { Localized } from "@/lib/types";
 export interface SiteBranding {
   name: Localized;
   credentials: Localized;
+  /** Optional logo shown next to the name in the navbar — null until one is uploaded. */
+  logo: MediaImage | null;
 }
 
 export async function getSiteBranding(): Promise<SiteBranding> {
@@ -32,16 +35,22 @@ export async function getSiteBranding(): Promise<SiteBranding> {
     try {
       const { data } = await supabase.from("site_settings").select("*").eq("id", true).maybeSingle();
       if (data) {
+        let logo: MediaImage | null = null;
+        if (data.logo_media_id) {
+          const { data: logoMedia } = await supabase.from("media").select("*").eq("id", data.logo_media_id).maybeSingle();
+          if (logoMedia) logo = toMediaImage(logoMedia, { en: data.org_name_en, ar: data.org_name_ar });
+        }
         return {
           name: { en: data.org_name_en, ar: data.org_name_ar },
           credentials: { en: data.doctor_credentials_en, ar: data.doctor_credentials_ar },
+          logo,
         };
       }
     } catch (error) {
       console.error("[cms] getSiteBranding failed:", error);
     }
   }
-  return { name: siteContent.brand.nameLocalized, credentials: siteContent.brand.credentials };
+  return { name: siteContent.brand.nameLocalized, credentials: siteContent.brand.credentials, logo: null };
 }
 
 export async function getNavigationItems(): Promise<NavItem[]> {
