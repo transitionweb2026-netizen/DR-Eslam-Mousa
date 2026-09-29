@@ -34,6 +34,7 @@ const ALLOWED_TABLES = [
   "contact_locations",
   "doctor_gallery",
   "research_papers",
+  "reviews",
 ] as const;
 
 export type CollectionTable = (typeof ALLOWED_TABLES)[number];
@@ -141,6 +142,7 @@ function revalidateCollection(table: CollectionTable) {
     contact_locations: ["/[locale]", "/[locale]/contact"],
     doctor_gallery: ["/[locale]/about"],
     research_papers: ["/[locale]/about"],
+    reviews: ["/[locale]/about"],
   };
   for (const path of pathsByTable[table] ?? []) {
     revalidatePath(path, "page");

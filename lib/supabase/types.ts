@@ -43,7 +43,7 @@ export interface Database {
           mime_type: string;
           file_size: number | null;
           kind: "image" | "video" | "document";
-          category: "doctor" | "services" | "conditions" | "certificates" | "videos" | "articles" | "general" | "seo" | "research";
+          category: "doctor" | "services" | "conditions" | "certificates" | "videos" | "articles" | "general" | "seo" | "research" | "reviews";
           alt_text_en: string | null;
           alt_text_ar: string | null;
           width: number | null;
@@ -475,6 +475,28 @@ export interface Database {
         };
         Insert: Partial<Database["public"]["Tables"]["doctor_gallery"]["Row"]>;
         Update: Partial<Database["public"]["Tables"]["doctor_gallery"]["Row"]>;
+        Relationships: never[];
+      };
+      reviews: {
+        Row: {
+          id: string;
+          name_en: string;
+          name_ar: string;
+          review_en: string;
+          review_ar: string;
+          icon_media_id: string | null;
+          display_order: number;
+          is_active: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["reviews"]["Row"]> & {
+          name_en: string;
+          name_ar: string;
+          review_en: string;
+          review_ar: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["reviews"]["Row"]>;
         Relationships: never[];
       };
       research_papers: {

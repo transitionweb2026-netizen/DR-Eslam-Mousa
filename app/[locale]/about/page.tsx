@@ -10,6 +10,7 @@ import {
   getServices,
   getDoctorGallery,
   getResearchPapers,
+  getReviews,
 } from "@/lib/cms/publicContent";
 
 import { Hero } from "@/components/home/Hero";
@@ -18,6 +19,7 @@ import { CertificatesSection } from "@/components/about/CertificatesSection";
 import { StatsSection } from "@/components/home/StatsSection";
 import { CareerSection } from "@/components/about/CareerSection";
 import { SpecialtiesSection } from "@/components/home/SpecialtiesSection";
+import { ReviewsSection } from "@/components/about/ReviewsSection";
 import { DoctorGallerySection } from "@/components/about/DoctorGallerySection";
 import { ResearchSection } from "@/components/about/ResearchSection";
 import { CTASection } from "@/components/home/CTASection";
@@ -44,13 +46,14 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
   const locale = rawLocale;
   const localeRoot = `/${locale}`;
 
-  const [sections, certificates, careerMilestones, statistics, services, doctorGallery, researchPapers, cta, contactInfo, socialLinks] =
+  const [sections, certificates, careerMilestones, statistics, services, reviews, doctorGallery, researchPapers, cta, contactInfo, socialLinks] =
     await Promise.all([
       getAboutSections(),
       getCertificates(),
       getCareerMilestones(),
       getStatistics(),
       getServices(),
+      getReviews(),
       getDoctorGallery(),
       getResearchPapers(),
       getFinalCtaSettings(),
@@ -76,6 +79,9 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
       {sections.careerIntro && <CareerSection locale={locale} intro={sections.careerIntro} careerMilestones={careerMilestones} />}
       {sections.specialtiesIntro && (
         <SpecialtiesSection locale={locale} intro={sections.specialtiesIntro} specialties={services} />
+      )}
+      {sections.reviewsIntro && reviews.length > 0 && (
+        <ReviewsSection locale={locale} intro={sections.reviewsIntro} reviews={reviews} />
       )}
       {sections.doctorGalleryIntro && doctorGallery.length > 0 && (
         <DoctorGallerySection locale={locale} intro={sections.doctorGalleryIntro} photos={doctorGallery} />

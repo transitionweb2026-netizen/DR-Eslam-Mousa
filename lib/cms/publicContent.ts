@@ -312,6 +312,38 @@ export async function getDoctorGallery(): Promise<DoctorGalleryPhoto[]> {
   return [];
 }
 
+export interface Review {
+  id: string;
+  name: Localized;
+  review: Localized;
+  /** Null until the clinic uploads one — the card falls back to a neutral placeholder icon, never a real photo. */
+  icon: MediaImage | null;
+}
+
+export async function getReviews(): Promise<Review[]> {
+  const supabase = await getPublicClient();
+  if (supabase) {
+    try {
+      const { data } = await supabase.from("reviews").select("*").order("display_order");
+      if (data && data.length > 0) {
+        const media = await loadMediaMap(supabase, data.map((r) => r.icon_media_id));
+        return data.map((row) => {
+          const iconMedia = row.icon_media_id ? (media.get(row.icon_media_id) ?? null) : null;
+          return {
+            id: row.id,
+            name: { en: row.name_en, ar: row.name_ar },
+            review: { en: row.review_en, ar: row.review_ar },
+            icon: iconMedia ? toMediaImage(iconMedia, { en: row.name_en, ar: row.name_ar }) : null,
+          };
+        });
+      }
+    } catch (error) {
+      console.error("[cms] getReviews failed:", error);
+    }
+  }
+  return [];
+}
+
 export interface ResearchPaper {
   id: string;
   title: Localized;

@@ -16,6 +16,8 @@ export type IconName =
   | "mail"
   | "map-pin"
   | "clock"
+  | "user"
+  | "quote"
   // Medical / specialties / conditions
   | "knee"
   | "hip"
@@ -142,6 +144,20 @@ function renderIcon(name: IconName): ReactNode {
         <>
           <circle cx="12" cy="12" r="8.5" />
           <path d="M12 7.5V12l3 2" />
+        </>
+      );
+    case "user":
+      return (
+        <>
+          <circle cx="12" cy="8" r="3.5" />
+          <path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7" />
+        </>
+      );
+    case "quote":
+      return (
+        <>
+          <path d="M7 8.5A2.5 2.5 0 0 0 4.5 11v3A2.5 2.5 0 0 0 7 16.5V17a3 3 0 0 1-3 3" />
+          <path d="M16 8.5a2.5 2.5 0 0 0-2.5 2.5v3a2.5 2.5 0 0 0 2.5 2.5v.5a3 3 0 0 1-3 3" />
         </>
       );
     case "knee":

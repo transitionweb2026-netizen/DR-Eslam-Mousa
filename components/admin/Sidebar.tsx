@@ -35,6 +35,7 @@ const CONTENT: NavLeaf[] = [
   { label: "Clinic Locations", href: "/admin/content/locations" },
   { label: "Doctor Photo Gallery", href: "/admin/content/doctor-gallery" },
   { label: "Research Papers", href: "/admin/content/research" },
+  { label: "Patient Reviews", href: "/admin/content/reviews" },
 ];
 
 const SETTINGS: NavLeaf[] = [

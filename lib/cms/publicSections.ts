@@ -195,6 +195,15 @@ const fallbackResearchIntro: IntroContent = {
   },
 };
 
+const fallbackReviewsIntro: IntroContent = {
+  eyebrow: { en: "Patient Stories", ar: "آراء المرضى" },
+  title: { en: "What Our Patients Say", ar: "ماذا يقول مرضانا" },
+  description: {
+    en: "Real experiences from patients treated by Dr. Islam Moussa.",
+    ar: "تجارب حقيقية لمرضى تمت معالجتهم على يد د. إسلام موسى.",
+  },
+};
+
 // ---------------------------------------------------------------------------
 // Section-content mappers — each turns one section_type's raw jsonb into the
 // exact shape its frontend component expects.
@@ -412,6 +421,7 @@ export interface AboutSections {
   showStatistics: boolean;
   careerIntro: IntroContent | null;
   specialtiesIntro: IntroContent | null;
+  reviewsIntro: IntroContent | null;
   doctorGalleryIntro: IntroContent | null;
   researchIntro: IntroContent | null;
 }
@@ -428,6 +438,7 @@ export async function getAboutSections(): Promise<AboutSections> {
       showStatistics: true,
       careerIntro: fallbackCareerIntro,
       specialtiesIntro: fallbackSpecialtiesIntro,
+      reviewsIntro: null,
       doctorGalleryIntro: null,
       researchIntro: null,
     };
@@ -444,6 +455,7 @@ export async function getAboutSections(): Promise<AboutSections> {
     showStatistics: sections.has("statistics_intro"),
     careerIntro: sections.has("career_intro") ? toIntroContent(sections.get("career_intro")!, fallbackCareerIntro) : null,
     specialtiesIntro: sections.has("specialties_intro") ? toIntroContent(sections.get("specialties_intro")!, fallbackSpecialtiesIntro) : null,
+    reviewsIntro: sections.has("reviews_intro") ? toIntroContent(sections.get("reviews_intro")!, fallbackReviewsIntro) : null,
     doctorGalleryIntro: sections.has("doctor_gallery_intro")
       ? toIntroContent(sections.get("doctor_gallery_intro")!, fallbackDoctorGalleryIntro)
       : null,

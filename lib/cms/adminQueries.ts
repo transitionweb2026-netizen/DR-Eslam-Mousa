@@ -117,6 +117,15 @@ export async function getAdminResearchPapers() {
   return (data ?? []).map((row) => attachMedia(row, mediaMap, "image_id", "pdf_media_id"));
 }
 
+export async function getAdminReviews() {
+  const supabase = await createClient();
+  const [{ data }, mediaMap] = await Promise.all([
+    supabase.from("reviews").select("*").order("display_order"),
+    loadMediaMap(supabase),
+  ]);
+  return (data ?? []).map((row) => attachMedia(row, mediaMap, "icon_media_id"));
+}
+
 export async function getAdminContactLocations() {
   const supabase = await createClient();
   const { data } = await supabase.from("contact_locations").select("*").order("display_order");
