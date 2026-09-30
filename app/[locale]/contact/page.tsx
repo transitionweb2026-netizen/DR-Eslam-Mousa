@@ -17,6 +17,9 @@ import type { Localized } from "@/lib/types";
 
 const quickActionsLabel = { en: "Or reach us directly", ar: "أو تواصل معنا مباشرة" } as const satisfies Localized;
 
+/** These are appointment slots, not the clinic's general opening hours — spelled out so it isn't mistaken for the latter. */
+const bookingTimesLabel = { en: "Booking times", ar: "مواعيد الحجز" } as const satisfies Localized;
+
 export async function generateMetadata({
   params,
 }: {
@@ -115,7 +118,9 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
                 <div className="mt-6 grid gap-4 border-t border-brand-line/70 pt-6 sm:grid-cols-2">
                   <div className="flex items-start gap-3">
                     <Icon name="clock" className="mt-0.5 h-5 w-5 shrink-0 text-brand-blue" />
-                    <p className="text-sm text-brand-muted">{contactInfo.workingHours[locale]}</p>
+                    <p className="text-sm text-brand-muted">
+                      <span className="font-semibold text-brand-ink">{bookingTimesLabel[locale]}:</span> {contactInfo.workingHours[locale]}
+                    </p>
                   </div>
                   <div className="flex items-start gap-3">
                     <Icon name="mail" className="mt-0.5 h-5 w-5 shrink-0 text-brand-blue" />

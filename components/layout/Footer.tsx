@@ -19,6 +19,12 @@ interface FooterProps {
   locations: ContactLocation[];
 }
 
+/** These are appointment slots, not the clinic's general opening hours — spelled out so it isn't mistaken for the latter. */
+const bookingTimesLabel = {
+  en: "Booking times",
+  ar: "مواعيد الحجز",
+} as const satisfies Localized;
+
 export function Footer({
   locale,
   navigationItems,
@@ -95,7 +101,9 @@ export function Footer({
               ))}
               <li className="flex items-start gap-2.5">
                 <Icon name="clock" className="mt-0.5 h-4 w-4 shrink-0 text-brand-blue" />
-                <span>{contactInfo.workingHours[locale]}</span>
+                <span>
+                  <span className="font-semibold text-brand-ink">{bookingTimesLabel[locale]}:</span> {contactInfo.workingHours[locale]}
+                </span>
               </li>
             </ul>
           </div>
