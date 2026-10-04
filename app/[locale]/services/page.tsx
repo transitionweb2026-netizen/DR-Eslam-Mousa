@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata, breadcrumbJsonLd, webPageJsonLd } from "@/lib/seo";
+import { getPageSeo } from "@/lib/cms/publicSeo";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getServicesSections } from "@/lib/cms/publicSections";
 import { getServices, getConditions } from "@/lib/cms/publicContent";
 import { getFinalCtaSettings, getContactInfo, getSocialLinks } from "@/lib/cms/publicSettings";
@@ -20,12 +22,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
-  const { hero } = await getServicesSections();
-  return {
-    title: hero.content.headline[locale] + " " + hero.content.headlineAccent[locale],
-    description: hero.content.description[locale],
-    alternates: buildAlternates(locale, "services"),
-  };
+  return buildPageMetadata(locale, "services", await getPageSeo("services"));
 }
 
 export default async function ServicesPage({ params }: PageProps<"/[locale]/services">) {
@@ -43,8 +40,11 @@ export default async function ServicesPage({ params }: PageProps<"/[locale]/serv
     getSocialLinks(),
   ]);
 
+  const seo = await getPageSeo("services");
+
   return (
     <>
+      <JsonLd data={[webPageJsonLd(locale, "services", seo.title[locale], seo.description[locale]), breadcrumbJsonLd(locale, "services")]} />
       <Hero
         locale={locale}
         content={sections.hero.content}

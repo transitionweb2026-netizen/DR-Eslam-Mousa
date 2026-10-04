@@ -9,7 +9,7 @@ export interface TrustPoint {
 
 export const trustContent = {
   eyebrow: { en: "Why Choose Us", ar: "لماذا تختارنا" } satisfies Localized,
-  title: { en: "Why Trust Dr. Islam Moussa?", ar: "لماذا تثق في د. إسلام موسى؟" } satisfies Localized,
+  title: { en: "Why Trust Dr. Islam Mousa?", ar: "لماذا تثق في د. إسلام موسى؟" } satisfies Localized,
   description: {
     en: "A track record built on precision, transparency and genuine care for every patient's outcome.",
     ar: "سجل حافل مبني على الدقة والشفافية والاهتمام الحقيقي بنتيجة كل مريض.",
@@ -17,7 +17,7 @@ export const trustContent = {
   portrait: {
     src: "/images/trust/doctor-portrait-placeholder.svg",
     alt: {
-      en: "Portrait placeholder of Dr. Islam Moussa",
+      en: "Portrait placeholder of Dr. Islam Mousa",
       ar: "صورة توضيحية مؤقتة للدكتور إسلام موسى",
     },
   } satisfies MediaImage,

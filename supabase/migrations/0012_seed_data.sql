@@ -18,13 +18,13 @@
 -- Global settings
 -- ----------------------------------------------------------------------------
 update public.site_settings set
-  website_title = 'Dr. Islam Moussa',
-  website_url = 'https://www.dr-islammoussa.com',
-  org_name_en = 'Dr. Islam Moussa',
+  website_title = 'Dr. Islam Mousa',
+  website_url = 'https://dr-islammousa.com',
+  org_name_en = 'Dr. Islam Mousa',
   org_name_ar = 'د. إسلام موسى',
   doctor_credentials_en = 'Orthopedic & Joint Replacement Surgeon',
   doctor_credentials_ar = 'استشاري جراحة العظام والمفاصل',
-  default_meta_description_en = 'Dr. Islam Moussa is an orthopedic surgeon specializing in joint replacement, arthroscopic surgery and sports injuries — combining surgical precision with patient-centered, modern care.',
+  default_meta_description_en = 'Dr. Islam Mousa is an orthopedic surgeon specializing in joint replacement, arthroscopic surgery and sports injuries — combining surgical precision with patient-centered, modern care.',
   default_meta_description_ar = 'د. إسلام موسى استشاري جراحة العظام والمفاصل، متخصص في جراحات استبدال المفاصل والمناظير وإصابات الملاعب، يجمع بين الدقة الجراحية والرعاية الحديثة المتمحورة حول المريض.',
   default_language = 'en',
   default_robots = 'index,follow';
@@ -41,7 +41,7 @@ update public.footer_settings set
 update public.cta_settings set
   heading_en = 'Take the First Step Toward Moving Freely Again',
   heading_ar = 'اتخذ خطوتك الأولى نحو الحركة الحرة من جديد',
-  description_en = 'Whether it''s a nagging ache or a condition that needs surgical attention, Dr. Islam Moussa is here to guide you through every step, with clarity and care.',
+  description_en = 'Whether it''s a nagging ache or a condition that needs surgical attention, Dr. Islam Mousa is here to guide you through every step, with clarity and care.',
   description_ar = 'سواء كان الأمر ألمًا مزعجًا أو حالة تحتاج إلى تدخل جراحي، د. إسلام موسى هنا لمرافقتك في كل خطوة، بوضوح واهتمام حقيقي.',
   primary_label_en = 'Book an Appointment', primary_label_ar = 'احجز موعدك', primary_url = '/contact',
   secondary_label_en = 'Contact Us', secondary_label_ar = 'تواصل معنا', secondary_url = '/contact',
@@ -54,7 +54,6 @@ update public.contact_settings set
   phone_display = '+20 100 000 0000',
   phone_href = 'tel:+201000000000',
   whatsapp_number = '201000000000',
-  email = 'info@dr-islammoussa.com',
   working_hours_en = 'Sat – Thu · 10:00 AM – 8:00 PM',
   working_hours_ar = 'السبت - الخميس · 10 صباحًا - 8 مساءً';
 
@@ -79,9 +78,9 @@ insert into public.social_links (id, platform, label_en, label_ar, value, displa
 -- Media (placeholder assets, served from /public via external_url)
 -- ----------------------------------------------------------------------------
 insert into public.media (id, external_url, file_name, mime_type, kind, category, alt_text_en, alt_text_ar) values
-  ('20000000-0000-0000-0000-000000000001', '/images/hero/doctor-hero-placeholder.svg', 'doctor-hero-placeholder.svg', 'image/svg+xml', 'image', 'doctor', 'Dr. Islam Moussa, orthopedic surgeon, portrait placeholder', 'د. إسلام موسى، استشاري جراحة العظام، صورة توضيحية مؤقتة'),
-  ('20000000-0000-0000-0000-000000000002', '/images/trust/doctor-portrait-placeholder.svg', 'doctor-portrait-placeholder.svg', 'image/svg+xml', 'image', 'doctor', 'Portrait placeholder of Dr. Islam Moussa', 'صورة توضيحية مؤقتة للدكتور إسلام موسى'),
-  ('20000000-0000-0000-0000-000000000003', '/images/about/doctor-about-placeholder.svg', 'doctor-about-placeholder.svg', 'image/svg+xml', 'image', 'doctor', 'Dr. Islam Moussa, orthopedic surgeon, professional portrait placeholder', 'د. إسلام موسى، استشاري جراحة العظام، صورة مهنية توضيحية مؤقتة'),
+  ('20000000-0000-0000-0000-000000000001', '/images/hero/doctor-hero-placeholder.svg', 'doctor-hero-placeholder.svg', 'image/svg+xml', 'image', 'doctor', 'Dr. Islam Mousa, orthopedic surgeon, portrait placeholder', 'د. إسلام موسى، استشاري جراحة العظام، صورة توضيحية مؤقتة'),
+  ('20000000-0000-0000-0000-000000000002', '/images/trust/doctor-portrait-placeholder.svg', 'doctor-portrait-placeholder.svg', 'image/svg+xml', 'image', 'doctor', 'Portrait placeholder of Dr. Islam Mousa', 'صورة توضيحية مؤقتة للدكتور إسلام موسى'),
+  ('20000000-0000-0000-0000-000000000003', '/images/about/doctor-about-placeholder.svg', 'doctor-about-placeholder.svg', 'image/svg+xml', 'image', 'doctor', 'Dr. Islam Mousa, orthopedic surgeon, professional portrait placeholder', 'د. إسلام موسى، استشاري جراحة العظام، صورة مهنية توضيحية مؤقتة'),
   ('20000000-0000-0000-0000-000000000004', '/images/video/introduction-video-placeholder.svg', 'introduction-video-placeholder.svg', 'image/svg+xml', 'image', 'doctor', 'Introductory video placeholder thumbnail', 'صورة مصغرة مؤقتة للفيديو التعريفي'),
   -- services
   ('20000000-0000-0000-0000-000000000010', '/images/specialties/specialty-knee-placeholder.svg', 'specialty-knee-placeholder.svg', 'image/svg+xml', 'image', 'services', 'Knee surgery specialty illustration', 'توضيح تخصص جراحة الركبة'),
@@ -127,7 +126,7 @@ insert into public.media (id, external_url, file_name, mime_type, kind, category
 -- ----------------------------------------------------------------------------
 insert into public.pages (id, slug, name_en, name_ar, display_order) values
   ('10000000-0000-0000-0000-000000000001', '', 'Home', 'الرئيسية', 1),
-  ('10000000-0000-0000-0000-000000000002', 'about', 'About Dr. Islam Moussa', 'عن د. إسلام موسى', 2),
+  ('10000000-0000-0000-0000-000000000002', 'about', 'About Dr. Islam Mousa', 'عن د. إسلام موسى', 2),
   ('10000000-0000-0000-0000-000000000003', 'services', 'Services', 'الخدمات', 3),
   ('10000000-0000-0000-0000-000000000004', 'videos', 'Videos', 'فيديوهات', 4),
   ('10000000-0000-0000-0000-000000000005', 'articles', 'Articles', 'مقالات', 5),
@@ -143,7 +142,7 @@ insert into public.page_sections (page_id, section_type, display_order, content)
   'eyebrow', jsonb_build_object('en','Orthopedic & Joint Replacement Surgeon','ar','استشاري جراحة العظام والمفاصل'),
   'headline', jsonb_build_object('en','Precision Orthopedic Care,','ar','رعاية دقيقة لعظامك ومفاصلك،'),
   'headlineAccent', jsonb_build_object('en','Built Around You','ar','بأحدث الأساليب الطبية'),
-  'description', jsonb_build_object('en','Dr. Islam Moussa blends surgical precision with modern, minimally invasive techniques to help every patient move without pain — from diagnosis to full recovery.','ar','يجمع د. إسلام موسى بين الدقة الجراحية وأحدث تقنيات الجراحة طفيفة التوغل، لمساعدة كل مريض على الحركة دون ألم، من التشخيص وحتى التعافي الكامل.'),
+  'description', jsonb_build_object('en','Dr. Islam Mousa blends surgical precision with modern, minimally invasive techniques to help every patient move without pain — from diagnosis to full recovery.','ar','يجمع د. إسلام موسى بين الدقة الجراحية وأحدث تقنيات الجراحة طفيفة التوغل، لمساعدة كل مريض على الحركة دون ألم، من التشخيص وحتى التعافي الكامل.'),
   'image_id', '20000000-0000-0000-0000-000000000001',
   'image_position', 'center 82%',
   'primaryCta', jsonb_build_object('label', jsonb_build_object('en','Book an Appointment','ar','احجز موعدك'), 'url', '/contact'),
@@ -153,9 +152,9 @@ insert into public.page_sections (page_id, section_type, display_order, content)
 ('10000000-0000-0000-0000-000000000001', 'doctor_intro', 3, jsonb_build_object(
   'eyebrow', jsonb_build_object('en','Meet Your Surgeon','ar','تعرف على طبيبك'),
   'heading', jsonb_build_object('en','A Surgeon Focused on Your Full Recovery','ar','جراح يركز على تعافيك الكامل'),
-  'paragraph', jsonb_build_object('en','With over 15 years dedicated to orthopedic and joint replacement surgery, Dr. Islam Moussa has built a practice on precision, evidence-based technique and genuine care for every patient''s story.','ar','بخبرة تمتد لأكثر من 15 عامًا في جراحة العظام واستبدال المفاصل، بنى د. إسلام موسى ممارسة طبية قائمة على الدقة والأسلوب العلمي والاهتمام الحقيقي بقصة كل مريض.'),
+  'paragraph', jsonb_build_object('en','With over 15 years dedicated to orthopedic and joint replacement surgery, Dr. Islam Mousa has built a practice on precision, evidence-based technique and genuine care for every patient''s story.','ar','بخبرة تمتد لأكثر من 15 عامًا في جراحة العظام واستبدال المفاصل، بنى د. إسلام موسى ممارسة طبية قائمة على الدقة والأسلوب العلمي والاهتمام الحقيقي بقصة كل مريض.'),
   'supporting', jsonb_build_object('en','From arthroscopic sports repairs to complex joint reconstruction, every treatment plan is tailored — combining modern technology with a calm, reassuring approach.','ar','من إصلاحات المناظير الرياضية إلى إعادة بناء المفاصل المعقدة، تُصمَّم كل خطة علاجية خصيصًا لكل حالة، بالجمع بين التقنية الحديثة وأسلوب هادئ ومطمئن.'),
-  'cta', jsonb_build_object('label', jsonb_build_object('en','Learn More About Dr. Islam Moussa','ar','تعرف أكثر على د. إسلام موسى'), 'url', '/about'),
+  'cta', jsonb_build_object('label', jsonb_build_object('en','Learn More About Dr. Islam Mousa','ar','تعرف أكثر على د. إسلام موسى'), 'url', '/about'),
   'video_cover_media_id', '20000000-0000-0000-0000-000000000004',
   'video_media_id', null,
   'video_alt', jsonb_build_object('en','Introductory video placeholder thumbnail','ar','صورة مصغرة مؤقتة للفيديو التعريفي')
@@ -172,15 +171,15 @@ insert into public.page_sections (page_id, section_type, display_order, content)
 )),
 ('10000000-0000-0000-0000-000000000001', 'why_trust', 6, jsonb_build_object(
   'eyebrow', jsonb_build_object('en','Why Choose Us','ar','لماذا تختارنا'),
-  'heading', jsonb_build_object('en','Why Trust Dr. Islam Moussa?','ar','لماذا تثق في د. إسلام موسى؟'),
+  'heading', jsonb_build_object('en','Why Trust Dr. Islam Mousa?','ar','لماذا تثق في د. إسلام موسى؟'),
   'description', jsonb_build_object('en','A track record built on precision, transparency and genuine care for every patient''s outcome.','ar','سجل حافل مبني على الدقة والشفافية والاهتمام الحقيقي بنتيجة كل مريض.'),
   'portrait_media_id', '20000000-0000-0000-0000-000000000002',
-  'portrait_alt', jsonb_build_object('en','Portrait placeholder of Dr. Islam Moussa','ar','صورة توضيحية مؤقتة للدكتور إسلام موسى')
+  'portrait_alt', jsonb_build_object('en','Portrait placeholder of Dr. Islam Mousa','ar','صورة توضيحية مؤقتة للدكتور إسلام موسى')
 )),
 ('10000000-0000-0000-0000-000000000001', 'featured_videos_intro', 7, jsonb_build_object(
   'eyebrow', jsonb_build_object('en','Watch & Learn','ar','شاهد وتعرف'),
   'title', jsonb_build_object('en','Featured Videos','ar','فيديوهات مختارة'),
-  'description', jsonb_build_object('en','Short, practical explanations straight from Dr. Islam Moussa.','ar','شروحات قصيرة وعملية مباشرة من د. إسلام موسى.')
+  'description', jsonb_build_object('en','Short, practical explanations straight from Dr. Islam Mousa.','ar','شروحات قصيرة وعملية مباشرة من د. إسلام موسى.')
 )),
 ('10000000-0000-0000-0000-000000000001', 'faq_intro', 8, jsonb_build_object(
   'eyebrow', jsonb_build_object('en','Have Questions?','ar','لديك أسئلة؟'),
@@ -199,20 +198,20 @@ insert into public.page_sections (page_id, section_type, display_order, content)
   'eyebrow', jsonb_build_object('en','About the Surgeon','ar','عن الجراح'),
   'headline', jsonb_build_object('en','15+ Years of Precision Orthopedic','ar','أكثر من 15 عامًا من جراحة العظام'),
   'headlineAccent', jsonb_build_object('en','Care & Expertise','ar','الدقيقة والخبرة الموثوقة'),
-  'description', jsonb_build_object('en','Dr. Islam Moussa combines surgical precision, modern technique and genuine, patient-centered care — a career built one careful diagnosis at a time.','ar','يجمع د. إسلام موسى بين الدقة الجراحية والأساليب الحديثة والرعاية الحقيقية المتمحورة حول المريض، في مسيرة مهنية بُنيت على تشخيص دقيق لكل حالة.'),
+  'description', jsonb_build_object('en','Dr. Islam Mousa combines surgical precision, modern technique and genuine, patient-centered care — a career built one careful diagnosis at a time.','ar','يجمع د. إسلام موسى بين الدقة الجراحية والأساليب الحديثة والرعاية الحقيقية المتمحورة حول المريض، في مسيرة مهنية بُنيت على تشخيص دقيق لكل حالة.'),
   'image_id', '20000000-0000-0000-0000-000000000001',
   'image_position', 'center 82%',
   'primaryCta', jsonb_build_object('label', jsonb_build_object('en','Book an Appointment','ar','احجز موعدك'), 'url', '/contact'),
   'secondaryCta', jsonb_build_object('label', jsonb_build_object('en','Contact Us','ar','تواصل معنا'), 'url', '/contact')
 )),
 ('10000000-0000-0000-0000-000000000002', 'about_doctor', 2, jsonb_build_object(
-  'eyebrow', jsonb_build_object('en','Meet Dr. Islam Moussa','ar','تعرف على د. إسلام موسى'),
+  'eyebrow', jsonb_build_object('en','Meet Dr. Islam Mousa','ar','تعرف على د. إسلام موسى'),
   'heading', jsonb_build_object('en','An Orthopedic Surgeon Devoted to Precise, Patient-First Care','ar','جراح عظام يكرّس خبرته لرعاية دقيقة تضع المريض أولاً'),
   'paragraphs', jsonb_build_object(
     'en', jsonb_build_array(
-      'Dr. Islam Moussa is an orthopedic and joint replacement surgeon with over 15 years of experience treating patients across the full spectrum of bone, joint and sports-related conditions.',
+      'Dr. Islam Mousa is an orthopedic and joint replacement surgeon with over 15 years of experience treating patients across the full spectrum of bone, joint and sports-related conditions.',
       'His approach is built on a simple principle: an accurate diagnosis first, then a treatment plan that fits the patient''s life — not a standard protocol applied to every case. That has meant embracing minimally invasive and arthroscopic techniques wherever they offer a safer, faster path to recovery.',
-      'Beyond the operating room, Dr. Moussa believes patients recover with more confidence when they understand exactly what is happening to their body and why a particular treatment is recommended — a philosophy that shapes every consultation.'
+      'Beyond the operating room, Dr. Mousa believes patients recover with more confidence when they understand exactly what is happening to their body and why a particular treatment is recommended — a philosophy that shapes every consultation.'
     ),
     'ar', jsonb_build_array(
       'د. إسلام موسى استشاري جراحة العظام واستبدال المفاصل، ويحمل خبرة تمتد لأكثر من 15 عامًا في علاج كامل نطاق حالات العظام والمفاصل والإصابات الرياضية.',
@@ -222,7 +221,7 @@ insert into public.page_sections (page_id, section_type, display_order, content)
   ),
   'supportingStatement', jsonb_build_object('en','Every treatment plan starts with listening — because the best outcome is the one that fits your life, not just your scan.','ar','تبدأ كل خطة علاجية بالإصغاء الجيد، لأن أفضل نتيجة هي التي تناسب حياتك، وليست فقط ما تظهره الأشعة.'),
   'image_id', '20000000-0000-0000-0000-000000000003',
-  'image_alt', jsonb_build_object('en','Dr. Islam Moussa, orthopedic surgeon, professional portrait placeholder','ar','د. إسلام موسى، استشاري جراحة العظام، صورة مهنية توضيحية مؤقتة')
+  'image_alt', jsonb_build_object('en','Dr. Islam Mousa, orthopedic surgeon, professional portrait placeholder','ar','د. إسلام موسى، استشاري جراحة العظام، صورة مهنية توضيحية مؤقتة')
 )),
 ('10000000-0000-0000-0000-000000000002', 'certificates_intro', 3, jsonb_build_object(
   'eyebrow', jsonb_build_object('en','Credentials','ar','المؤهلات'),
@@ -247,7 +246,7 @@ insert into public.page_sections (page_id, section_type, display_order, content)
   'eyebrow', jsonb_build_object('en','Services & Conditions','ar','الخدمات والحالات'),
   'headline', jsonb_build_object('en','Orthopedic Surgery,','ar','جراحة عظام'),
   'headlineAccent', jsonb_build_object('en','Tailored to Every Diagnosis','ar','مصممة خصيصًا لكل تشخيص'),
-  'description', jsonb_build_object('en','From full surgical specialties to the everyday conditions that bring patients in, explore every treatment Dr. Islam Moussa provides.','ar','من التخصصات الجراحية الكاملة إلى الحالات اليومية التي تدفع المرضى لزيارته، تعرف على كل علاج يقدمه د. إسلام موسى.'),
+  'description', jsonb_build_object('en','From full surgical specialties to the everyday conditions that bring patients in, explore every treatment Dr. Islam Mousa provides.','ar','من التخصصات الجراحية الكاملة إلى الحالات اليومية التي تدفع المرضى لزيارته، تعرف على كل علاج يقدمه د. إسلام موسى.'),
   'image_id', '20000000-0000-0000-0000-000000000001',
   'image_position', 'center 82%',
   'primaryCta', jsonb_build_object('label', jsonb_build_object('en','Book an Appointment','ar','احجز موعدك'), 'url', '/contact'),
@@ -269,7 +268,7 @@ insert into public.page_sections (page_id, section_type, display_order, content)
 ('10000000-0000-0000-0000-000000000004', 'hero', 1, jsonb_build_object(
   'eyebrow', jsonb_build_object('en','Video Library','ar','مكتبة الفيديو'),
   'headline', jsonb_build_object('en','Watch & Learn,','ar','شاهد وتعلّم'),
-  'headlineAccent', jsonb_build_object('en','Straight from Dr. Islam Moussa','ar','مباشرة من د. إسلام موسى'),
+  'headlineAccent', jsonb_build_object('en','Straight from Dr. Islam Mousa','ar','مباشرة من د. إسلام موسى'),
   'description', jsonb_build_object('en','Short, practical explanations of common orthopedic conditions, treatments and recovery — filmed to be easy to understand and easy to trust.','ar','شروحات قصيرة وعملية لأشهر حالات العظام وعلاجاتها ومراحل التعافي منها، بأسلوب سهل الفهم وموثوق.'),
   'image_id', '20000000-0000-0000-0000-000000000001',
   'image_position', 'center 82%',
@@ -283,7 +282,7 @@ insert into public.page_sections (page_id, section_type, display_order, content)
   'eyebrow', jsonb_build_object('en','From the Blog','ar','من المدونة'),
   'headline', jsonb_build_object('en','Practical Guidance,','ar','إرشادات عملية'),
   'headlineAccent', jsonb_build_object('en','Written for Real Patients','ar','مكتوبة لمرضى حقيقيين'),
-  'description', jsonb_build_object('en','Easy-to-understand articles on orthopedic health — the same clear explanations Dr. Islam Moussa gives in the clinic, in writing.','ar','مقالات سهلة الفهم حول صحة العظام والمفاصل، بنفس الشروحات الواضحة التي يقدمها د. إسلام موسى في العيادة، مكتوبة هنا.'),
+  'description', jsonb_build_object('en','Easy-to-understand articles on orthopedic health — the same clear explanations Dr. Islam Mousa gives in the clinic, in writing.','ar','مقالات سهلة الفهم حول صحة العظام والمفاصل، بنفس الشروحات الواضحة التي يقدمها د. إسلام موسى في العيادة، مكتوبة هنا.'),
   'image_id', '20000000-0000-0000-0000-000000000001',
   'image_position', 'center 82%',
   'primaryCta', jsonb_build_object('label', jsonb_build_object('en','Book an Appointment','ar','احجز موعدك'), 'url', '/contact'),
@@ -296,7 +295,7 @@ insert into public.page_sections (page_id, section_type, display_order, content)
   'eyebrow', jsonb_build_object('en','Get in Touch','ar','تواصل معنا'),
   'headline', jsonb_build_object('en','Let''s Talk About','ar','لنتحدث عن'),
   'headlineAccent', jsonb_build_object('en','Your Recovery','ar','رحلة تعافيك'),
-  'description', jsonb_build_object('en','Call, message on WhatsApp, or send a quick note below — Dr. Islam Moussa''s clinic is ready to help you take the next step.','ar','اتصل بنا، أو راسلنا عبر واتساب، أو أرسل رسالة سريعة أدناه، فعيادة د. إسلام موسى جاهزة لمساعدتك على اتخاذ خطوتك التالية.'),
+  'description', jsonb_build_object('en','Call, message on WhatsApp, or send a quick note below — Dr. Islam Mousa''s clinic is ready to help you take the next step.','ar','اتصل بنا، أو راسلنا عبر واتساب، أو أرسل رسالة سريعة أدناه، فعيادة د. إسلام موسى جاهزة لمساعدتك على اتخاذ خطوتك التالية.'),
   'image_id', '20000000-0000-0000-0000-000000000001',
   'image_position', 'center 82%',
   'primaryCta', jsonb_build_object('label', jsonb_build_object('en','Book an Appointment','ar','احجز موعدك'), 'url', '/contact'),
@@ -312,23 +311,23 @@ insert into public.page_sections (page_id, section_type, display_order, content)
 -- Page SEO
 -- ----------------------------------------------------------------------------
 insert into public.page_seo (page_id, seo_title_en, seo_title_ar, meta_description_en, meta_description_ar, canonical_url) values
-('10000000-0000-0000-0000-000000000001', 'Dr. Islam Moussa | Orthopedic & Joint Replacement Surgeon', 'د. إسلام موسى | استشاري جراحة العظام والمفاصل',
- 'Dr. Islam Moussa is an orthopedic surgeon specializing in joint replacement, arthroscopic surgery and sports injuries — combining surgical precision with patient-centered, modern care.',
+('10000000-0000-0000-0000-000000000001', 'Dr. Islam Mousa | Orthopedic & Joint Replacement Surgeon', 'د. إسلام موسى | استشاري جراحة العظام والمفاصل',
+ 'Dr. Islam Mousa is an orthopedic surgeon specializing in joint replacement, arthroscopic surgery and sports injuries — combining surgical precision with patient-centered, modern care.',
  'د. إسلام موسى استشاري جراحة العظام والمفاصل، متخصص في جراحات استبدال المفاصل والمناظير وإصابات الملاعب، يجمع بين الدقة الجراحية والرعاية الحديثة المتمحورة حول المريض.', '/'),
-('10000000-0000-0000-0000-000000000002', 'About Dr. Islam Moussa | Orthopedic Surgeon', 'عن د. إسلام موسى | استشاري جراحة العظام',
- 'Dr. Islam Moussa combines surgical precision, modern technique and genuine, patient-centered care — a career built one careful diagnosis at a time.',
+('10000000-0000-0000-0000-000000000002', 'About Dr. Islam Mousa | Orthopedic Surgeon', 'عن د. إسلام موسى | استشاري جراحة العظام',
+ 'Dr. Islam Mousa combines surgical precision, modern technique and genuine, patient-centered care — a career built one careful diagnosis at a time.',
  'يجمع د. إسلام موسى بين الدقة الجراحية والأساليب الحديثة والرعاية الحقيقية المتمحورة حول المريض.', '/about'),
-('10000000-0000-0000-0000-000000000003', 'Services & Conditions | Dr. Islam Moussa', 'الخدمات والحالات | د. إسلام موسى',
- 'From full surgical specialties to the everyday conditions that bring patients in, explore every treatment Dr. Islam Moussa provides.',
+('10000000-0000-0000-0000-000000000003', 'Services & Conditions | Dr. Islam Mousa', 'الخدمات والحالات | د. إسلام موسى',
+ 'From full surgical specialties to the everyday conditions that bring patients in, explore every treatment Dr. Islam Mousa provides.',
  'من التخصصات الجراحية الكاملة إلى الحالات اليومية، تعرف على كل علاج يقدمه د. إسلام موسى.', '/services'),
-('10000000-0000-0000-0000-000000000004', 'Video Library | Dr. Islam Moussa', 'مكتبة الفيديو | د. إسلام موسى',
- 'Short, practical explanations of common orthopedic conditions, treatments and recovery from Dr. Islam Moussa.',
+('10000000-0000-0000-0000-000000000004', 'Video Library | Dr. Islam Mousa', 'مكتبة الفيديو | د. إسلام موسى',
+ 'Short, practical explanations of common orthopedic conditions, treatments and recovery from Dr. Islam Mousa.',
  'شروحات قصيرة وعملية لأشهر حالات العظام وعلاجاتها من د. إسلام موسى.', '/videos'),
-('10000000-0000-0000-0000-000000000005', 'Articles | Dr. Islam Moussa', 'مقالات | د. إسلام موسى',
- 'Easy-to-understand articles on orthopedic health from Dr. Islam Moussa''s clinic.',
+('10000000-0000-0000-0000-000000000005', 'Articles | Dr. Islam Mousa', 'مقالات | د. إسلام موسى',
+ 'Easy-to-understand articles on orthopedic health from Dr. Islam Mousa''s clinic.',
  'مقالات سهلة الفهم حول صحة العظام والمفاصل من عيادة د. إسلام موسى.', '/articles'),
-('10000000-0000-0000-0000-000000000006', 'Contact Us | Dr. Islam Moussa', 'تواصل معنا | د. إسلام موسى',
- 'Call, message on WhatsApp, or send a quick note — Dr. Islam Moussa''s clinic is ready to help you take the next step.',
+('10000000-0000-0000-0000-000000000006', 'Contact Us | Dr. Islam Mousa', 'تواصل معنا | د. إسلام موسى',
+ 'Call, message on WhatsApp, or send a quick note — Dr. Islam Mousa''s clinic is ready to help you take the next step.',
  'اتصل بنا، أو راسلنا عبر واتساب، أو أرسل رسالة سريعة، فعيادة د. إسلام موسى جاهزة لمساعدتك.', '/contact');
 
 -- ----------------------------------------------------------------------------
@@ -379,7 +378,7 @@ insert into public.services (id, slug, icon, title_en, title_ar, short_descripti
  '20000000-0000-0000-0000-000000000015', 'Arthroscopic surgery specialty illustration', 'توضيح تخصص جراحة المناظير', 6);
 
 insert into public.service_seo (service_id, seo_title_en, seo_title_ar, meta_description_en, meta_description_ar)
-select id, title_en || ' | Dr. Islam Moussa', title_ar || ' | د. إسلام موسى', short_description_en, short_description_ar
+select id, title_en || ' | Dr. Islam Mousa', title_ar || ' | د. إسلام موسى', short_description_en, short_description_ar
 from public.services;
 
 -- ----------------------------------------------------------------------------
@@ -430,7 +429,7 @@ insert into public.conditions (id, slug, icon, title_en, title_ar, short_descrip
  '20000000-0000-0000-0000-000000000025', 'Sports injury condition illustration', 'توضيح حالة الإصابات الرياضية', 6);
 
 insert into public.condition_seo (condition_id, seo_title_en, seo_title_ar, meta_description_en, meta_description_ar)
-select id, title_en || ' | Dr. Islam Moussa', title_ar || ' | د. إسلام موسى', short_description_en, short_description_ar
+select id, title_en || ' | Dr. Islam Mousa', title_ar || ' | د. إسلام موسى', short_description_en, short_description_ar
 from public.conditions;
 
 -- ----------------------------------------------------------------------------
@@ -468,7 +467,7 @@ insert into public.career_items (id, year, icon, position_en, position_ar, insti
 -- ----------------------------------------------------------------------------
 insert into public.videos (id, slug, title_en, title_ar, description_en, description_ar, category_en, category_ar, cover_media_id, video_media_id, duration_label, display_order, is_featured, published_at) values
 ('34000000-0000-0000-0000-000000000001', 'understanding-knee-replacement', 'Understanding Knee Replacement Surgery', 'فهم عملية استبدال مفصل الركبة',
- 'Dr. Islam Moussa explains what to expect before, during and after a knee replacement.', 'يشرح د. إسلام موسى ما يجب توقعه قبل وأثناء وبعد عملية استبدال الركبة.',
+ 'Dr. Islam Mousa explains what to expect before, during and after a knee replacement.', 'يشرح د. إسلام موسى ما يجب توقعه قبل وأثناء وبعد عملية استبدال الركبة.',
  'Joint Replacement', 'استبدال المفاصل', '20000000-0000-0000-0000-000000000040', null, '06:12', 1, true, '2026-02-10'),
 ('34000000-0000-0000-0000-000000000002', 'recovering-from-sports-injuries', 'Recovering from Common Sports Injuries', 'التعافي من الإصابات الرياضية الشائعة',
  'A practical look at rehabilitation timelines for ligament and tendon injuries.', 'نظرة عملية على الجداول الزمنية للتعافي من إصابات الأربطة والأوتار.',
@@ -584,7 +583,7 @@ begin
 end $$;
 
 insert into public.article_seo (article_id, seo_title_en, seo_title_ar, meta_description_en, meta_description_ar)
-select id, title_en || ' | Dr. Islam Moussa', title_ar || ' | د. إسلام موسى', excerpt_en, excerpt_ar
+select id, title_en || ' | Dr. Islam Mousa', title_ar || ' | د. إسلام موسى', excerpt_en, excerpt_ar
 from public.articles;
 
 -- ----------------------------------------------------------------------------

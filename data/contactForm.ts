@@ -35,7 +35,7 @@ export const contactFormContent = {
     message: {
       label: { en: "Message / Reason for Visit", ar: "الرسالة / سبب الزيارة" } satisfies Localized,
       placeholder: {
-        en: "Briefly describe what you'd like to discuss with Dr. Islam Moussa.",
+        en: "Briefly describe what you'd like to discuss with Dr. Islam Mousa.",
         ar: "صف باختصار ما تود مناقشته مع د. إسلام موسى.",
       } satisfies Localized,
     },
@@ -56,7 +56,7 @@ export const contactFormContent = {
   success: {
     title: { en: "Ready to Send", ar: "جاهز للإرسال" } satisfies Localized,
     description: {
-      en: "Your message is ready — press \"Send via WhatsApp\" to deliver it to Dr. Islam Moussa's clinic.",
+      en: "Your message is ready — press \"Send via WhatsApp\" to deliver it to Dr. Islam Mousa's clinic.",
       ar: "رسالتك جاهزة، اضغط \"إرسال عبر واتساب\" لإرسالها إلى عيادة د. إسلام موسى.",
     } satisfies Localized,
   },
@@ -87,7 +87,7 @@ export const contactFormContent = {
     }
 
     return [
-      "Hello Dr. Islam Moussa,",
+      "Hello Dr. Islam Mousa,",
       "",
       "I would like to request an appointment.",
       "",

@@ -6,9 +6,9 @@ import type { Localized } from "@/lib/types";
  */
 export const siteContent = {
   brand: {
-    name: "Dr. Islam Moussa" as const,
+    name: "Dr. Islam Mousa" as const,
     nameLocalized: {
-      en: "Dr. Islam Moussa",
+      en: "Dr. Islam Mousa",
       ar: "د. إسلام موسى",
     } satisfies Localized,
     credentials: {
@@ -19,15 +19,15 @@ export const siteContent = {
 
   seo: {
     titleTemplate: {
-      en: "%s | Dr. Islam Moussa — Orthopedic Surgeon",
+      en: "%s | Dr. Islam Mousa — Orthopedic Surgeon",
       ar: "%s | د. إسلام موسى - استشاري جراحة العظام",
     } satisfies Localized,
     defaultTitle: {
-      en: "Dr. Islam Moussa | Orthopedic & Joint Replacement Surgeon",
+      en: "Dr. Islam Mousa | Orthopedic & Joint Replacement Surgeon",
       ar: "د. إسلام موسى | استشاري جراحة العظام والمفاصل",
     } satisfies Localized,
     defaultDescription: {
-      en: "Dr. Islam Moussa is an orthopedic surgeon specializing in joint replacement, arthroscopic surgery and sports injuries — combining surgical precision with patient-centered, modern care.",
+      en: "Dr. Islam Mousa is an orthopedic surgeon specializing in joint replacement, arthroscopic surgery and sports injuries — combining surgical precision with patient-centered, modern care.",
       ar: "د. إسلام موسى استشاري جراحة العظام والمفاصل، متخصص في جراحات استبدال المفاصل والمناظير وإصابات الملاعب، يجمع بين الدقة الجراحية والرعاية الحديثة المتمحورة حول المريض.",
     } satisfies Localized,
     keywords: {
@@ -47,7 +47,7 @@ export const siteContent = {
     exploreAllConditions: { en: "Explore All Conditions", ar: "استكشف كل الحالات" } satisfies Localized,
     viewAllVideos: { en: "View All Videos", ar: "عرض كل الفيديوهات" } satisfies Localized,
     viewAllArticles: { en: "View All Articles", ar: "عرض كل المقالات" } satisfies Localized,
-    learnMoreAboutDoctor: { en: "Learn More About Dr. Islam Moussa", ar: "تعرف أكثر على د. إسلام موسى" } satisfies Localized,
+    learnMoreAboutDoctor: { en: "Learn More About Dr. Islam Mousa", ar: "تعرف أكثر على د. إسلام موسى" } satisfies Localized,
     close: { en: "Close", ar: "إغلاق" } satisfies Localized,
     play: { en: "Play video", ar: "تشغيل الفيديو" } satisfies Localized,
     menu: { en: "Menu", ar: "القائمة" } satisfies Localized,

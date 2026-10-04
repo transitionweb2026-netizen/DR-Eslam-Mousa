@@ -1,4 +1,4 @@
-# Dr. Islam Moussa — Orthopedic Surgeon Website
+# Dr. Islam Mousa — Orthopedic Surgeon Website
 
 A premium, bilingual (Arabic/English) medical website built with Next.js 16
 (App Router), React 19 and TypeScript. Home page is fully built; the

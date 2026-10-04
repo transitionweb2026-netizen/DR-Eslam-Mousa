@@ -20,7 +20,7 @@ export default async function AdminLoginPage({
               <path d="M8 10V7a4 4 0 0 1 8 0v3" />
             </svg>
           </span>
-          <h1 className="mt-4 text-xl font-bold text-brand-ink">Dr. Islam Moussa CMS</h1>
+          <h1 className="mt-4 text-xl font-bold text-brand-ink">Dr. Islam Mousa CMS</h1>
           <p className="mt-1 text-sm text-brand-muted">Sign in to manage the website.</p>
         </div>
 

@@ -102,7 +102,7 @@ const fallbackAboutHero: HeroContent = {
   headline: { en: "15+ Years of Precision Orthopedic", ar: "أكثر من 15 عامًا من جراحة العظام" },
   headlineAccent: { en: "Care & Expertise", ar: "الدقيقة والخبرة الموثوقة" },
   description: {
-    en: "Dr. Islam Moussa combines surgical precision, modern technique and genuine, patient-centered care — a career built one careful diagnosis at a time.",
+    en: "Dr. Islam Mousa combines surgical precision, modern technique and genuine, patient-centered care — a career built one careful diagnosis at a time.",
     ar: "يجمع د. إسلام موسى بين الدقة الجراحية والأساليب الحديثة والرعاية الحقيقية المتمحورة حول المريض، في مسيرة مهنية بُنيت على تشخيص دقيق لكل حالة.",
   },
 };
@@ -113,7 +113,7 @@ const fallbackServicesHero: HeroContent = {
   headline: { en: "Orthopedic Surgery,", ar: "جراحة عظام" },
   headlineAccent: { en: "Tailored to Every Diagnosis", ar: "مصممة خصيصًا لكل تشخيص" },
   description: {
-    en: "From full surgical specialties to the everyday conditions that bring patients in, explore every treatment Dr. Islam Moussa provides.",
+    en: "From full surgical specialties to the everyday conditions that bring patients in, explore every treatment Dr. Islam Mousa provides.",
     ar: "من التخصصات الجراحية الكاملة إلى الحالات اليومية التي تدفع المرضى لزيارته، تعرف على كل علاج يقدمه د. إسلام موسى.",
   },
 };
@@ -122,7 +122,7 @@ const fallbackVideosHero: HeroContent = {
   ...fallbackHomeHero,
   eyebrow: { en: "Video Library", ar: "مكتبة الفيديو" },
   headline: { en: "Watch & Learn,", ar: "شاهد وتعلّم" },
-  headlineAccent: { en: "Straight from Dr. Islam Moussa", ar: "مباشرة من د. إسلام موسى" },
+  headlineAccent: { en: "Straight from Dr. Islam Mousa", ar: "مباشرة من د. إسلام موسى" },
   description: {
     en: "Short, practical explanations of common orthopedic conditions, treatments and recovery — filmed to be easy to understand and easy to trust.",
     ar: "شروحات قصيرة وعملية لأشهر حالات العظام وعلاجاتها ومراحل التعافي منها، بأسلوب سهل الفهم وموثوق.",
@@ -135,7 +135,7 @@ const fallbackArticlesHero: HeroContent = {
   headline: { en: "Practical Guidance,", ar: "إرشادات عملية" },
   headlineAccent: { en: "Written for Real Patients", ar: "مكتوبة لمرضى حقيقيين" },
   description: {
-    en: "Easy-to-understand articles on orthopedic health — the same clear explanations Dr. Islam Moussa gives in the clinic, in writing.",
+    en: "Easy-to-understand articles on orthopedic health — the same clear explanations Dr. Islam Mousa gives in the clinic, in writing.",
     ar: "مقالات سهلة الفهم حول صحة العظام والمفاصل، بنفس الشروحات الواضحة التي يقدمها د. إسلام موسى في العيادة، مكتوبة هنا.",
   },
 };
@@ -146,7 +146,7 @@ const fallbackContactHero: HeroContent = {
   headline: { en: "Let's Talk About", ar: "لنتحدث عن" },
   headlineAccent: { en: "Your Recovery", ar: "رحلة تعافيك" },
   description: {
-    en: "Call, message on WhatsApp, or send a quick note below — Dr. Islam Moussa's clinic is ready to help you take the next step.",
+    en: "Call, message on WhatsApp, or send a quick note below — Dr. Islam Mousa's clinic is ready to help you take the next step.",
     ar: "اتصل بنا، أو راسلنا عبر واتساب، أو أرسل رسالة سريعة أدناه، فعيادة د. إسلام موسى جاهزة لمساعدتك على اتخاذ خطوتك التالية.",
   },
 };
@@ -163,7 +163,7 @@ const fallbackContactIntro: IntroContent = {
 const fallbackContactCta: ContactCtaContent = {
   image: fallbackHomeHero.image,
   eyebrow: { en: "Get in Touch", ar: "تواصل معنا" },
-  heading: { en: "Speak with Dr. Islam Moussa Directly", ar: "تحدث مباشرة مع د. إسلام موسى" },
+  heading: { en: "Speak with Dr. Islam Mousa Directly", ar: "تحدث مباشرة مع د. إسلام موسى" },
   lines: {
     en: ["Orthopedic & Joint Replacement Surgeon", "15+ years of surgical experience"],
     ar: ["استشاري جراحة العظام والمفاصل", "أكثر من 15 عامًا من الخبرة الجراحية"],
@@ -173,7 +173,7 @@ const fallbackContactCta: ContactCtaContent = {
 
 const fallbackServicesVideosIntro: IntroContent = {
   eyebrow: { en: "Watch & Learn", ar: "شاهد وتعرف" },
-  title: { en: "Meet Dr. Islam Moussa", ar: "تعرف على د. إسلام موسى" },
+  title: { en: "Meet Dr. Islam Mousa", ar: "تعرف على د. إسلام موسى" },
   description: {
     en: "A closer look at the care and expertise behind every treatment.",
     ar: "لمحة عن الرعاية والخبرة وراء كل علاج.",
@@ -183,7 +183,7 @@ const fallbackServicesVideosIntro: IntroContent = {
 const fallbackDoctorGalleryIntro: IntroContent = {
   eyebrow: { en: "In Pictures", ar: "بالصور" },
   title: { en: "Doctor Photo Gallery", ar: "معرض صور الدكتور" },
-  description: { en: "A closer look at Dr. Islam Moussa's practice.", ar: "لمحة عن ممارسة د. إسلام موسى الطبية." },
+  description: { en: "A closer look at Dr. Islam Mousa's practice.", ar: "لمحة عن ممارسة د. إسلام موسى الطبية." },
 };
 
 const fallbackResearchIntro: IntroContent = {
@@ -199,7 +199,7 @@ const fallbackReviewsIntro: IntroContent = {
   eyebrow: { en: "Patient Stories", ar: "آراء المرضى" },
   title: { en: "What Our Patients Say", ar: "ماذا يقول مرضانا" },
   description: {
-    en: "Real experiences from patients treated by Dr. Islam Moussa.",
+    en: "Real experiences from patients treated by Dr. Islam Mousa.",
     ar: "تجارب حقيقية لمرضى تمت معالجتهم على يد د. إسلام موسى.",
   },
 };

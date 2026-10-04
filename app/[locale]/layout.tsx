@@ -4,6 +4,9 @@ import "../globals.css";
 import { fontVariables } from "@/lib/fonts";
 import { isLocale, locales, localeDirection, localeTag, type Locale } from "@/lib/i18n/config";
 import { siteContent } from "@/data/site";
+import { SITE_URL, OG_IMAGE_PATH, absoluteUrl } from "@/lib/seo";
+import { siteEntityJsonLd } from "@/lib/seoStructuredData";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getSiteBranding, getNavigationItems, getSocialLinks, getFooterContent, getContactInfo, getContactLocations } from "@/lib/cms/publicSettings";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -29,14 +32,14 @@ export async function generateMetadata({
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
 
   return {
-    metadataBase: new URL("https://www.dr-islammoussa.com"),
+    metadataBase: new URL(SITE_URL),
     title: {
       template: siteContent.seo.titleTemplate[locale],
       default: siteContent.seo.defaultTitle[locale],
     },
     description: siteContent.seo.defaultDescription[locale],
-    keywords: siteContent.seo.keywords[locale],
     openGraph: {
+      siteName: "Dr. Islam Mousa",
       title: siteContent.seo.defaultTitle[locale],
       description: siteContent.seo.defaultDescription[locale],
       locale: localeTag[locale],
@@ -63,6 +66,18 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
     <html lang={localeTag[locale]} dir={localeDirection[locale]} className={fontVariables}>
       <body className="antialiased">
         <MotionProvider>
+          <JsonLd
+            data={siteEntityJsonLd({
+              locale,
+              brandName: branding.name,
+              credentials: branding.credentials,
+              phoneHref: contactInfo.phoneHref,
+              email: contactInfo.email,
+              locations,
+              socialLinks,
+              imageUrl: absoluteUrl(OG_IMAGE_PATH),
+            })}
+          />
           <a
             href="#main-content"
             className="sr-only focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:font-semibold focus:text-brand-purple focus:shadow-glass"

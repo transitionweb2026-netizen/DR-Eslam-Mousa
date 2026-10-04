@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata, breadcrumbJsonLd, webPageJsonLd } from "@/lib/seo";
+import { getPageSeo } from "@/lib/cms/publicSeo";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getVideosHero } from "@/lib/cms/publicSections";
 import { getVideos } from "@/lib/cms/publicContent";
 import { getFinalCtaSettings, getContactInfo, getSocialLinks } from "@/lib/cms/publicSettings";
@@ -18,12 +20,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
-  const hero = await getVideosHero();
-  return {
-    title: hero.content.headline[locale] + " " + hero.content.headlineAccent[locale],
-    description: hero.content.description[locale],
-    alternates: buildAlternates(locale, "videos"),
-  };
+  return buildPageMetadata(locale, "videos", await getPageSeo("videos"));
 }
 
 export default async function VideosPage({ params }: PageProps<"/[locale]/videos">) {
@@ -40,8 +37,11 @@ export default async function VideosPage({ params }: PageProps<"/[locale]/videos
     getSocialLinks(),
   ]);
 
+  const seo = await getPageSeo("videos");
+
   return (
     <>
+      <JsonLd data={[webPageJsonLd(locale, "videos", seo.title[locale], seo.description[locale]), breadcrumbJsonLd(locale, "videos")]} />
       <Hero
         locale={locale}
         content={hero.content}

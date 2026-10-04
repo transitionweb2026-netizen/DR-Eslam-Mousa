@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata, breadcrumbJsonLd, webPageJsonLd } from "@/lib/seo";
+import { getPageSeo } from "@/lib/cms/publicSeo";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getArticlesHero } from "@/lib/cms/publicSections";
 import { getArticles } from "@/lib/cms/publicContent";
 import { getFinalCtaSettings, getContactInfo, getSocialLinks } from "@/lib/cms/publicSettings";
@@ -19,12 +21,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
-  const hero = await getArticlesHero();
-  return {
-    title: hero.content.headline[locale] + " " + hero.content.headlineAccent[locale],
-    description: hero.content.description[locale],
-    alternates: buildAlternates(locale, "articles"),
-  };
+  return buildPageMetadata(locale, "articles", await getPageSeo("articles"));
 }
 
 export default async function ArticlesPage({ params }: PageProps<"/[locale]/articles">) {
@@ -46,8 +43,11 @@ export default async function ArticlesPage({ params }: PageProps<"/[locale]/arti
   const [mainArticle, ...restArticles] = [...articles].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   const otherArticles = restArticles.slice(0, 6);
 
+  const seo = await getPageSeo("articles");
+
   return (
     <>
+      <JsonLd data={[webPageJsonLd(locale, "articles", seo.title[locale], seo.description[locale]), breadcrumbJsonLd(locale, "articles")]} />
       <Hero
         locale={locale}
         content={hero.content}

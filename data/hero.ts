@@ -22,7 +22,7 @@ export const heroContent: HeroContent = {
     ar: "بأحدث الأساليب الطبية",
   },
   description: {
-    en: "Dr. Islam Moussa blends surgical precision with modern, minimally invasive techniques to help every patient move without pain — from diagnosis to full recovery.",
+    en: "Dr. Islam Mousa blends surgical precision with modern, minimally invasive techniques to help every patient move without pain — from diagnosis to full recovery.",
     ar: "يجمع د. إسلام موسى بين الدقة الجراحية وأحدث تقنيات الجراحة طفيفة التوغل، لمساعدة كل مريض على الحركة دون ألم، من التشخيص وحتى التعافي الكامل.",
   },
   image: {
@@ -30,7 +30,7 @@ export const heroContent: HeroContent = {
     // the layout, framing and gradient treatment stay unchanged.
     src: "/images/hero/doctor-hero-placeholder.svg",
     alt: {
-      en: "Dr. Islam Moussa, orthopedic surgeon, portrait placeholder",
+      en: "Dr. Islam Mousa, orthopedic surgeon, portrait placeholder",
       ar: "د. إسلام موسى، استشاري جراحة العظام، صورة توضيحية مؤقتة",
     },
     // The source SVG places the head/shoulders low in a tall (1200x1500)

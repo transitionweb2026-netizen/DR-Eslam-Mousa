@@ -4,7 +4,7 @@ export const videosIntro = {
   eyebrow: { en: "Watch & Learn", ar: "شاهد وتعرف" } satisfies Localized,
   title: { en: "Featured Videos", ar: "فيديوهات مختارة" } satisfies Localized,
   description: {
-    en: "Short, practical explanations straight from Dr. Islam Moussa.",
+    en: "Short, practical explanations straight from Dr. Islam Mousa.",
     ar: "شروحات قصيرة وعملية مباشرة من د. إسلام موسى.",
   } satisfies Localized,
 };
@@ -18,7 +18,7 @@ export interface VideoItem {
   /**
    * Playable video file. Temporary stand-ins (freely-licensed Blender
    * Foundation open movies, publicly hosted by Google for exactly this
-   * kind of test/demo use) until Dr. Islam Moussa's real footage is
+   * kind of test/demo use) until Dr. Islam Mousa's real footage is
    * available — swap this one string per video, nothing else changes.
    */
   src: string;
@@ -43,7 +43,7 @@ export const videos: VideoItem[] = [
       ar: "فهم عملية استبدال مفصل الركبة",
     },
     description: {
-      en: "Dr. Islam Moussa explains what to expect before, during and after a knee replacement.",
+      en: "Dr. Islam Mousa explains what to expect before, during and after a knee replacement.",
       ar: "يشرح د. إسلام موسى ما يجب توقعه قبل وأثناء وبعد عملية استبدال الركبة.",
     },
     thumbnail: {

@@ -270,7 +270,7 @@ export async function getContactFormSettings(): Promise<ContactFormSettings> {
     successMessage: contactFormContent.success.description,
     errorMessage: contactFormContent.validation.fixErrors,
     whatsappTemplate: {
-      en: "Hello Dr. Islam Moussa,\n\nI would like to request an appointment.\n\nName: {{name}}\nPhone: {{phone}}\nPreferred Contact Method: {{contactMethod}}\nPreferred Date: {{date}}\nMessage: {{message}}",
+      en: "Hello Dr. Islam Mousa,\n\nI would like to request an appointment.\n\nName: {{name}}\nPhone: {{phone}}\nPreferred Contact Method: {{contactMethod}}\nPreferred Date: {{date}}\nMessage: {{message}}",
       ar: "مرحبًا د. إسلام موسى،\n\nأرغب في حجز موعد.\n\nالاسم: {{name}}\nرقم الهاتف: {{phone}}\nطريقة التواصل المفضلة: {{contactMethod}}\nالتاريخ المفضل: {{date}}\nالرسالة: {{message}}",
     },
   };

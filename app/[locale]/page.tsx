@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
-import { buildAlternates } from "@/lib/seo";
-import { siteContent } from "@/data/site";
+import { buildPageMetadata, webPageJsonLd } from "@/lib/seo";
+import { getPageSeo } from "@/lib/cms/publicSeo";
+import { JsonLd } from "@/components/seo/JsonLd";
 // Trust points (the 5 icon+title+description items) have no dedicated CMS
 // collection — they're stable, rarely-changed content, unlike the section's
 // header text and portrait image (why_trust in page_sections, CMS-driven).
@@ -30,11 +31,7 @@ export async function generateMetadata({
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
 
-  return {
-    title: siteContent.seo.defaultTitle[locale],
-    description: siteContent.seo.defaultDescription[locale],
-    alternates: buildAlternates(locale, ""),
-  };
+  return buildPageMetadata(locale, "", await getPageSeo(""));
 }
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
@@ -57,8 +54,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       getSocialLinks(),
     ]);
 
+  const seo = await getPageSeo("");
+
   return (
     <>
+      <JsonLd data={webPageJsonLd(locale, "", seo.title[locale], seo.description[locale])} />
       <Hero
         locale={locale}
         content={sections.hero.content}

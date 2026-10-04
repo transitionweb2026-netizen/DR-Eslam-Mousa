@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata, breadcrumbJsonLd, webPageJsonLd } from "@/lib/seo";
+import { getPageSeo } from "@/lib/cms/publicSeo";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { siteContent } from "@/data/site";
 import { getContactSections } from "@/lib/cms/publicSections";
 import { getContactInfo, getContactLocations, getContactFormSettings, getSocialLinks } from "@/lib/cms/publicSettings";
@@ -27,12 +29,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
-  const { hero } = await getContactSections();
-  return {
-    title: hero.content.headline[locale] + " " + hero.content.headlineAccent[locale],
-    description: hero.content.description[locale],
-    alternates: buildAlternates(locale, "contact"),
-  };
+  return buildPageMetadata(locale, "contact", await getPageSeo("contact"));
 }
 
 export default async function ContactPage({ params }: PageProps<"/[locale]/contact">) {
@@ -49,8 +46,11 @@ export default async function ContactPage({ params }: PageProps<"/[locale]/conta
     getContactFormSettings(),
   ]);
 
+  const seo = await getPageSeo("contact");
+
   return (
     <>
+      <JsonLd data={[webPageJsonLd(locale, "contact", seo.title[locale], seo.description[locale]), breadcrumbJsonLd(locale, "contact")]} />
       <Hero
         locale={locale}
         content={sections.hero.content}

@@ -9,7 +9,7 @@ import { fontVariables } from "@/lib/fonts";
 // CMS visually matches the site it manages, but its own chrome is
 // English-only; only the CONTENT it edits is bilingual.
 export const metadata: Metadata = {
-  title: { template: "%s | Dr. Islam Moussa CMS", default: "Dr. Islam Moussa CMS" },
+  title: { template: "%s | Dr. Islam Mousa CMS", default: "Dr. Islam Mousa CMS" },
   robots: { index: false, follow: false },
 };
 

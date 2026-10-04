@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { defaultLocale, locales, type Locale } from "@/lib/i18n/config";
+import { absoluteUrl } from "@/lib/seo";
 import { updateAdminSession } from "@/lib/supabase/proxy";
 
 const LOCALE_COOKIE = "NEXT_LOCALE";
+const LEGACY_HOSTNAME = "dr-eslam-mousa.vercel.app";
 
 function getPreferredLocale(request: NextRequest): Locale {
   const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value;
@@ -28,10 +30,23 @@ function getPreferredLocale(request: NextRequest): Locale {
 // chrome around bilingual content) — it never gets a locale prefix and
 // instead goes through Supabase session refresh + the signed-in check.
 export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
+
+  // Exact hostname match only — lookalikes such as
+  // "dr-eslam-mousa.vercel.app.evil.com" fall through untouched.
+  const requestHost = (request.headers.get("host") ?? "").split(":")[0].toLowerCase();
+  if (requestHost === LEGACY_HOSTNAME) {
+    return NextResponse.redirect(new URL(`${pathname}${search}`, absoluteUrl("/")), 308);
+  }
 
   if (pathname === "/admin" || pathname.startsWith("/admin/")) {
     return updateAdminSession(request);
+  }
+
+  // Root files (favicon, icons, robots.txt, sitemap.xml, og-image) are served
+  // as-is — they must never be treated as a page and sent through locale logic.
+  if (/\.[a-z0-9]+$/i.test(pathname)) {
+    return NextResponse.next();
   }
 
   const pathnameHasLocale = locales.some(
@@ -52,8 +67,9 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    // Skip Next.js internals, API routes and files with an extension
-    // (favicon.ico, robots.txt, images, etc.).
-    "/((?!_next|api|.*\\..*).*)",
+    // Skip Next.js internals and API routes. Root files (robots.txt,
+    // sitemap.xml, icons) run through the proxy so the legacy-host redirect
+    // covers them too; the extension check above passes them through.
+    "/((?!_next|api/).*)",
   ],
 };

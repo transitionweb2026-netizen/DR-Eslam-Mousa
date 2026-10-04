@@ -30,7 +30,7 @@ export default async function AdminArticlesPage() {
       rows={rows}
       hasActive={false}
       hasFeatured
-      emptyRow={{ slug: "", status: "draft", is_featured: false, author: "Dr. Islam Moussa", read_time_minutes: 4, published_at: new Date().toISOString().slice(0, 10) }}
+      emptyRow={{ slug: "", status: "draft", is_featured: false, author: "Dr. Islam Mousa", read_time_minutes: 4, published_at: new Date().toISOString().slice(0, 10) }}
     />
   );
 }

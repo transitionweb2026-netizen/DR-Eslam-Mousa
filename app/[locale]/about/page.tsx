@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
-import { buildAlternates } from "@/lib/seo";
+import { buildPageMetadata, breadcrumbJsonLd, webPageJsonLd } from "@/lib/seo";
+import { getPageSeo } from "@/lib/cms/publicSeo";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { getAboutSections } from "@/lib/cms/publicSections";
 import {
   getCertificates,
@@ -32,12 +34,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
-  const { hero } = await getAboutSections();
-  return {
-    title: hero.content.headline[locale] + " " + hero.content.headlineAccent[locale],
-    description: hero.content.description[locale],
-    alternates: buildAlternates(locale, "about"),
-  };
+  return buildPageMetadata(locale, "about", await getPageSeo("about"));
 }
 
 export default async function AboutPage({ params }: PageProps<"/[locale]/about">) {
@@ -61,8 +58,11 @@ export default async function AboutPage({ params }: PageProps<"/[locale]/about">
       getSocialLinks(),
     ]);
 
+  const seo = await getPageSeo("about");
+
   return (
     <>
+      <JsonLd data={[webPageJsonLd(locale, "about", seo.title[locale], seo.description[locale]), breadcrumbJsonLd(locale, "about")]} />
       <Hero
         locale={locale}
         content={sections.hero.content}

@@ -120,7 +120,7 @@ export const SECTION_LABELS: Record<string, string> = {
   doctor_intro: "Doctor Introduction",
   specialties_intro: "Top Medical Specialties",
   conditions_intro: "What Are You Suffering From?",
-  why_trust: "Why Trust Dr. Islam Moussa?",
+  why_trust: "Why Trust Dr. Islam Mousa?",
   featured_videos_intro: "Featured Videos",
   faq_intro: "FAQ",
   featured_articles_intro: "Featured Articles",

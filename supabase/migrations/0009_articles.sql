@@ -20,7 +20,7 @@ create table public.articles (
   image_alt_ar text,
   category_en text,
   category_ar text,
-  author text not null default 'Dr. Islam Moussa',
+  author text not null default 'Dr. Islam Mousa',
   read_time_minutes int not null default 4,
   status text not null default 'draft' check (status in ('draft', 'published', 'archived')),
   is_featured boolean not null default false,

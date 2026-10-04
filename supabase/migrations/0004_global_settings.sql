@@ -15,9 +15,9 @@
 -- ----------------------------------------------------------------------------
 create table public.site_settings (
   id boolean primary key default true check (id),
-  website_title text not null default 'Dr. Islam Moussa',
-  website_url text not null default 'https://www.dr-islammoussa.com',
-  org_name_en text not null default 'Dr. Islam Moussa',
+  website_title text not null default 'Dr. Islam Mousa',
+  website_url text not null default 'https://dr-islammousa.com',
+  org_name_en text not null default 'Dr. Islam Mousa',
   org_name_ar text not null default 'د. إسلام موسى',
   doctor_credentials_en text not null default 'Orthopedic & Joint Replacement Surgeon',
   doctor_credentials_ar text not null default 'استشاري جراحة العظام والمفاصل',
@@ -117,7 +117,7 @@ create table public.contact_form_settings (
   error_message_en text not null default 'Please fill in the required fields before continuing.',
   error_message_ar text not null default 'يرجى تعبئة الحقول المطلوبة قبل المتابعة.',
   whatsapp_template_en text not null default
-    E'Hello Dr. Islam Moussa,\n\nI would like to request an appointment.\n\nName: {{name}}\nPhone: {{phone}}\nPreferred Contact Method: {{contactMethod}}\nPreferred Date: {{date}}\nMessage: {{message}}',
+    E'Hello Dr. Islam Mousa,\n\nI would like to request an appointment.\n\nName: {{name}}\nPhone: {{phone}}\nPreferred Contact Method: {{contactMethod}}\nPreferred Date: {{date}}\nMessage: {{message}}',
   whatsapp_template_ar text not null default
     E'مرحبًا د. إسلام موسى،\n\nأرغب في حجز موعد.\n\nالاسم: {{name}}\nرقم الهاتف: {{phone}}\nطريقة التواصل المفضلة: {{contactMethod}}\nالتاريخ المفضل: {{date}}\nالرسالة: {{message}}',
   updated_at timestamptz not null default now()

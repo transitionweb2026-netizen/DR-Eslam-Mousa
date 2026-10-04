@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 
 const PAGE_LINKS = [
   { label: "Home", href: "/admin/pages/home" },
-  { label: "About Dr. Islam Moussa", href: "/admin/pages/about" },
+  { label: "About Dr. Islam Mousa", href: "/admin/pages/about" },
   { label: "Services", href: "/admin/pages/services" },
   { label: "Videos", href: "/admin/pages/videos" },
   { label: "Articles", href: "/admin/pages/articles" },
