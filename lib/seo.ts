@@ -7,7 +7,7 @@ export const SITE_URL = "https://dr-islammousa.com";
 export const PUBLIC_PATHS = ["", "about", "services", "videos", "articles", "contact"] as const;
 export type PublicPath = (typeof PUBLIC_PATHS)[number];
 
-export const OG_IMAGE_PATH = "/og-image.png";
+export const OG_IMAGE_PATH = "/og-image-v2.jpg";
 
 export function absoluteUrl(path: string): string {
   return `${SITE_URL}${path}`;
@@ -125,7 +125,8 @@ export function buildPageMetadata(locale: Locale, path: PublicPath, seo: PageSeo
       description,
       locale: localeTag[locale],
       alternateLocale: locales.filter((loc) => loc !== locale).map((loc) => localeTag[loc]),
-      images: [{ url: image, width: 1200, height: 630, alt: title }],
+      // The type is only known for the bundled default; a CMS upload may be any format.
+      images: [{ url: image, width: 1200, height: 630, type: seo.ogImageUrl ? undefined : "image/jpeg", alt: title }],
     },
     twitter: {
       card: "summary_large_image",
