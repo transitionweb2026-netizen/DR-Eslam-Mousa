@@ -50,6 +50,7 @@ RewriteCond %{ENV:REDIRECT_STATUS} ^$
 RewriteCond %{REQUEST_URI} !^/(?:en|ar|admin)(?:/|$)
 RewriteCond %{REQUEST_URI} !^/_next
 RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_URI} !^/\.well-known/
 RewriteCond %{REQUEST_URI} !\.[a-z0-9]+$ [NC]
 RewriteRule ^(.+)$ https://%{HTTP_HOST}/%{ENV:PREF_LOCALE}/$1 [R=307,L]
 
