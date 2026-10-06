@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 import type { MediaRow } from "@/lib/cms/media";
 
 // Joined by hand (two plain `select("*")` queries + an in-memory match)
@@ -9,7 +9,7 @@ import type { MediaRow } from "@/lib/cms/media";
 // which point the embed form is equally valid; this is simply the safer
 // choice without a live schema to verify against.
 export async function getAllPagesWithSeo() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const [{ data: pages }, { data: seo }, { data: media }] = await Promise.all([
     supabase.from("pages").select("*").order("display_order"),
     supabase.from("page_seo").select("*"),

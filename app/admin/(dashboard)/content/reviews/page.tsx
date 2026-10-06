@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminReviews } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const fields: FieldConfig[] = [
@@ -13,8 +16,9 @@ const fields: FieldConfig[] = [
   { key: "review", label: "Review Text", type: "textarea", bilingual: true, required: true },
 ];
 
-export default async function AdminReviewsPage() {
-  const rows = await getAdminReviews();
+export default function AdminReviewsPage() {
+  const rows = useAdminData(getAdminReviews);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="reviews"

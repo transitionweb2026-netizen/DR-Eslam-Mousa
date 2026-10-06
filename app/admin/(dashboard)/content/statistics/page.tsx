@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminStatistics } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const ICONS = ["experience", "procedures", "patients", "cases"];
@@ -12,8 +15,9 @@ const fields: FieldConfig[] = [
   { key: "description", label: "Description (optional)", type: "text", bilingual: true },
 ];
 
-export default async function AdminStatisticsPage() {
-  const rows = await getAdminStatistics();
+export default function AdminStatisticsPage() {
+  const rows = useAdminData(getAdminStatistics);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="statistics"

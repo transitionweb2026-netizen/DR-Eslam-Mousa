@@ -1,7 +1,4 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 
 const SINGLETON_TABLES = [
   "site_settings",
@@ -23,13 +20,12 @@ export async function updateSettings(table: string, patch: Record<string, unknow
   if (!(SINGLETON_TABLES as readonly string[]).includes(table)) {
     return { ok: false, error: `"${table}" is not a settings table.` };
   }
-  const supabase = await createClient();
+  const supabase = createClient();
   // See collections.ts for why this cast is safe here: `table` is a
   // runtime-dynamic union, and RLS (not this type) is what actually
   // authorizes/validates the write.
   const { error } = await supabase.from(table as SettingsTable).update(patch as never).eq("id", true);
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/", "layout");
   return { ok: true };
 }

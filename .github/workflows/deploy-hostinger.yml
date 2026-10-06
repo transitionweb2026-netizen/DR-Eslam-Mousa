@@ -1,0 +1,76 @@
+# Builds the static site from the live Supabase content and uploads it to
+# Hostinger. Runs on code pushes to main, from the Actions tab ("Run
+# workflow"), and from the Supabase rebuild trigger after a CMS save
+# (supabase/migrations/0018_rebuild_trigger.sql). See SETUP.md, "Hosting on
+# Hostinger", for the one-time secrets setup.
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# CMS saves can arrive in bursts (e.g. reordering a list). At most one build
+# runs at a time and one more waits; newer requests replace the waiting one,
+# so the final upload always reflects the latest content.
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build static site from Supabase
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          # Fail instead of publishing placeholder content if Supabase can't be read.
+          CMS_STRICT_BUILD: "1"
+        run: npm run build
+
+      - name: Refuse to publish if any CMS content failed to load
+        run: |
+          if [ -f .next/cms-build-failed ]; then
+            echo "::error::Supabase content could not be loaded during the build; nothing was uploaded."
+            cat .next/cms-build-failed
+            exit 1
+          fi
+
+      - name: Verify the static output
+        run: |
+          for f in en.html ar.html 404.html .htaccess sitemap.xml robots.txt admin.html; do
+            test -f "out/$f" || { echo "::error::out/$f is missing"; exit 1; }
+          done
+          if find out -type d -name '__next.*' | grep -q .; then
+            echo "::error::nested segment prefetch folders found in out/"; exit 1
+          fi
+
+      - name: Upload to Hostinger
+        if: vars.HOSTINGER_DEPLOY_ENABLED == 'true'
+        env:
+          SSH_HOST: ${{ secrets.HOSTINGER_SSH_HOST }}
+          SSH_PORT: ${{ secrets.HOSTINGER_SSH_PORT }}
+          SSH_USER: ${{ secrets.HOSTINGER_SSH_USER }}
+          SSH_KEY: ${{ secrets.HOSTINGER_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.HOSTINGER_SSH_KNOWN_HOSTS }}
+          DEPLOY_PATH: ${{ secrets.HOSTINGER_DEPLOY_PATH }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          SSH="ssh -p ${SSH_PORT:-22} -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes"
+          # New hashed assets first, so freshly uploaded pages never reference
+          # files that aren't there yet; then pages, removing stale files last.
+          rsync -rltz --checksum -e "$SSH" out/_next/ "$SSH_USER@$SSH_HOST:$DEPLOY_PATH/_next/"
+          rsync -rltz --checksum --delete-after --exclude='.well-known/' -e "$SSH" out/ "$SSH_USER@$SSH_HOST:$DEPLOY_PATH/"

@@ -1,4 +1,7 @@
+"use client";
+
 import { getFooterSettings } from "@/lib/cms/adminSettingsQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 import type { FieldConfig } from "@/components/admin/CollectionManager";
 
@@ -7,8 +10,9 @@ const fields: FieldConfig[] = [
   { key: "copyright", label: "Copyright Line", type: "text", bilingual: true },
 ];
 
-export default async function AdminFooterSettingsPage() {
-  const footer = await getFooterSettings();
+export default function AdminFooterSettingsPage() {
+  const footer = useAdminData(getFooterSettings);
+  if (footer === undefined) return null;
   return (
     <SettingsForm
       table="footer_settings"

@@ -1,4 +1,7 @@
+"use client";
+
 import { getSiteSettings } from "@/lib/cms/adminSettingsQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 import type { FieldConfig } from "@/components/admin/CollectionManager";
 
@@ -10,8 +13,9 @@ const fields: FieldConfig[] = [
   { key: "default_meta_description", label: "Default Meta Description", type: "textarea", bilingual: true, help: "Used by any page that doesn't set its own — see Page SEO for overrides." },
 ];
 
-export default async function AdminGlobalSeoPage() {
-  const site = await getSiteSettings();
+export default function AdminGlobalSeoPage() {
+  const site = useAdminData(getSiteSettings);
+  if (site === undefined) return null;
   return (
     <SettingsForm
       table="site_settings"

@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminContactLocations } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const fields: FieldConfig[] = [
@@ -8,8 +11,9 @@ const fields: FieldConfig[] = [
   { key: "hours", label: "Visiting Hours", type: "text", bilingual: true, help: "The specific days/times the doctor is at this branch, e.g. \"Sat 7 PM · Mon 8 PM\"." },
 ];
 
-export default async function AdminContactLocationsPage() {
-  const rows = await getAdminContactLocations();
+export default function AdminContactLocationsPage() {
+  const rows = useAdminData(getAdminContactLocations);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="contact_locations"

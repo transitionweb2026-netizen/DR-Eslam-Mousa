@@ -1,4 +1,7 @@
+"use client";
+
 import { getContactSettings } from "@/lib/cms/adminSettingsQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 import type { FieldConfig } from "@/components/admin/CollectionManager";
 
@@ -10,8 +13,9 @@ const fields: FieldConfig[] = [
   { key: "working_hours", label: "General Booking Hours", type: "text", bilingual: true, help: "Reception/booking-line availability — NOT any one branch's visiting hours. Branch addresses and their own hours live under Content → Clinic Locations." },
 ];
 
-export default async function AdminContactSettingsPage() {
-  const contact = await getContactSettings();
+export default function AdminContactSettingsPage() {
+  const contact = useAdminData(getContactSettings);
+  if (contact === undefined) return null;
   return (
     <SettingsForm
       table="contact_settings"

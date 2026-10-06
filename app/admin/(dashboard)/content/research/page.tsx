@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminResearchPapers } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const fields: FieldConfig[] = [
@@ -18,8 +21,9 @@ const fields: FieldConfig[] = [
   { key: "excerpt", label: "Short Description (shown on the card)", type: "textarea", bilingual: true },
 ];
 
-export default async function AdminResearchPapersPage() {
-  const rows = await getAdminResearchPapers();
+export default function AdminResearchPapersPage() {
+  const rows = useAdminData(getAdminResearchPapers);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="research_papers"

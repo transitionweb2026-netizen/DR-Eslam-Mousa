@@ -1,9 +1,18 @@
-import { createClient } from "@/lib/supabase/server";
+"use client";
+
+import { createClient } from "@/lib/supabase/client";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { MediaLibrary } from "@/components/admin/MediaLibrary";
 
-export default async function AdminMediaPage() {
-  const supabase = await createClient();
+async function loadMedia() {
+  const supabase = createClient();
   const { data } = await supabase.from("media").select("*").order("created_at", { ascending: false });
+  return data ?? [];
+}
+
+export default function AdminMediaPage() {
+  const items = useAdminData(loadMedia);
+  if (items === undefined) return null;
 
   return (
     <div>
@@ -13,7 +22,7 @@ export default async function AdminMediaPage() {
         here too — this is the same store, not a separate one.
       </p>
       <div className="mt-6">
-        <MediaLibrary initialItems={data ?? []} />
+        <MediaLibrary initialItems={items} />
       </div>
     </div>
   );

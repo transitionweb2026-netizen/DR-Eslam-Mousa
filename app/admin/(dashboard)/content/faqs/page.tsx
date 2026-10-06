@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminFaqs } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const fields: FieldConfig[] = [
@@ -6,8 +9,9 @@ const fields: FieldConfig[] = [
   { key: "answer", label: "Answer", type: "textarea", bilingual: true, required: true },
 ];
 
-export default async function AdminFaqsPage() {
-  const rows = await getAdminFaqs();
+export default function AdminFaqsPage() {
+  const rows = useAdminData(getAdminFaqs);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="faqs"

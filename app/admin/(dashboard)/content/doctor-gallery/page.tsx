@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminDoctorGallery } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const fields: FieldConfig[] = [
@@ -12,8 +15,9 @@ const fields: FieldConfig[] = [
   },
 ];
 
-export default async function AdminDoctorGalleryPage() {
-  const rows = await getAdminDoctorGallery();
+export default function AdminDoctorGalleryPage() {
+  const rows = useAdminData(getAdminDoctorGallery);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="doctor_gallery"

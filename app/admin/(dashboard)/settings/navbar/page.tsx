@@ -1,5 +1,8 @@
+"use client";
+
 import { getNavbarSettings, getSiteSettings } from "@/lib/cms/adminSettingsQueries";
 import { getAdminNavigationItems } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
@@ -16,8 +19,12 @@ const navItemFields: FieldConfig[] = [
   { key: "label", label: "Label", type: "text", bilingual: true, required: true },
 ];
 
-export default async function AdminNavbarSettingsPage() {
-  const [navbar, site, navItems] = await Promise.all([getNavbarSettings(), getSiteSettings(), getAdminNavigationItems()]);
+const loadNavbarScreen = () => Promise.all([getNavbarSettings(), getSiteSettings(), getAdminNavigationItems()]);
+
+export default function AdminNavbarSettingsPage() {
+  const loaded = useAdminData(loadNavbarScreen);
+  if (loaded === undefined) return null;
+  const [navbar, site, navItems] = loaded;
 
   return (
     <SettingsForm

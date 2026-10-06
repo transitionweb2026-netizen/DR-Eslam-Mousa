@@ -1,0 +1,76 @@
+# Hostinger (Apache / LiteSpeed) routing for the static export in out/.
+# `next build` copies this file from public/ into out/.
+
+Options -Indexes
+<IfModule mod_negotiation.c>
+  Options -MultiViews
+</IfModule>
+<IfModule mod_dir.c>
+  DirectorySlash Off
+</IfModule>
+
+AddDefaultCharset UTF-8
+AddType font/woff2 .woff2
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Force HTTPS (also correct behind a TLS-terminating proxy/CDN).
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# Pages only exist at their clean URL: "/en/about.html" -> "/en/about".
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{THE_REQUEST} \s/+([^?\s]*?)\.html[?\s]
+RewriteRule ^ https://%{HTTP_HOST}/%1 [R=308,L]
+
+# No trailing slash, matching Next.js's default "/en/about/" -> "/en/about".
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_URI} ^/(.+)/$
+RewriteRule ^ https://%{HTTP_HOST}/%1 [R=308,L]
+
+# Preferred locale, same precedence as the previous proxy.ts: a remembered
+# NEXT_LOCALE cookie, then whichever of en/ar comes first in Accept-Language,
+# then English.
+RewriteRule ^ - [E=PREF_LOCALE:en]
+RewriteCond %{HTTP:Accept-Language} ^(?:(?!\s*(?:en|ar))[^,]*,)*\s*ar [NC]
+RewriteRule ^ - [E=PREF_LOCALE:ar]
+RewriteCond %{HTTP_COOKIE} (?:^|;\s*)NEXT_LOCALE=(en|ar)(?:;|$)
+RewriteRule ^ - [E=PREF_LOCALE:%1]
+
+# "/" -> "/en" (or "/ar").
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteRule ^$ https://%{HTTP_HOST}/%{ENV:PREF_LOCALE} [R=307,L]
+
+# Paths without a locale get one, e.g. "/services" -> "/en/services". The
+# CMS, build assets, API paths and real files are never prefixed.
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_URI} !^/(?:en|ar|admin)(?:/|$)
+RewriteCond %{REQUEST_URI} !^/_next
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_URI} !\.[a-z0-9]+$ [NC]
+RewriteRule ^(.+)$ https://%{HTTP_HOST}/%{ENV:PREF_LOCALE}/$1 [R=307,L]
+
+# Serve each pre-rendered page from its .html file, e.g. "/en/about" ->
+# en/about.html. Checked before directories because "/en" has both en.html
+# and an en/ folder.
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Content-hashed build assets (everything under /_next/static) never change.
+  <FilesMatch "\.(js|css|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(png|jpe?g|webp|avif|gif|svg|ico)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+  # Pages and their navigation payloads revalidate on every request, so a
+  # new build is visible immediately.
+  <FilesMatch "\.(html|txt|xml)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>

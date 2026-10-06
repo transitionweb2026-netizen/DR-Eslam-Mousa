@@ -1,8 +1,8 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 import type { MediaRow } from "@/lib/cms/media";
 
 /**
- * Server-side fetchers used by the admin "Content" collection pages. Each
+ * Browser-side fetchers (signed-in admin session) used by the admin "Content" collection pages. Each
  * selects EVERY row (not just is_active/published — the CMS itself needs
  * to see and edit hidden/draft content) and, for tables with a media
  * foreign key, joins the related `media` row(s) in application code (see
@@ -13,7 +13,7 @@ import type { MediaRow } from "@/lib/cms/media";
  * becomes a URL.
  */
 
-async function loadMediaMap(supabase: Awaited<ReturnType<typeof createClient>>) {
+async function loadMediaMap(supabase: ReturnType<typeof createClient>) {
   const { data } = await supabase.from("media").select("*");
   return new Map((data ?? []).map((m) => [m.id, m] as const));
 }
@@ -34,7 +34,7 @@ function attachMedia<T extends Record<string, unknown>>(
 }
 
 export async function getAdminServices() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const [{ data }, mediaMap] = await Promise.all([
     supabase.from("services").select("*").order("display_order"),
     loadMediaMap(supabase),
@@ -43,7 +43,7 @@ export async function getAdminServices() {
 }
 
 export async function getAdminConditions() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const [{ data }, mediaMap] = await Promise.all([
     supabase.from("conditions").select("*").order("display_order"),
     loadMediaMap(supabase),
@@ -52,7 +52,7 @@ export async function getAdminConditions() {
 }
 
 export async function getAdminCertificates() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const [{ data }, mediaMap] = await Promise.all([
     supabase.from("certificates").select("*").order("display_order"),
     loadMediaMap(supabase),
@@ -61,7 +61,7 @@ export async function getAdminCertificates() {
 }
 
 export async function getAdminCareerItems() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const [{ data }, mediaMap] = await Promise.all([
     supabase.from("career_items").select("*").order("display_order"),
     loadMediaMap(supabase),
@@ -70,19 +70,19 @@ export async function getAdminCareerItems() {
 }
 
 export async function getAdminStatistics() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const { data } = await supabase.from("statistics").select("*").order("display_order");
   return data ?? [];
 }
 
 export async function getAdminFaqs() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const { data } = await supabase.from("faqs").select("*").order("display_order");
   return data ?? [];
 }
 
 export async function getAdminVideos() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const [{ data }, mediaMap] = await Promise.all([
     supabase.from("videos").select("*").order("display_order"),
     loadMediaMap(supabase),
@@ -91,7 +91,7 @@ export async function getAdminVideos() {
 }
 
 export async function getAdminArticles() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const [{ data }, mediaMap] = await Promise.all([
     supabase.from("articles").select("*").order("display_order"),
     loadMediaMap(supabase),
@@ -100,7 +100,7 @@ export async function getAdminArticles() {
 }
 
 export async function getAdminDoctorGallery() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const [{ data }, mediaMap] = await Promise.all([
     supabase.from("doctor_gallery").select("*").order("display_order"),
     loadMediaMap(supabase),
@@ -109,7 +109,7 @@ export async function getAdminDoctorGallery() {
 }
 
 export async function getAdminResearchPapers() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const [{ data }, mediaMap] = await Promise.all([
     supabase.from("research_papers").select("*").order("display_order"),
     loadMediaMap(supabase),
@@ -118,7 +118,7 @@ export async function getAdminResearchPapers() {
 }
 
 export async function getAdminReviews() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const [{ data }, mediaMap] = await Promise.all([
     supabase.from("reviews").select("*").order("display_order"),
     loadMediaMap(supabase),
@@ -127,19 +127,19 @@ export async function getAdminReviews() {
 }
 
 export async function getAdminContactLocations() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const { data } = await supabase.from("contact_locations").select("*").order("display_order");
   return data ?? [];
 }
 
 export async function getAdminNavigationItems() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const { data } = await supabase.from("navigation_items").select("*").order("display_order");
   return data ?? [];
 }
 
 export async function getAdminSocialLinks() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const { data } = await supabase.from("social_links").select("*").order("display_order");
   return data ?? [];
 }

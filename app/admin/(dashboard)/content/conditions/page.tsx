@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminConditions } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const ICONS = ["knee", "hip", "shoulder", "joint", "sports", "arthroscopy", "spine", "neck"];
@@ -16,8 +19,9 @@ const fields: FieldConfig[] = [
   { key: "cta_label", label: "CTA Label", type: "text", bilingual: true },
 ];
 
-export default async function AdminConditionsPage() {
-  const rows = await getAdminConditions();
+export default function AdminConditionsPage() {
+  const rows = useAdminData(getAdminConditions);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="conditions"

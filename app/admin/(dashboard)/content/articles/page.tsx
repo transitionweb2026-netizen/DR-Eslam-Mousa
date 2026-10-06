@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminArticles } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const fields: FieldConfig[] = [
@@ -19,8 +22,9 @@ const fields: FieldConfig[] = [
   { key: "image_alt", label: "Image Alt Text", type: "text", bilingual: true },
 ];
 
-export default async function AdminArticlesPage() {
-  const rows = await getAdminArticles();
+export default function AdminArticlesPage() {
+  const rows = useAdminData(getAdminArticles);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="articles"

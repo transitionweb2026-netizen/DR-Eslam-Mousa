@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
+import { useAdminData } from "@/components/admin/useAdminData";
 
 const PAGE_LINKS = [
   { label: "Home", href: "/admin/pages/home" },
@@ -10,9 +13,9 @@ const PAGE_LINKS = [
   { label: "Contact Us", href: "/admin/pages/contact" },
 ];
 
-export default async function AdminDashboardPage() {
-  const supabase = await createClient();
-  const [services, conditions, videos, articles, faqs, media] = await Promise.all([
+async function loadCounts() {
+  const supabase = createClient();
+  return Promise.all([
     supabase.from("services").select("id", { count: "exact", head: true }),
     supabase.from("conditions").select("id", { count: "exact", head: true }),
     supabase.from("videos").select("id", { count: "exact", head: true }),
@@ -20,6 +23,12 @@ export default async function AdminDashboardPage() {
     supabase.from("faqs").select("id", { count: "exact", head: true }),
     supabase.from("media").select("id", { count: "exact", head: true }),
   ]);
+}
+
+export default function AdminDashboardPage() {
+  const counts = useAdminData(loadCounts);
+  if (counts === undefined) return null;
+  const [services, conditions, videos, articles, faqs, media] = counts;
 
   const stats = [
     { label: "Services", value: services.count ?? 0, href: "/admin/content/services" },

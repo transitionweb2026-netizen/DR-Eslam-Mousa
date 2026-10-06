@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminCertificates } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const fields: FieldConfig[] = [
@@ -10,8 +13,9 @@ const fields: FieldConfig[] = [
   { key: "image_alt", label: "Image Alt Text", type: "text", bilingual: true },
 ];
 
-export default async function AdminCertificatesPage() {
-  const rows = await getAdminCertificates();
+export default function AdminCertificatesPage() {
+  const rows = useAdminData(getAdminCertificates);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="certificates"
