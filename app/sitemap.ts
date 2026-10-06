@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { locales } from "@/lib/i18n/config";
 import { PUBLIC_PATHS, absoluteUrl, buildAlternates, localizedPath } from "@/lib/seo";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return PUBLIC_PATHS.flatMap((path) =>
     locales.map((locale) => ({

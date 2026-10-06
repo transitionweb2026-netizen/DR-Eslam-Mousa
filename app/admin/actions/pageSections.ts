@@ -1,7 +1,4 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 
 export interface ActionResult {
   ok: boolean;
@@ -13,13 +10,12 @@ export async function updatePageSection(
   content: Record<string, unknown>,
   isVisible: boolean
 ): Promise<ActionResult> {
-  const supabase = await createClient();
+  const supabase = createClient();
   const { error } = await supabase
     .from("page_sections")
     .update({ content, is_visible: isVisible } as never)
     .eq("id", sectionId);
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/", "layout");
   return { ok: true };
 }

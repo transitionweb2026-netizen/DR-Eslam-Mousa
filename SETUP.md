@@ -80,14 +80,15 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...your-anon-key
 SUPABASE_SERVICE_ROLE_KEY=eyJ...your-service-role-key
 ```
 
-- The first two are used by the public site and by every browser-side
-  Supabase call in the admin (`lib/supabase/client.ts`, `server.ts`).
-- `SUPABASE_SERVICE_ROLE_KEY` is only read server-side by
-  `lib/supabase/admin.ts`, which almost nothing uses today (routine CMS
-  reads/writes go through the signed-in user's session + RLS instead) — but
-  it must still be set for the few places that do.
+- The first two are all the site needs: the build reads public content with
+  them, and the admin, which runs in the browser, uses them with the
+  signed-in user's session (`lib/supabase/client.ts`), so RLS decides what
+  each request may do.
+- `SUPABASE_SERVICE_ROLE_KEY` is optional and not used by the site. Keep it
+  only for your own maintenance scripts, and never add it to GitHub secrets
+  or anything that ships to the browser.
 
-Restart `npm run dev` (or redeploy) after adding/changing this file — Next
+Restart `npm run dev` (or rebuild) after adding/changing this file — Next
 only reads `.env.local` at process start.
 
 ## 5. Create your first admin user
@@ -144,16 +145,83 @@ types — but it will give you real foreign-key metadata, which would let
 join syntax (`select("*, image:media!image_id(*)")`) instead of their
 current manual application-side joins, if you ever want to simplify them.
 
+## 8. Hosting on Hostinger (static website)
+
+`npm run build` produces the whole site as plain files in `out/` (Next.js
+static export). Public pages are pre-rendered from Supabase at build time;
+the CMS at `/admin` runs in the browser and talks to Supabase directly, so
+Supabase Auth and Row Level Security protect all content. No Node.js server
+is involved.
+
+### One-time Hostinger setup
+
+1. Add `dr-islammousa.com` in hPanel as a regular (non-Node.js) website and
+   enable its free SSL certificate.
+2. Enable SSH access (hPanel → Advanced → SSH Access) and note the host,
+   port (usually `65002`) and username.
+3. Create a deploy key on your computer and add the **public** half in hPanel
+   → SSH Access → SSH Keys:
+   ```bash
+   ssh-keygen -t ed25519 -f hostinger_deploy -N ""
+   ```
+4. Record the server's host key: `ssh-keyscan -p 65002 <host>`.
+5. Note the domain's document root relative to your SSH home, e.g.
+   `domains/dr-islammousa.com/public_html`. It must be used only for this
+   site: each deploy removes files there that aren't part of the build
+   (except `.well-known/`).
+
+### GitHub settings (repo → Settings → Secrets and variables → Actions)
+
+Secrets:
+
+| Name | Value |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | same as in `.env.local` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | same as in `.env.local` (never the service-role key) |
+| `HOSTINGER_SSH_HOST` | from step 2 |
+| `HOSTINGER_SSH_PORT` | from step 2 |
+| `HOSTINGER_SSH_USER` | from step 2 |
+| `HOSTINGER_SSH_KEY` | the whole private key file `hostinger_deploy` from step 3 |
+| `HOSTINGER_SSH_KNOWN_HOSTS` | output of step 4 |
+| `HOSTINGER_DEPLOY_PATH` | from step 5 |
+
+Variable: `HOSTINGER_DEPLOY_ENABLED` = `true`. Until it's set, the workflow
+builds and checks the site but uploads nothing.
+
+### Deploying
+
+The **Deploy to Hostinger** workflow (`.github/workflows/deploy-hostinger.yml`)
+runs on every push to `main`, or on demand from the Actions tab → Run
+workflow. It refuses to upload if any Supabase content failed to load, so a
+Supabase outage can never publish placeholder content.
+
+Manual fallback: run `npm run build` locally (with `.env.local` filled in)
+and upload everything inside `out/`, including the hidden `.htaccess`, to
+the document root.
+
+### Automatic rebuild after CMS edits
+
+1. Create a fine-grained GitHub token for this repository only, with the
+   single permission **Actions: Read and write**.
+2. In the Supabase SQL Editor run
+   `select vault.create_secret('<token>', 'github_rebuild_token');`
+3. Run `supabase/migrations/0018_rebuild_trigger.sql`.
+
+From then on, every CMS save starts a rebuild, and the change is live a few
+minutes later. Without these steps, run the workflow manually after editing.
+
+### Good to know
+
+- `out/.htaccess` forces HTTPS, sends `/` to `/en` or `/ar` (remembered
+  choice, then browser language), serves clean URLs, removes trailing
+  slashes, shows the 404 page and sets caching.
+- The 308 redirect from `dr-eslam-mousa.vercel.app` to the canonical domain
+  lives in `vercel.json`. It only works while that Vercel project keeps
+  deploying this repository.
+- Don't merge this into `main` while a Hostinger Node.js Web App still
+  auto-deploys from `main`: that app can't serve a static export.
+
 ## What's still on the roadmap after this
 
-Connecting Supabase makes the CMS fully functional, but a few smaller,
-previously-disclosed items are still open:
-
-- `generateMetadata()` on each page still builds `<title>`/description from
-  the page's Hero text, not from the **Page SEO** admin screen's
-  `seo_title`/`meta_description` fields (that screen exists and saves
-  correctly — it's just not read by the `<head>` yet).
-- `sitemap.xml` / `robots.txt` are still the static files from before the
-  CMS existed, not generated from published articles/services.
 - There's no dedicated Service SEO / Condition SEO / Article SEO screen —
   only Global SEO and Page SEO exist today.

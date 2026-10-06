@@ -22,10 +22,12 @@ npm run lint    # ESLint
 
 ## Internationalization
 
-Every route lives under `app/[locale]/` (`en` | `ar`). `proxy.ts` (Next 16's
-renamed `middleware.ts`) detects the visitor's preferred language and
-redirects bare paths (`/services`) to their localized form (`/en/services`).
-`app/[locale]/layout.tsx` sets `dir`/`lang` and is the app's root layout.
+Every route lives under `app/[locale]/` (`en` | `ar`), pre-rendered for both
+locales. On the host, `public/.htaccess` (copied into `out/`) detects the
+visitor's preferred language and redirects `/` and bare paths (`/services`)
+to their localized form (`/en/services`); under `npm run dev`, open `/en` or
+`/ar` directly. `app/[locale]/layout.tsx` sets `dir`/`lang` and is the app's
+root layout.
 
 RTL is handled with CSS logical properties (`ms-*`, `me-*`, `start-*`,
 `end-*`, `text-start`, `rtl:` variants) rather than per-locale conditional

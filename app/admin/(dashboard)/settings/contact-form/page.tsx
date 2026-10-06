@@ -1,4 +1,7 @@
+"use client";
+
 import { getContactFormSettings } from "@/lib/cms/adminSettingsQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 import type { FieldConfig } from "@/components/admin/CollectionManager";
 
@@ -16,8 +19,9 @@ const fields: FieldConfig[] = [
   },
 ];
 
-export default async function AdminContactFormSettingsPage() {
-  const settings = await getContactFormSettings();
+export default function AdminContactFormSettingsPage() {
+  const settings = useAdminData(getContactFormSettings);
+  if (settings === undefined) return null;
   return (
     <SettingsForm
       table="contact_form_settings"

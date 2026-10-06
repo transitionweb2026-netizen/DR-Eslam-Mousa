@@ -17,11 +17,9 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
-// The whole [locale] tree reads from Supabase (global settings here, page
-// content further down) — CMS edits must appear without a rebuild, so this
-// can't be statically cached. See lib/cms/publicClient.ts for what happens
-// when Supabase isn't configured yet.
-export const dynamic = "force-dynamic";
+// The [locale] tree is pre-rendered at build time from Supabase content
+// (static export). Only the locales above exist, so any other locale is a 404.
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,

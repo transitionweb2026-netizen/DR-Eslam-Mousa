@@ -1,30 +1,57 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Sidebar } from "@/components/admin/Sidebar";
 import { TopBar } from "@/components/admin/TopBar";
+import { createClient } from "@/lib/supabase/client";
 
-// Defense-in-depth: proxy.ts (lib/supabase/proxy.ts) already redirects
-// signed-out visitors before this ever renders, but Next.js's own guidance
-// is to never rely on proxy alone for auth — a matcher change elsewhere
-// should never be able to silently expose the CMS. This is the same check,
-// run again, right where the protected UI is actually composed.
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+// Static export has no server to check the session on each request, so the
+// guard runs in the browser: signed-out visitors are sent to the login page
+// before any CMS UI is shown. This is UX only — every CMS read and write is
+// still enforced by Supabase RLS, which rejects anything without a valid
+// admin session regardless of what this page renders.
+interface AdminSession {
+  email: string;
+  role: string;
+}
 
-  if (!user) {
-    redirect("/admin/login");
-  }
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const [session, setSession] = useState<AdminSession | null | undefined>(undefined);
 
-  const { data: profile } = await supabase.from("profiles").select("email, role").eq("id", user.id).maybeSingle();
+  useEffect(() => {
+    const supabase = createClient();
+    let active = true;
+
+    (async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        if (active) router.replace(`/admin/login?next=${encodeURIComponent(window.location.pathname)}`);
+        return;
+      }
+
+      const { data: profile } = await supabase.from("profiles").select("email, role").eq("id", user.id).maybeSingle();
+      if (active) {
+        setSession({ email: profile?.email ?? user.email ?? "", role: profile?.role ?? "editor" });
+      }
+    })();
+
+    return () => {
+      active = false;
+    };
+  }, [router]);
+
+  if (session === undefined || session === null) return null;
 
   return (
     <div className="flex min-h-screen">
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
-        <TopBar email={profile?.email ?? user.email ?? ""} role={profile?.role ?? "editor"} />
+        <TopBar email={session.email} role={session.role} />
         <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
           <div className="mx-auto max-w-6xl">{children}</div>
         </main>

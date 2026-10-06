@@ -3,13 +3,7 @@ import { LoginForm } from "./LoginForm";
 
 export const metadata: Metadata = { title: "Sign In | CMS", robots: { index: false, follow: false } };
 
-export default async function AdminLoginPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ next?: string }>;
-}) {
-  const { next } = await searchParams;
-
+export default function AdminLoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="glass-card-strong w-full max-w-sm rounded-3xl p-8">
@@ -24,7 +18,7 @@ export default async function AdminLoginPage({
           <p className="mt-1 text-sm text-brand-muted">Sign in to manage the website.</p>
         </div>
 
-        <LoginForm next={next ?? "/admin"} />
+        <LoginForm />
       </div>
     </div>
   );

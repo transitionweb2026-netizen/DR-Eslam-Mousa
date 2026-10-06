@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminVideos } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const fields: FieldConfig[] = [
@@ -13,8 +16,9 @@ const fields: FieldConfig[] = [
   { key: "category", label: "Category", type: "text", bilingual: true },
 ];
 
-export default async function AdminVideosPage() {
-  const rows = await getAdminVideos();
+export default function AdminVideosPage() {
+  const rows = useAdminData(getAdminVideos);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="videos"

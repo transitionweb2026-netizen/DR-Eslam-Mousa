@@ -1,8 +1,12 @@
+"use client";
+
 import { getAllPagesWithSeo } from "@/lib/cms/adminSeoQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { PageSeoManager } from "@/components/admin/PageSeoManager";
 
-export default async function AdminPageSeoPage() {
-  const entries = await getAllPagesWithSeo();
+export default function AdminPageSeoPage() {
+  const entries = useAdminData(getAllPagesWithSeo);
+  if (entries === undefined) return null;
   return (
     <div>
       <h1 className="text-xl font-bold text-brand-ink">Page SEO</h1>

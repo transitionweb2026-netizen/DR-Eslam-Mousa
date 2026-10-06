@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminSocialLinks } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const PLATFORMS = ["phone", "whatsapp", "facebook", "instagram", "youtube", "tiktok", "twitter", "linkedin"];
@@ -9,8 +12,9 @@ const fields: FieldConfig[] = [
   { key: "label", label: "Accessible Label", type: "text", bilingual: true, required: true },
 ];
 
-export default async function AdminSocialSettingsPage() {
-  const rows = await getAdminSocialLinks();
+export default function AdminSocialSettingsPage() {
+  const rows = useAdminData(getAdminSocialLinks);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="social_links"

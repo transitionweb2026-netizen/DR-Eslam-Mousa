@@ -1,7 +1,4 @@
-"use server";
-
-import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/client";
 
 /**
  * One generic, table-agnostic set of CRUD actions backing every "Content"
@@ -14,8 +11,7 @@ import { createClient } from "@/lib/supabase/server";
  * policy), not in this code: the table name is never trusted as a
  * capability, it's just routing. A non-admin session gets a database-level
  * permission error on every one of these calls, RLS policy already covers
- * that — this layer only has to get data to/from Supabase and revalidate
- * the pages that read it.
+ * that — this layer only has to get data to/from Supabase.
  */
 const ALLOWED_TABLES = [
   "services",
@@ -56,7 +52,7 @@ export async function upsertCollectionRow(
   values: Record<string, unknown>
 ): Promise<ActionResult> {
   assertAllowed(table);
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const { id, ...patch } = values as { id?: string } & Record<string, unknown>;
 
@@ -73,18 +69,16 @@ export async function upsertCollectionRow(
   const { data, error } = await query;
   if (error) return { ok: false, error: error.message };
 
-  revalidateCollection(table);
   return { ok: true, id: data?.id as string | undefined };
 }
 
 export async function deleteCollectionRow(table: string, id: string): Promise<ActionResult> {
   assertAllowed(table);
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const { error } = await supabase.from(table).delete().eq("id", id);
   if (error) return { ok: false, error: error.message };
 
-  revalidateCollection(table);
   return { ok: true };
 }
 
@@ -93,7 +87,7 @@ export async function reorderCollectionRows(
   orderedIds: string[]
 ): Promise<ActionResult> {
   assertAllowed(table);
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const updates = orderedIds.map((id, index) =>
     supabase.from(table).update({ display_order: index + 1 } as never).eq("id", id)
@@ -102,7 +96,6 @@ export async function reorderCollectionRows(
   const failed = results.find((r) => r.error);
   if (failed?.error) return { ok: false, error: failed.error.message };
 
-  revalidateCollection(table);
   return { ok: true };
 }
 
@@ -113,38 +106,11 @@ export async function toggleCollectionField(
   value: boolean
 ): Promise<ActionResult> {
   assertAllowed(table);
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const { error } = await supabase.from(table).update({ [field]: value } as never).eq("id", id);
   if (error) return { ok: false, error: error.message };
 
-  revalidateCollection(table);
   return { ok: true };
 }
 
-/** Revalidates every public route that could show this table's data. */
-function revalidateCollection(table: CollectionTable) {
-  revalidatePath("/", "layout");
-  const pathsByTable: Partial<Record<CollectionTable, string[]>> = {
-    services: ["/[locale]", "/[locale]/services", "/[locale]/about"],
-    service_seo: ["/[locale]/services"],
-    conditions: ["/[locale]", "/[locale]/services"],
-    condition_seo: ["/[locale]/services"],
-    certificates: ["/[locale]/about"],
-    career_items: ["/[locale]/about"],
-    statistics: ["/[locale]", "/[locale]/about"],
-    faqs: ["/[locale]"],
-    videos: ["/[locale]", "/[locale]/videos"],
-    articles: ["/[locale]", "/[locale]/articles"],
-    article_seo: ["/[locale]/articles"],
-    navigation_items: ["/[locale]"],
-    social_links: ["/[locale]", "/[locale]/contact"],
-    contact_locations: ["/[locale]", "/[locale]/contact"],
-    doctor_gallery: ["/[locale]/about"],
-    research_papers: ["/[locale]/about"],
-    reviews: ["/[locale]/about"],
-  };
-  for (const path of pathsByTable[table] ?? []) {
-    revalidatePath(path, "page");
-  }
-}

@@ -1,4 +1,7 @@
+"use client";
+
 import { getCtaSettings } from "@/lib/cms/adminSettingsQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { SettingsForm } from "@/components/admin/SettingsForm";
 import type { FieldConfig } from "@/components/admin/CollectionManager";
 
@@ -13,8 +16,9 @@ const fields: FieldConfig[] = [
   { key: "secondary_label", label: "Secondary Button Label", type: "text", bilingual: true },
 ];
 
-export default async function AdminCtaSettingsPage() {
-  const cta = await getCtaSettings();
+export default function AdminCtaSettingsPage() {
+  const cta = useAdminData(getCtaSettings);
+  if (cta === undefined) return null;
   return (
     <SettingsForm
       table="cta_settings"

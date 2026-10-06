@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminCareerItems } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const ICONS = ["plan", "technique", "safety", "arthroscopy", "experience", "patients", "patient", "procedures", "cases"];
@@ -12,8 +15,9 @@ const fields: FieldConfig[] = [
   { key: "description", label: "Description", type: "textarea", bilingual: true },
 ];
 
-export default async function AdminCareerPage() {
-  const rows = await getAdminCareerItems();
+export default function AdminCareerPage() {
+  const rows = useAdminData(getAdminCareerItems);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="career_items"

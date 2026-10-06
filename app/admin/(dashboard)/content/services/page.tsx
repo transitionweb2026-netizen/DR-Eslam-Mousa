@@ -1,4 +1,7 @@
+"use client";
+
 import { getAdminServices } from "@/lib/cms/adminQueries";
+import { useAdminData } from "@/components/admin/useAdminData";
 import { CollectionManager, type FieldConfig } from "@/components/admin/CollectionManager";
 
 const ICONS = ["knee", "hip", "shoulder", "joint", "sports", "arthroscopy"];
@@ -16,8 +19,9 @@ const fields: FieldConfig[] = [
   { key: "cta_label", label: "CTA Label", type: "text", bilingual: true },
 ];
 
-export default async function AdminServicesPage() {
-  const rows = await getAdminServices();
+export default function AdminServicesPage() {
+  const rows = useAdminData(getAdminServices);
+  if (rows === undefined) return null;
   return (
     <CollectionManager
       table="services"
