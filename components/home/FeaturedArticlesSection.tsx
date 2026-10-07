@@ -25,9 +25,9 @@ export function FeaturedArticlesSection({ locale, intro, articles }: FeaturedArt
           description={intro.description}
         />
 
-        <Stagger className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <Stagger className="mt-12 flex flex-wrap justify-center gap-6">
           {articles.map((article) => (
-            <StaggerItem key={article.id} className="h-full">
+            <StaggerItem key={article.id} className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
               <ArticleCard article={article} locale={locale} />
             </StaggerItem>
           ))}

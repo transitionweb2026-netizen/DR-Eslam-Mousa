@@ -25,9 +25,9 @@ export function SpecialtiesSection({ locale, intro, specialties }: SpecialtiesSe
           description={intro.description}
         />
 
-        <Stagger className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <Stagger className="mt-12 flex flex-wrap justify-center gap-6">
           {specialties.map((specialty) => (
-            <StaggerItem key={specialty.id} className="h-full">
+            <StaggerItem key={specialty.id} className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
               <ServiceCard specialty={specialty} locale={locale} />
             </StaggerItem>
           ))}

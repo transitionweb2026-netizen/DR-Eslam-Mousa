@@ -18,9 +18,13 @@ export function WhatWeTreatGrid({ locale, conditions }: { locale: Locale; condit
 
   return (
     <>
-      <Stagger className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <Stagger className="mt-12 flex flex-wrap justify-center gap-6">
         {conditions.map((condition) => (
-          <StaggerItem key={condition.id} id={`condition-${condition.slug}`} className="h-full scroll-mt-28">
+          <StaggerItem
+            key={condition.id}
+            id={`condition-${condition.slug}`}
+            className="w-full scroll-mt-28 sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+          >
             <ConditionCard condition={condition} locale={locale} onSelect={() => select(condition)} />
           </StaggerItem>
         ))}

@@ -55,7 +55,7 @@ export default async function VideosPage({ params }: PageProps<"/[locale]/videos
         <div className="mx-auto max-w-7xl">
           <Stagger className="flex flex-wrap justify-center gap-6">
             {videos.map((video) => (
-              <StaggerItem key={video.id} className="h-full w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
+              <StaggerItem key={video.id} className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
                 <VideoCard video={video} locale={locale} />
               </StaggerItem>
             ))}

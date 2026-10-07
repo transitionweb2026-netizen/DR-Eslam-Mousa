@@ -67,9 +67,9 @@ export default async function ArticlesPage({ params }: PageProps<"/[locale]/arti
 
       <section className="px-4 py-12 sm:px-6 sm:py-16 lg:px-8" aria-label="More articles">
         <div className="mx-auto max-w-7xl">
-          <Stagger className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <Stagger className="flex flex-wrap justify-center gap-6">
             {otherArticles.map((article) => (
-              <StaggerItem key={article.id} className="h-full">
+              <StaggerItem key={article.id} className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]">
                 <ArticleCard article={article} locale={locale} />
               </StaggerItem>
             ))}
