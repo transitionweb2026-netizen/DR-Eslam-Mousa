@@ -16,6 +16,10 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
+# One host: www -> dr-islammousa.com in a single permanent hop (from http:// too).
+RewriteCond %{HTTP_HOST} ^www\.dr-islammousa\.com$ [NC]
+RewriteRule ^ https://dr-islammousa.com%{REQUEST_URI} [R=301,L]
+
 # Force HTTPS (also correct behind a TLS-terminating proxy/CDN).
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP:X-Forwarded-Proto} !=https

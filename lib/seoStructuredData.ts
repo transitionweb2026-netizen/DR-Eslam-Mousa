@@ -16,6 +16,10 @@ interface SiteEntityInput {
 
 const PROFILE_KEYS = new Set<SocialLink["key"]>(["facebook", "instagram", "youtube"]);
 
+function clinicAddress(location: ContactLocation, locale: Locale): JsonLdObject {
+  return { "@type": "PostalAddress", streetAddress: location.address[locale], addressCountry: "EG" };
+}
+
 /**
  * Site-wide entities, emitted once per locale from the root layout: the
  * physician (name, specialty, real contact details, real clinic addresses)
@@ -40,14 +44,13 @@ export function siteEntityJsonLd(input: SiteEntityInput): JsonLdObject[] {
     telephone: input.phoneHref.replace(/^tel:/, ""),
     email: input.email,
     sameAs,
+    // The first clinic is also the physician's own address, which Google
+    // requires to read the entity as a local business.
+    address: input.locations[0] ? clinicAddress(input.locations[0], input.locale) : undefined,
     location: input.locations.map((location) => ({
       "@type": "MedicalClinic",
       name: location.name[input.locale],
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: location.address[input.locale],
-        addressCountry: "EG",
-      },
+      address: clinicAddress(location, input.locale),
     })),
   };
 
@@ -56,7 +59,10 @@ export function siteEntityJsonLd(input: SiteEntityInput): JsonLdObject[] {
     "@type": "WebSite",
     "@id": websiteId,
     url: `${SITE_URL}/`,
-    name: input.brandName[input.locale],
+    // Google shows one site name per domain, so both languages declare the
+    // same primary name, with the Arabic name as an alternate.
+    name: input.brandName.en,
+    alternateName: input.brandName.ar,
     inLanguage: localeTag[input.locale],
     publisher: { "@id": physicianId },
   };
