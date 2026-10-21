@@ -130,7 +130,7 @@ export function Footer({
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-brand-line/70 pt-6 text-center text-xs text-brand-muted sm:flex-row sm:text-start">
+        <div className="mt-10 flex flex-col items-center gap-4 border-t border-brand-line/70 pt-6 text-center text-xs text-brand-muted">
           <p>
             © {year} {brandName[locale]} — {rights[locale]}
           </p>
