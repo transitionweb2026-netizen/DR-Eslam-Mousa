@@ -4,6 +4,7 @@ import type { NavItem } from "@/data/navigation";
 import type { ContactInfo } from "@/lib/cms/publicSettings";
 import type { ContactLocation, SocialLink } from "@/data/contact";
 import { Icon } from "@/components/icons/Icon";
+import { AgencyCredit } from "./AgencyCredit";
 import type { Locale } from "@/lib/i18n/config";
 import type { Localized } from "@/lib/types";
 
@@ -133,6 +134,7 @@ export function Footer({
           <p>
             © {year} {brandName[locale]} — {rights[locale]}
           </p>
+          <AgencyCredit locale={locale} />
         </div>
       </div>
     </footer>
